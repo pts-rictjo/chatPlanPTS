@@ -14,14 +14,32 @@ pkgs.mkShell {
     python312Packages.ollama
     python312Packages.openpyxl
 
+    python312Packages.pandas 
+    python312Packages.pdfplumber 
+    python312Packages.pytesseract 
+    python312Packages.pillow 
+    python312Packages.rank-bm25 
+    python312Packages.nltk 
+    python312Packages.reportlab 
+    python312Packages.wordcloud 
+    python312Packages.matplotlib 
+    python312Packages.openpyxl
+
     # LaTeX (för att kompilera sammanfattning.tex)
     texlive.combined.scheme-medium
 
     # Ollama CLI
     ollama
+    
+    # Tesseract OCR
+    tesseract4
+
+    # Containerisation
+    zstd p7zip
   ];
 
   shellHook = ''
+    export TEMPDIR="$(mktemp -d /tmp/nix-shell-XXXXXX)"
     echo "🔹 Nix shell redo för Python + Ollama + LaTeX"
     echo "🔹 python-docx installerat – DOCX-stöd aktiverat"
     mkdir -p ~/.ollama
