@@ -1,0 +1,13 @@
+services:
+  app:
+    image: excel-llm-app
+    ports:
+      - "8501:8501"
+    volumes:
+      - ollama-data:/root/.ollama
+    devices:
+      - /dev/kfd
+      - /dev/dri
+
+volumes:
+  ollama-data:

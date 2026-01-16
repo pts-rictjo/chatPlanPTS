@@ -1,0 +1,15 @@
+services:
+  app:
+    image: excel-llm-app
+    ports:
+      - "8501:8501"
+    volumes:
+      - ollama-data:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+
+volumes:
+  ollama-data:
