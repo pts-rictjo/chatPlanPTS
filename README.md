@@ -1,3 +1,8 @@
+# Ladda ned Docker bilden här :
+https://hub.docker.com/r/rictjo/chatplan
+´´´
+docker pull rictjo/chatplan:freq
+´´´
 # Lokal Excel LLM App
 
 Detta projekt tillhandahåller en **självbärande Streamlit-applikation** som låter användare ställa frågor över en eller flera Excel-filer med hjälp av **lokala LLM-modeller via Ollama**.
