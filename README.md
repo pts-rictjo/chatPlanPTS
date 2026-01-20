@@ -123,7 +123,7 @@ Docker-imagen innehåller **inga LLM-modeller** i sin första start.
 ollama-data → /root/.ollama
 ```
 
-ästa start är omedelbar.
+Nästa start är omedelbar.
 
 ---
 
