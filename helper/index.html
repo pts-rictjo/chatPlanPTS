@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<title>Spectrum Explorer – PTS frekvensplan (staplad i båda vyerna)</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: #0f172a;
+  color: #e5e7eb;
+}
+body.horizontal .container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+body.horizontal .left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  min-height: 0;
+}
+body.horizontal .right {
+  border-top: 1px solid #1f2937;
+  border-left: none;
+  padding: 16px;
+  background: #020617;
+  transition: all 0.2s ease;
+}
+body.horizontal.hide-details .right {
+  display: none;
+}
+body.vertical .container {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  height: 100vh;
+}
+body.vertical .left {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+body.vertical .right {
+  border-left: 1px solid #1f2937;
+  padding: 16px;
+  background: #020617;
+  transition: all 0.2s ease;
+}
+body.vertical.hide-details .right {
+  display: none;
+}
+body.vertical.hide-details .container {
+  grid-template-columns: 1fr;
+}
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+input, button {
+  background: #020617;
+  border: 1px solid #334155;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+input { cursor: text; flex: 1; }
+button.active { background: #3b82f6; }
+.tooltip {
+  position: absolute;
+  background: #020617;
+  border: 1px solid #334155;
+  padding: 8px;
+  border-radius: 6px;
+  pointer-events: none;
+  font-size: 12px;
+  z-index: 100;
+}
+.band {
+  stroke: #000;
+  stroke-width: 0.5;
+}
+.axis path, .axis line {
+  stroke: #475569;
+}
+.axis text {
+  fill: #e5e7eb;
+  font-size: 10px;
+}
+</style>
+</head>
+<body class="horizontal">
+<div class="container">
+<div class="left">
+<div class="controls">
+  <input id="query" placeholder="3400-3800 MHz" value="0-1.5 MHz">
+  <button data-type="Plan" class="active">Plan</button>
+  <button data-type="Undantag" class="active">Undantag</button>
+  <button data-type="Inriktning" class="active">Inriktning</button>
+  <button id="toggleOrientation">↻ Byt vy</button>
+  <button id="resetZoom">Återställ zoom</button>
+  <button id="toggleDetails">Dölj detaljer</button>
+</div>
+<svg width="100%" style="flex: 1; min-height: 400px;"></svg>
+</div>
+<div class="right">
+  <h3>Detaljer</h3>
+  <div id="details">Klicka på ett band</div>
+</div>
+</div>
+<div class="tooltip" style="opacity:0"></div>
+<script>
+// ---------- helpers ----------
+function parseFreq(val) {
+  if (val == null) return null;
+  let s = val.toString().trim().replace(',', '.');
+  if (s.includes("MHz")) return parseFloat(s);
+  if (s.includes("kHz")) return parseFloat(s) / 1000;
+  if (s.includes("GHz")) return parseFloat(s) * 1000;
+  return parseFloat(s);
+}
+function formatFreq(d) {
+  if (d >= 1000) return (d/1000).toFixed(2) + " GHz";
+  if (d >= 1) return d + " MHz";
+  if (d >= 0.001) return (d*1000).toFixed(2) + " kHz";
+  return (d*1e6).toFixed(2) + " Hz";
+}
+
+// ---------- global ----------
+let svg, width, height, margin, g, tooltipDiv;
+let allData = [];
+let activeTypes = new Set(["Plan","Undantag","Inriktning"]);
+let orientation = "horizontal";
+let xScale, yScale;               // current visible scales
+let xScaleBase, yScaleBase;       // base scales (full domain → pixel)
+let xAxisGroup, yAxisGroup;
+let originalXDomain, originalYDomain;
+let zoomBehavior;
+let axisUpdateScheduled = false;
+let bandLevels = {};              // cache: type -> array of {band, level}
+let maxLevelPerType = {};         // cache: type -> number of levels
+
+// ---------- dimensions ----------
+function getMargins() {
+  return orientation === "horizontal"
+    ? { top: 20, right: 20, bottom: 90, left: 60 }
+    : { top: 20, right: 20, bottom: 40, left: 80 };
+}
+function updateDimensions() {
+  const svgEl = document.querySelector("svg");
+  if (orientation === "horizontal") {
+    svgEl.style.height = "500px";
+    height = 500;
+  } else {
+    svgEl.style.height = "auto";
+    svgEl.style.minHeight = "600px";
+    height = 600;
+  }
+  width = svgEl.clientWidth;
+  if (width < 100) width = 800;
+  margin = getMargins();
+}
+
+// ---------- data loading ----------
+async function loadData() {
+  try {
+    const planResp = await fetch("https://gist.githubusercontent.com/pts-rictjo/8e3992369e5b4434b3f34bb0531becc4/raw/79ddd1220d49d4a1cecc683684f8eaf1e96cce13/freqp.json");
+    const planJson = await planResp.json();
+    planJson.forEach(item => {
+      let start = parseFreq(item.fromMhz), end = parseFreq(item.toMhz);
+      if (start != null && end != null && start < end)
+        allData.push({ start, end, type: "Plan", label: item.usageDescriptionDescription || "Plan", raw: item });
+    });
+    const undResp = await fetch("https://gist.githubusercontent.com/pts-rictjo/8e3992369e5b4434b3f34bb0531becc4/raw/79ddd1220d49d4a1cecc683684f8eaf1e96cce13/undantag.json");
+    const undJson = await undResp.json();
+    undJson.forEach(item => {
+      let start = parseFreq(item.fromMhz), end = parseFreq(item.toMhz);
+      if (start != null && end != null && start < end)
+        allData.push({ start, end, type: "Undantag", label: item.usageDescriptionLicenseExcemptionUsageDescription || "Undantag", raw: item });
+    });
+    const inrResp = await fetch("https://gist.githubusercontent.com/pts-rictjo/8e3992369e5b4434b3f34bb0531becc4/raw/79ddd1220d49d4a1cecc683684f8eaf1e96cce13/inriktningsplan.csv");
+    const inrText = await inrResp.text();
+    const inrRows = d3.csvParse(inrText);
+    inrRows.forEach(row => {
+      let start = parseFreq(row["Från (MHZ)"]), end = parseFreq(row["Till (MHZ)"]);
+      if (start != null && end != null && start < end)
+        allData.push({ start, end, type: "Inriktning", label: row.Populärnamn || row["Användning idag"] || "Inriktning", raw: row });
+    });
+    console.log(`Loaded ${allData.length} entries`);
+  } catch (err) { console.error(err); alert("Kunde inte läsa data."); }
+}
+
+// ---------- staplingsalgoritm (greedy, icke-överlappande nivåer) ----------
+function assignLevels(intervals) {
+  if (!intervals.length) return [];
+  const sorted = intervals.map((d, idx) => ({ start: d.start, end: d.end, idx })).sort((a,b) => a.start - b.start);
+  const levels = new Array(intervals.length).fill(-1);
+  const lastEndPerLevel = [];
+  for (let item of sorted) {
+    let placed = false;
+    for (let lvl = 0; lvl < lastEndPerLevel.length; lvl++) {
+      if (lastEndPerLevel[lvl] <= item.start) {
+        lastEndPerLevel[lvl] = item.end;
+        levels[item.idx] = lvl;
+        placed = true;
+        break;
+      }
+    }
+    if (!placed) {
+      lastEndPerLevel.push(item.end);
+      levels[item.idx] = lastEndPerLevel.length - 1;
+    }
+  }
+  return levels;
+}
+
+// ---------- update bandLevels cache for active types ----------
+function updateBandLevels() {
+  for (let type of activeTypes) {
+    const bands = allData.filter(d => d.type === type);
+    if (bands.length) {
+      const intervals = bands.map(b => ({ start: b.start, end: b.end }));
+      const levels = assignLevels(intervals);
+      bandLevels[type] = bands.map((b, i) => ({ band: b, level: levels[i] }));
+      maxLevelPerType[type] = Math.max(...levels) + 1;
+    } else {
+      bandLevels[type] = [];
+      maxLevelPerType[type] = 1;
+    }
+  }
+}
+
+// ---------- init SVG ----------
+function initSvg() {
+  svg = d3.select("svg");
+  svg.selectAll("*").remove();
+  g = svg.append("g");
+  tooltipDiv = d3.select(".tooltip");
+  const defs = svg.append("defs");
+  const pattern = defs.append("pattern").attr("id", "hatch").attr("width", 6).attr("height", 6).attr("patternUnits", "userSpaceOnUse");
+  pattern.append("path").attr("d", "M0,0 l6,6").attr("stroke", "#f59e0b").attr("stroke-width", 1);
+}
+
+// ---------- domain ----------
+function getFreqDomain() {
+  let min = Infinity, max = -Infinity;
+  for (let d of allData) {
+    if (activeTypes.has(d.type)) {
+      if (d.start < min) min = d.start;
+      if (d.end > max) max = d.end;
+    }
+  }
+  if (min === Infinity) min = 0.001;
+  if (max === -Infinity) max = 10000;
+  return [Math.max(0.001, min), max];
+}
+
+// ---------- axis updates ----------
+function updateBottomAxis(axisGroup, scale, isFrequency = false) {
+  let axis;
+  if (isFrequency) {
+    axis = d3.axisBottom(scale).tickFormat(formatFreq).ticks(10);
+  } else {
+    axis = d3.axisBottom(scale);
+  }
+  axisGroup.call(axis);
+  if (orientation === "horizontal" && isFrequency) {
+    axisGroup.selectAll("text")
+      .attr("transform", "rotate(-60)")
+      .style("text-anchor", "end")
+      .attr("dx", "-0.6em").attr("dy", "0.25em");
+  } else if (orientation === "vertical" && !isFrequency) {
+    axisGroup.selectAll("text")
+      .attr("transform", "rotate(-30)")
+      .style("text-anchor", "end")
+      .attr("dx", "-0.4em").attr("dy", "0.3em");
+  } else {
+    axisGroup.selectAll("text")
+      .attr("transform", null)
+      .style("text-anchor", null);
+  }
+}
+
+function updateLeftAxis(axisGroup, scale, isFrequency = false) {
+  let axis;
+  if (isFrequency) {
+    axis = d3.axisLeft(scale).tickFormat(formatFreq).ticks(8);
+  } else {
+    axis = d3.axisLeft(scale);
+  }
+  axisGroup.call(axis);
+}
+
+// ---------- uppdatera rektanglar med nivåer (båda orienteringarna) ----------
+function updateRectangles() {
+  let allBandsWithLevel = [];
+  for (let type of activeTypes) {
+    const items = bandLevels[type] || [];
+    for (let item of items) {
+      allBandsWithLevel.push({
+        band: item.band,
+        level: item.level,
+        type: type
+      });
+    }
+  }
+  const rectGroup = g.select(".band-layer");
+  if (rectGroup.empty()) return;
+  const rects = rectGroup.selectAll("rect").data(allBandsWithLevel, d => d.band.start + "-" + d.band.end + "-" + d.type + "-" + d.level);
+
+  if (orientation === "horizontal") {
+    rects.attr("x", d => xScale(d.band.start))
+         .attr("y", d => {
+           const typeY = yScale(d.type);
+           const bandHeight = yScale.bandwidth();
+           const levels = maxLevelPerType[d.type];
+           const step = bandHeight / levels;
+           return typeY + d.level * step;
+         })
+         .attr("width", d => Math.max(0, xScale(d.band.end) - xScale(d.band.start)))
+         .attr("height", d => {
+           const bandHeight = yScale.bandwidth();
+           const levels = maxLevelPerType[d.type];
+           return bandHeight / levels;
+         });
+  } else { // vertical
+    rects.attr("x", d => {
+           const typeX = xScale(d.type);
+           const bandWidth = xScale.bandwidth();
+           const levels = maxLevelPerType[d.type];
+           const step = bandWidth / levels;
+           return typeX + d.level * step;
+         })
+         .attr("y", d => yScale(d.band.end))
+         .attr("width", d => {
+           const bandWidth = xScale.bandwidth();
+           const levels = maxLevelPerType[d.type];
+           return bandWidth / levels;
+         })
+         .attr("height", d => Math.abs(yScale(d.band.start) - yScale(d.band.end)));
+  }
+}
+
+// ---------- zoom handlers ----------
+function handleZoom(event) {
+  if (orientation === "horizontal") {
+    const zx = event.transform.rescaleX(xScaleBase);
+    xScale.domain(zx.domain());
+  } else {
+    const zy = event.transform.rescaleY(yScaleBase);
+    yScale.domain(zy.domain());
+  }
+  updateRectangles();
+  if (!axisUpdateScheduled) {
+    axisUpdateScheduled = true;
+    requestAnimationFrame(() => {
+      if (orientation === "horizontal") {
+        updateBottomAxis(xAxisGroup, xScale, true);
+        updateLeftAxis(yAxisGroup, yScale, false);
+      } else {
+        updateBottomAxis(xAxisGroup, xScale, false);
+        updateLeftAxis(yAxisGroup, yScale, true);
+      }
+      axisUpdateScheduled = false;
+    });
+  }
+}
+
+function handleZoomEnd() {
+  if (axisUpdateScheduled) return;
+  if (orientation === "horizontal") {
+    updateBottomAxis(xAxisGroup, xScale, true);
+    updateLeftAxis(yAxisGroup, yScale, false);
+  } else {
+    updateBottomAxis(xAxisGroup, xScale, false);
+    updateLeftAxis(yAxisGroup, yScale, true);
+  }
+}
+
+function resetZoom() {
+  if (orientation === "horizontal") {
+    xScale.domain(originalXDomain);
+    updateBottomAxis(xAxisGroup, xScale, true);
+    updateRectangles();
+  } else {
+    yScale.domain(originalYDomain);
+    updateLeftAxis(yAxisGroup, yScale, true);
+    updateRectangles();
+  }
+  svg.call(zoomBehavior.transform, d3.zoomIdentity);
+}
+
+function zoomToRange(minFreq, maxFreq) {
+  if (orientation === "horizontal") {
+    const newMin = Math.max(originalXDomain[0], minFreq);
+    const newMax = Math.min(originalXDomain[1], maxFreq);
+    if (newMin >= newMax) return;
+    const x0 = xScaleBase(newMin);
+    const x1 = xScaleBase(newMax);
+    const scale = (width - margin.left - margin.right) / (x1 - x0);
+    const translate = margin.left - x0 * scale;
+    const t = d3.zoomIdentity.translate(translate, 0).scale(scale);
+    svg.transition().duration(400).call(zoomBehavior.transform, t);
+  } else {
+    const newMin = Math.max(originalYDomain[0], minFreq);
+    const newMax = Math.min(originalYDomain[1], maxFreq);
+    if (newMin >= newMax) return;
+    const y0 = yScaleBase(newMax);
+    const y1 = yScaleBase(newMin);
+    const scale = (height - margin.top - margin.bottom) / (y1 - y0);
+    const translate = margin.top - y0 * scale;
+    const t = d3.zoomIdentity.translate(0, translate).scale(scale);
+    svg.transition().duration(400).call(zoomBehavior.transform, t);
+  }
+}
+
+function handleQuery() {
+  const query = document.getElementById("query").value.trim();
+  if (!query) return;
+  const regex = /^\s*([\d.]+)\s*-\s*([\d.]+)\s*(kHz|MHz|GHz)?\s*$/i;
+  const match = query.match(regex);
+  if (!match) { alert("Ange formatet 'X-Y MHz'"); return; }
+  let min = parseFloat(match[1]), max = parseFloat(match[2]);
+  let unit = match[3] ? match[3].toLowerCase() : null;
+  if (isNaN(min) || isNaN(max) || min >= max) { alert("Ogiltigt intervall"); return; }
+  if (unit === "khz") { min /= 1000; max /= 1000; }
+  else if (unit === "ghz") { min *= 1000; max *= 1000; }
+  zoomToRange(min, max);
+  d3.selectAll(".band").attr("stroke", d => (d.band.start <= max && d.band.end >= min) ? "#fff" : "none").attr("stroke-width", 2);
+}
+
+// ---------- render ----------
+function render() {
+  if (!allData.length) return;
+  initSvg();
+
+  if (orientation === "vertical") {
+    const rect = document.querySelector("svg").getBoundingClientRect();
+    height = Math.max(600, rect.height);
+    margin = getMargins();
+  }
+
+  const freqDomain = getFreqDomain();
+  originalXDomain = freqDomain.slice();
+  originalYDomain = freqDomain.slice();
+  const typeDomain = ["Plan","Undantag","Inriktning"].filter(t => activeTypes.has(t));
+
+  if (orientation === "horizontal") {
+    xScaleBase = d3.scaleLog().domain(freqDomain).range([margin.left, width - margin.right]);
+    xScale = d3.scaleLog().domain(freqDomain).range([margin.left, width - margin.right]).clamp(true);
+    yScale = d3.scaleBand().domain(typeDomain).range([margin.top, height - margin.bottom]).padding(0.25);
+  } else {
+    yScaleBase = d3.scaleLog().domain(freqDomain).range([height - margin.bottom, margin.top]);
+    yScale = d3.scaleLog().domain(freqDomain).range([height - margin.bottom, margin.top]).clamp(true);
+    xScale = d3.scaleBand().domain(typeDomain).range([margin.left, width - margin.right]).padding(0.25);
+  }
+
+  g.selectAll(".axis").remove();
+  xAxisGroup = g.append("g").attr("class", "axis").attr("transform", `translate(0,${height - margin.bottom})`);
+  yAxisGroup = g.append("g").attr("class", "axis").attr("transform", `translate(${margin.left},0)`);
+
+  if (orientation === "horizontal") {
+    updateBottomAxis(xAxisGroup, xScale, true);
+    updateLeftAxis(yAxisGroup, yScale, false);
+  } else {
+    updateBottomAxis(xAxisGroup, xScale, false);
+    updateLeftAxis(yAxisGroup, yScale, true);
+  }
+
+  const colors = { Plan: "#22c55e", Undantag: "url(#hatch)", Inriktning: "#3b82f6" };
+
+  // Bygg lista med band + nivå för att rita enter
+  let allBandsWithLevel = [];
+  for (let type of activeTypes) {
+    const items = bandLevels[type] || [];
+    for (let item of items) {
+      allBandsWithLevel.push({
+        band: item.band,
+        level: item.level,
+        type: type
+      });
+    }
+  }
+
+  const rectGroup = g.append("g").attr("class", "band-layer");
+  rectGroup.selectAll("rect").data(allBandsWithLevel, d => d.band.start + "-" + d.band.end + "-" + d.type + "-" + d.level)
+    .enter().append("rect")
+    .attr("class", "band")
+    .attr("fill", d => colors[d.type])
+    .attr("opacity", 0.8)
+    .on("mousemove", (e,d) => tooltipDiv.style("opacity",1).html(`<b>${d.type}</b><br>${d.band.start.toFixed(3)}-${d.band.end.toFixed(3)} MHz<br>${d.band.label.substring(0,100)}`).style("left", e.pageX+10+"px").style("top", e.pageY+10+"px"))
+    .on("mouseout", () => tooltipDiv.style("opacity",0))
+    .on("click", (e, d) => {
+      const raw = d.band.raw || {};
+      const blacklist = ["id", ".a", "mhz"];
+      const translateKey = {
+        "usageDescriptionDescription": "Beskrivning",
+        "usageDescriptionLicenseExcemptionUsageDescription": "Beskrivning",
+        "reference": "Referens",
+        "condition": "Villkor",
+        "fromMhz": "Från (MHz)",
+        "toMhz": "Till (MHz)",
+        "usageDescriptionId": "Användnings-ID",
+        "duplexband": "Duplexband",
+        "remark": "Anmärkning"
+      };
+      const html = Object.entries(raw)
+        .filter(([key, value]) => {
+          const k = key.toLowerCase();
+          if (!key) return false;
+          if (blacklist.some(term => k.includes(term))) return false;
+          if (value == null || value === "") return false;
+          return true;
+        })
+        .map(([key, value]) => {
+          const displayKey = translateKey[key] || key;
+          return `<div style="margin-bottom:6px"><b>${displayKey}:</b><br><span style="opacity:0.8">${value}</span></div>`;
+        })
+        .join("");
+      document.getElementById("details").innerHTML = `
+        <b>${d.type}</b><br>
+        ${d.band.start.toFixed(3)} – ${d.band.end.toFixed(3)} MHz
+        <hr style="border-color:#334155;margin:8px 0">
+        ${html || "<i>Ingen ytterligare information</i>"}
+      `;
+    });
+
+  updateRectangles();
+
+  if (zoomBehavior) svg.on(".zoom", null);
+  zoomBehavior = d3.zoom().scaleExtent([1, 1e6]).on("zoom", handleZoom).on("end", handleZoomEnd);
+  svg.call(zoomBehavior);
+}
+
+function updateFilter() {
+  updateBandLevels();
+  render();
+}
+
+function setOrientation(newOrientation) {
+  orientation = newOrientation;
+  document.body.classList.remove("horizontal","vertical");
+  document.body.classList.add(orientation);
+  updateDimensions();
+  render();
+}
+function toggleDetails() {
+  const body = document.body;
+  const btn = document.getElementById("toggleDetails");
+  if (body.classList.contains("hide-details")) {
+    body.classList.remove("hide-details");
+    btn.textContent = "Dölj detaljer";
+  } else {
+    body.classList.add("hide-details");
+    btn.textContent = "Visa detaljer";
+  }
+  updateDimensions();
+  render();
+}
+function bindEvents() {
+  document.querySelectorAll("button[data-type]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const t = btn.dataset.type;
+      if (activeTypes.has(t)) { activeTypes.delete(t); btn.classList.remove("active"); }
+      else { activeTypes.add(t); btn.classList.add("active"); }
+      updateFilter();
+    });
+  });
+  document.getElementById("toggleOrientation").addEventListener("click", () => setOrientation(orientation === "horizontal" ? "vertical" : "horizontal"));
+  document.getElementById("resetZoom").addEventListener("click", resetZoom);
+  document.getElementById("query").addEventListener("change", handleQuery);
+  document.getElementById("toggleDetails").addEventListener("click", toggleDetails);
+  window.addEventListener("resize", () => { updateDimensions(); render(); });
+}
+async function start() {
+  await loadData();
+  if (allData.length === 0) { document.getElementById("details").innerHTML = "Ingen data laddad."; return; }
+  updateBandLevels();
+  updateDimensions();
+  bindEvents();
+  render();
+}
+start();
+</script>
+</body>
+</html>
