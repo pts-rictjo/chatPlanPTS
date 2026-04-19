@@ -1,3 +1,7 @@
+# Spectrum explorer
+The helper spectrum explorer is accessible via:
+[Spectrum explorer](https://rictjo.github.io/?https://gist.githubusercontent.com/pts-rictjo/6324336b6f7799719459fa0734a59bf4/raw/be32906ebbed34df0f69e1118a2b195b37759eed/index.html)
+
 # Ladda ned Docker bilden här :
 https://hub.docker.com/r/rictjo/chatplan
 ```
