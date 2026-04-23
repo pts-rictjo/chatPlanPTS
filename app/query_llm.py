@@ -1,10 +1,157 @@
 import streamlit as st
+
+st.set_page_config(page_title="Chatta med Excel (lokal LLM)", layout="wide")
+st.title("Chatta med våra spektrumplaner!")
+
+st.markdown("""
+<style>
+/* Döljer hela Streamlit headern */
+header {visibility: hidden;}
+
+/* Ta bort spacing som headern lämnar */
+.main > div {padding-top: 0rem;}
+</style>
+""", unsafe_allow_html=True)
+
 import pandas as pd
 import chromadb
 import ollama
+
 import os
 import subprocess
 import time
+
+import json
+from pathlib import Path
+
+# ---------- Läs in spektrum-HTML från extern fil ----------
+SPECTRUM_HTML_PATH = Path(__file__).parent.parent / "helper" / "index.html"
+
+# ---------- Läs in spektrum-HTML från extern fil (med backup-sökvägar) ----------
+def find_spectrum_html():
+    # Möjliga sökvägar relativt denna fil (query_llm.py)
+    candidates = [
+        Path(__file__).parent / "helper" / "index.html",               # app/helper/index.html
+        Path(__file__).parent.parent / "helper" / "index.html",        # ../helper/index.html (bredvid app)
+        Path(__file__).parent / ".." / "helper" / "index.html",        # explicit parent
+        Path.cwd() / "helper" / "index.html",                          # nuvarande arbetskatalog
+    ]
+    for path in candidates:
+        resolved = path.resolve()
+        if resolved.exists() and resolved.is_file():
+            return resolved
+    return None
+
+html_path = find_spectrum_html()
+if html_path:
+    with open(html_path, "r", encoding="utf-8") as f:
+        SPECTRUM_HTML = f.read()
+    #st.success(f"Laddade spektrumkarta från {html_path}")
+else:
+    st.error("Hittar inte helper/index.html – testade sökvägar:\n" +
+             "\n".join(str(p.resolve()) for p in candidates))
+    SPECTRUM_HTML = "<p>Kunde inte ladda spektrumkartan.</p>"
+
+# ---------- Slide-in panel (samma som tidigare, men med den lästa HTML-strängen) ----------
+def escape_for_srcdoc(html_content):
+    return html_content.replace('&', '&amp;').replace('"', '&quot;').replace("'", '&#39;')
+
+#escaped_spectrum = json.dumps(SPECTRUM_HTML)
+#escaped_spectrum = escape_for_srcdoc(SPECTRUM_HTML)
+
+import base64
+
+encoded_html = base64.b64encode(SPECTRUM_HTML.encode("utf-8")).decode("utf-8")
+
+st.components.v1.html(f"""
+<script>
+(function() {{
+    const parentDoc = window.parent.document;
+
+    if (parentDoc.getElementById("spectrum-panel")) return;
+
+    const wrapper = parentDoc.createElement("div");
+
+    wrapper.innerHTML = `
+        <!-- Toggle-knapp -->
+        <button id="toggleBtn"
+            style="position: fixed; bottom: 20px; right: 20px;
+                   z-index: 1000001;
+                   background: #3b82f6; color: white;
+                   border: none; border-radius: 50px;
+                   padding: 12px 20px; cursor: pointer;">
+            📡 Spektrumkarta
+        </button>
+
+        <!-- Overlay (klickyta utanför panelen) -->
+        <div id="overlay"
+            style="position: fixed;
+                   top: 0; left: 0;
+                   width: 100vw; height: 100vh;
+                   background: rgba(0,0,0,0.3);
+                   backdrop-filter: blur(3px);
+                   opacity: 0;
+                   pointer-events: none;
+                   transition: opacity 0.3s ease;
+                   z-index: 1000000;">
+        </div>
+
+        <!-- Panel -->
+        <div id="spectrum-panel"
+            style="position: fixed; top: 0; right: 0;
+                   width: 50vw; height: 100vh;
+                   background: #0f172a;
+                   transform: translateX(100%);
+                   transition: transform 0.3s ease;
+                   z-index: 1000001;">
+
+            <iframe
+                src="data:text/html;base64,{encoded_html}"
+                style="width:100%; height:100%; border:none;">
+            </iframe>
+        </div>
+    `;
+
+    parentDoc.body.appendChild(wrapper);
+
+    const panel = parentDoc.getElementById("spectrum-panel");
+    const overlay = parentDoc.getElementById("overlay");
+    const btn = parentDoc.getElementById("toggleBtn");
+
+    let isOpen = false;
+
+    function openPanel() {{
+        panel.style.transform = "translateX(0)";
+        overlay.style.opacity = "1";
+        overlay.style.pointerEvents = "auto";
+        parentDoc.body.style.overflow = "hidden";
+        isOpen = true;
+    }}
+
+    function closePanel() {{
+        panel.style.transform = "translateX(100%)";
+        overlay.style.opacity = "0";
+        overlay.style.pointerEvents = "none";
+        parentDoc.body.style.overflow = "";
+        isOpen = false;
+    }}
+
+    // 🔁 Toggle-knappen
+    btn.onclick = () => {{
+        isOpen ? closePanel() : openPanel();
+    }};
+
+    // 🖱 Klick utanför
+    overlay.onclick = closePanel;
+
+    // ⌨️ ESC
+    parentDoc.addEventListener("keydown", (e) => {{
+        if (e.key === "Escape") closePanel();
+    }});
+
+}})();
+</script>
+""", height=0)
 
 os.environ.setdefault("OLLAMA_HOST", "http://127.0.0.1:11434")
 
@@ -58,9 +205,6 @@ def is_chat_model(name: str) -> bool:
         kw in name.lower()
         for kw in ["embed", "embedding", "bge", "mxbai" , "name" ]
     )
-
-st.set_page_config(page_title="Chatta med Excel (lokal LLM)", layout="wide")
-st.title("Chatta med flera Excel-tabeller (Ollama)")
 
 installed_models = get_local_ollama_models()
 AVAILABLE_LLM_MODELS = [ m for m in installed_models if is_chat_model ( m ) ]
