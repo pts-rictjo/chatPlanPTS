@@ -14,8 +14,12 @@ header {visibility: hidden;}
 """, unsafe_allow_html=True)
 
 import pandas as pd
+
 import chromadb
+from chromadb.config import Settings
+
 import ollama
+from ollama import Client
 
 import os
 import subprocess
@@ -153,7 +157,8 @@ st.components.v1.html(f"""
 </script>
 """, height=0)
 
-os.environ.setdefault("OLLAMA_HOST", "http://127.0.0.1:11434")
+OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://ollama:11434")
+client = Client(host=OLLAMA_HOST)
 
 desc_= [ "$ pip install streamlit pandas chromadb ollama",
 "$ ollama pull qwen3",
@@ -163,41 +168,27 @@ desc_= [ "$ pip install streamlit pandas chromadb ollama",
 
 def pull_ollama_model(model_name: str):
     try:
-        process = subprocess.run(
-            ["ollama", "pull", model_name],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-            check=True
-        )
-        return True, process.stdout
-    except subprocess.CalledProcessError as e:
-        return False, e.stdout
+        client.pull(model_name)
+        return True, f"Model {model_name} pulled successfully"
+    except Exception as e:
+        return False, str(e)
 
-def get_local_ollama_models(retries=5, delay=1 , bOS = True ):
-    if bOS :
-        process		= subprocess.run( ['ollama', 'list'] ,
-                              stdout = subprocess.PIPE,
-                              stderr = subprocess.PIPE,
-                              text   = True ,
-                              check  = True )
-        lines = process.stdout.splitlines()
-        models = []
-        for line in lines[1:]:  # hoppa över header
-            parts = line.split()
-            if parts:
-                models.append(parts[0])
-        return sorted(models)
-    else :
-        for _ in range(retries):
-            try:
-                models = ollama.list()
-                if models.get("models"):
-                    return [m["name"] for m in models["models"]]
-            except Exception:
-                pass
+def get_local_ollama_models(retries=5, delay=1):
+    for attempt in range(retries):
+        try:
+            resp = client.list()
+            models = resp.get("models", [])
+
+            if models:
+                return sorted(m.get("name", "") for m in models if m.get("name"))
+
+        except Exception as e:
+            if attempt == retries - 1:
+                # sista försöket → visa något vettigt
+                print(f"Kunde inte nå Ollama: {e}")
+                st.warning("Kunde inte nå Ollama")
             time.sleep(delay)
-        return []
+    return []
 
 
 def is_chat_model(name: str) -> bool:
@@ -206,12 +197,18 @@ def is_chat_model(name: str) -> bool:
         for kw in ["embed", "embedding", "bge", "mxbai" , "name" ]
     )
 
+#installed_models = [
+#    m["name"] for m in ollamas.list().get("models", [])
+#]
 installed_models = get_local_ollama_models()
 AVAILABLE_LLM_MODELS = [ m for m in installed_models if is_chat_model ( m ) ]
 
 
 # Initiera Chroma (lokal vector DB)
-chroma_client = chromadb.Client()
+#chroma_client = chromadb.Client()
+chroma_client = chromadb.Client(
+    Settings(persist_directory="/data/chroma")
+)
 collection = chroma_client.get_or_create_collection(name="excel_data")
 
 
@@ -272,7 +269,7 @@ if uploaded_files:
         chunks = chunk_table(df, file.name)
 
         for i, (fname, ch) in enumerate(chunks):
-            emb = ollama.embeddings(model="mxbai-embed-large", prompt=ch)["embedding"]
+            emb = client.embeddings(model="mxbai-embed-large", prompt=ch)["embedding"]
             collection.add(
                 documents=[ch],
                 embeddings=[emb],
@@ -282,7 +279,7 @@ if uploaded_files:
 
     # --- Frågefunktion ---
     def ask_model(question):
-        q_emb = ollama.embeddings(model="mxbai-embed-large", prompt=question)["embedding"]
+        q_emb = client.embeddings(model="mxbai-embed-large", prompt=question)["embedding"]
         results = collection.query(query_embeddings=[q_emb], n_results=5)
 
         # Bygg kontext från flera filer
@@ -293,7 +290,7 @@ if uploaded_files:
         context = "\n\n".join(context_blocks)
 
         prompt = f"""
-        Du är en frekvens spektrum hanterings assistent som svarar på frågor baserat på följande utdrag ur olika Excel-tabeller:
+        Du är en frekvens spektrum hanterings assistent som svarar på frågor baserat på följande utdrag ur olika tabeller:
 
         {context}
 
@@ -301,7 +298,7 @@ if uploaded_files:
         Svar:
         """
 
-        response = ollama.chat(
+        response = client.chat(
             model = llm ,  # byt till önskad modell
             messages=[{"role": "user", "content": prompt}]
         )
