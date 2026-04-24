@@ -95,7 +95,7 @@ button.active { background: #3b82f6; }
 }
 </style>
 </head>
-<body class="horizontal">
+<body class="vertical">
 <div class="container">
 <div class="left">
 <div class="controls">
@@ -136,7 +136,7 @@ function formatFreq(d) {
 let svg, width, height, margin, g, tooltipDiv;
 let allData = [];
 let activeTypes = new Set(["Plan","Undantag","Inriktning"]);
-let orientation = "horizontal";
+let orientation = "vertical";
 let xScale, yScale;               // current visible scales
 let xScaleBase, yScaleBase;       // base scales (full domain → pixel)
 let xAxisGroup, yAxisGroup;
