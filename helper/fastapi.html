@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8" />
+<title>Spektrumassistent</title>
+
+<style>
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: #0f172a;
+  color: white;
+}
+
+#chat {
+  max-width: 800px;
+  margin: auto;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background: #3b82f6;
+  color: white;
+  cursor: pointer;
+}
+
+.answer {
+  margin-top: 20px;
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+/* PANEL */
+#panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50vw;
+  height: 100vh;
+  background: #0f172a;
+  transform: translateX(100%);
+  transition: 0.3s;
+  z-index: 1001;
+}
+
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(3px);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+  z-index: 1000;
+}
+
+#toggleBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: 50px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="chat">
+  <h1>📡 Spektrumassistent</h1>
+
+  <input id="question" placeholder="Ställ en fråga om spektrum..." />
+  <button onclick="ask()">Fråga</button>
+
+  <div id="answer" class="answer"></div>
+</div>
+
+<!-- Overlay -->
+<div id="overlay"></div>
+
+<!-- Panel -->
+<div id="panel">
+  <iframe src="spectrum.html" style="width:100%; height:100%; border:none;"></iframe>
+</div>
+
+<button id="toggleBtn">📡 Spektrum</button>
+
+<script>
+const API_URL = "http://rag-api:8000/query";
+
+async function ask() {
+  const q = document.getElementById("question").value;
+
+  const res = await fetch(API_URL, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({question: q})
+  });
+
+  const data = await res.json();
+
+  document.getElementById("answer").innerText = data.answer;
+}
+
+// PANEL LOGIK
+const panel = document.getElementById("panel");
+const overlay = document.getElementById("overlay");
+const btn = document.getElementById("toggleBtn");
+
+let open = false;
+
+function openPanel() {
+  panel.style.transform = "translateX(0)";
+  overlay.style.opacity = "1";
+  overlay.style.pointerEvents = "auto";
+  document.body.style.overflow = "hidden";
+  open = true;
+}
+
+function closePanel() {
+  panel.style.transform = "translateX(100%)";
+  overlay.style.opacity = "0";
+  overlay.style.pointerEvents = "none";
+  document.body.style.overflow = "";
+  open = false;
+}
+
+btn.onclick = () => open ? closePanel() : openPanel();
+overlay.onclick = closePanel;
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closePanel();
+});
+</script>
+
+</body>
+</html>
