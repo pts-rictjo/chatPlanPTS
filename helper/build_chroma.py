@@ -32,7 +32,11 @@ DATA_ROOT       = Path(os.getenv("DATA_ROOT", "./data"))
 CHROMA_DIR      = os.getenv("CHROMA_DIR", "./chroma_db")
 COLLECTION_NAME = os.getenv("COLLECTION_NAME", "spectrum_data")
 OLLAMA_HOST     = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434")
-EMBED_MODEL     = os.getenv("EMBED_MODEL", "bge-m3")          # bäst för svenska
+EMBED_MODEL     = os.getenv("EMBED_MODEL", "bge-m3")          # bäst för svenska men ger buggar
+# större kontextfönster
+# nomic och bge-m3 (båda har 8k tokens enligt dokumentation)
+EMBED_MODEL = os.getenv("EMBED_MODEL", "nomic-embed-text")            # lättare och snabbare
+# EMBED_MODEL = os.getenv("EMBED_MODEL", "snowflake-arctic-embed:137m") # Ett sista alternativ
 
 MAX_CHARS   = 800       # max tecken per chunk
 MIN_CHARS   = 10        # lägre gräns – behåller nästan allt, filtrerar bara extremt korta/tomma rader
