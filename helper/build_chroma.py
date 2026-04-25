@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-"""
-Production-grade build_chroma för juridiska dokument / spektrumdata.
-Optimerad för hög retrieval-kvalitet i externa UI/RAG-system.
-"""
 
 import os
 import json
@@ -12,17 +8,15 @@ import hashlib
 from pathlib import Path
 
 import chromadb
-from chromadb.config import Settings
+from chromadb import PersistentClient
 from ollama import Client
 from pypdf import PdfReader
 
-# Optional: tabula
 try:
     import tabula
     USE_TABULA = True
 except ImportError:
     USE_TABULA = False
-    print("INFO: tabula-py inte installerad.")
 
 # ==========================
 # KONFIG
@@ -33,23 +27,23 @@ COLLECTION_NAME = os.getenv("COLLECTION_NAME", "spectrum_data")
 OLLAMA_HOST     = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434")
 EMBED_MODEL     = os.getenv("EMBED_MODEL", "bge-m3")
 
-MAX_CHARS = 800
-OVERLAP = 150
-BATCH_SIZE = 64
+MAX_CHARS = 600
+MIN_CHARS = 200
+OVERLAP   = 80
+BATCH_SIZE = 32
 
 # ==========================
 # INIT
 # ==========================
-client          = Client(host=OLLAMA_HOST)
-# chroma          = chromadb.Client(Settings(persist_directory=CHROMA_DIR)) # LEGACY
-chroma          = chromadb.PersistentClient(path=CHROMA_DIR)
-collection      = chroma.get_or_create_collection(name=COLLECTION_NAME)
+print(f"Använder ChromaDB i: {CHROMA_DIR}")
+client = Client(host=OLLAMA_HOST)
+chroma = PersistentClient(path=CHROMA_DIR)
+collection = chroma.get_or_create_collection(name=COLLECTION_NAME)
 
 # ==========================
-# SEMANTISK CHUNKING
+# CHUNKING
 # ==========================
 def semantic_split(text):
-    """Splitta på juridiska strukturer"""
     parts = re.split(r'(§\s*\d+|Kapitel\s+\d+|Artikel\s+\d+)', text)
     chunks = []
     current = ""
@@ -58,11 +52,11 @@ def semantic_split(text):
         if len(current) + len(part) < MAX_CHARS:
             current += part
         else:
-            if current.strip():
+            if len(current.strip()) >= MIN_CHARS:
                 chunks.append(current.strip())
             current = part
 
-    if current.strip():
+    if len(current.strip()) >= MIN_CHARS:
         chunks.append(current.strip())
 
     return chunks
@@ -82,7 +76,6 @@ def apply_overlap(chunks):
 def chunk_text(text):
     chunks = semantic_split(text)
 
-    # fallback om chunk för stor
     final = []
     for ch in chunks:
         if len(ch) <= MAX_CHARS:
@@ -90,51 +83,83 @@ def chunk_text(text):
         else:
             i = 0
             while i < len(ch):
-                final.append(ch[i:i+MAX_CHARS])
+                part = ch[i:i+MAX_CHARS]
+                if len(part) >= MIN_CHARS:
+                    final.append(part)
                 i += MAX_CHARS - OVERLAP
 
     return apply_overlap(final)
 
 # ==========================
-# TITLE EXTRACTION
+# TITLE
 # ==========================
 def extract_title(text):
-    lines = text.strip().split("\n")
-    for line in lines:
+    for line in text.split("\n"):
         if len(line.strip()) > 10:
             return line[:120]
     return text[:120]
 
 # ==========================
-# JSON FLATTEN
+# JSON GROUPING
 # ==========================
-def flatten_json(data, parent_key=''):
-    items = {}
+def extract_from_json(file_path: Path):
+    with open(file_path, encoding='utf-8') as f:
+        data = json.load(f)
 
-    if isinstance(data, dict):
-        for k, v in data.items():
-            new_key = f"{parent_key}.{k}" if parent_key else k
-            if isinstance(v, (dict, list)):
-                items.update(flatten_json(v, new_key))
-            else:
-                items[new_key] = str(v)
+    def flatten(d, prefix=""):
+        items = {}
+        if isinstance(d, dict):
+            for k, v in d.items():
+                key = f"{prefix}.{k}" if prefix else k
+                if isinstance(v, (dict, list)):
+                    items.update(flatten(v, key))
+                else:
+                    items[key] = str(v)
+        elif isinstance(d, list):
+            for i, v in enumerate(d):
+                items.update(flatten(v, f"{prefix}[{i}]"))
+        return items
 
-    elif isinstance(data, list):
-        for i, v in enumerate(data):
-            items.update(flatten_json(v, f"{parent_key}[{i}]"))
+    flat = flatten(data)
 
-    return items
+    chunks = []
+    current = ""
+
+    for k, v in flat.items():
+        line = f"{k}: {v}"
+        if len(v) < 20:
+            continue
+
+        if len(current) + len(line) < MAX_CHARS:
+            current += line + "\n"
+        else:
+            if len(current) >= MIN_CHARS:
+                chunks.append(current)
+            current = line + "\n"
+
+    if len(current) >= MIN_CHARS:
+        chunks.append(current)
+
+    return [(c, {"type": "json_group"}) for c in chunks]
 
 # ==========================
-# TABLE → SEMANTIC TEXT
+# TABLE GROUPING
 # ==========================
-def table_to_sentences(df):
-    rows = []
+def table_to_chunks(df, rows_per_chunk=10):
+    chunks = []
     cols = list(df.columns)
-    for _, r in df.iterrows():
-        row = ", ".join(f"{col}: {r[col]}" for col in cols)
-        rows.append(row)
-    return rows
+
+    for i in range(0, len(df), rows_per_chunk):
+        sub = df.iloc[i:i+rows_per_chunk]
+        lines = [
+            ", ".join(f"{col}: {r[col]}" for col in cols)
+            for _, r in sub.iterrows()
+        ]
+        chunk = "\n".join(lines)
+        if len(chunk) >= MIN_CHARS:
+            chunks.append(chunk)
+
+    return chunks
 
 # ==========================
 # EXTRACTORS
@@ -143,18 +168,18 @@ def extract_from_pdf(file_path: Path):
     reader = PdfReader(str(file_path))
     items = []
 
-    for page_num, page in enumerate(reader.pages, start=1):
+    for i, page in enumerate(reader.pages, start=1):
         text = page.extract_text() or ""
-        if text.strip():
-            items.append((text, {"type": "pdf_text", "page": page_num}))
+        if len(text.strip()) >= MIN_CHARS:
+            items.append((text, {"type": "pdf_text", "page": i}))
 
     if USE_TABULA:
         try:
             tables = tabula.read_pdf(str(file_path), pages='all', multiple_tables=True)
-            for i, table in enumerate(tables):
+            for ti, table in enumerate(tables):
                 if table is not None and not table.empty:
-                    for row in table_to_sentences(table):
-                        items.append((row, {"type": "pdf_table", "table_index": i}))
+                    for chunk in table_to_chunks(table):
+                        items.append((chunk, {"type": "pdf_table", "table_index": ti}))
         except Exception as e:
             print(f"Tabula-fel: {e}")
 
@@ -164,22 +189,24 @@ def extract_from_pdf(file_path: Path):
 def extract_from_csv(file_path: Path):
     with open(file_path, encoding='utf-8') as f:
         reader = csv.DictReader(f)
-        return [
-            (", ".join(f"{k}: {v}" for k, v in row.items()),
-             {"type": "csv_row", "row": i})
-            for i, row in enumerate(reader)
-        ]
 
+        chunks = []
+        current = ""
 
-def extract_from_json(file_path: Path):
-    with open(file_path, encoding='utf-8') as f:
-        data = json.load(f)
+        for row in reader:
+            line = ", ".join(f"{k}: {v}" for k, v in row.items())
 
-    flat = flatten_json(data)
-    return [
-        (f"{k}: {v}", {"type": "json_field", "key": k})
-        for k, v in flat.items()
-    ]
+            if len(current) + len(line) < MAX_CHARS:
+                current += line + "\n"
+            else:
+                if len(current) >= MIN_CHARS:
+                    chunks.append(current)
+                current = line + "\n"
+
+        if len(current) >= MIN_CHARS:
+            chunks.append(current)
+
+        return [(c, {"type": "csv_group"}) for c in chunks]
 
 
 def extract_text(file: Path):
@@ -192,7 +219,7 @@ def extract_text(file: Path):
     return []
 
 # ==========================
-# EMBEDDING (BATCH)
+# EMBEDDING
 # ==========================
 def embed_texts(texts):
     embeddings = []
@@ -207,38 +234,30 @@ def embed_texts(texts):
     return embeddings
 
 # ==========================
-# ID
-# ==========================
-def make_id(text):
-    return hashlib.sha1(text.encode()).hexdigest()
-
-# ==========================
-# ENRICHMENT
+# ENRICH
 # ==========================
 def enrich(text, meta, file):
     title = extract_title(text)
 
-    enriched = f"""
+    embedding_text = f"{title}\n{text}"
+
+    display_text = f"""
 Titel: {title}
 Källa: {file.name}
 Typ: {meta.get("type")}
 Sida: {meta.get("page", "N/A")}
 
-Innehåll:
 {text}
 """
 
-    # BGE instruction prefix
-    return f"Represent this document for retrieval:\n{enriched}"
+    embedding_text = "search_document:\n" + embedding_text
+
+    return embedding_text, display_text
 
 # ==========================
 # MAIN
 # ==========================
 def main():
-    if not DATA_ROOT.exists():
-        print("DATA_ROOT saknas")
-        return
-
     docs, metas, ids = [], [], []
     seen = set()
 
@@ -250,40 +269,30 @@ def main():
         items = extract_text(file)
 
         for text, meta in items:
-            chunks = chunk_text(text)
-
-            for i, ch in enumerate(chunks):
+            for i, ch in enumerate(chunk_text(text)):
                 ch = ch.strip()
                 if not ch:
                     continue
 
-                enriched = enrich(ch, meta, file)
+                emb_text, disp_text = enrich(ch, meta, file)
 
-                if enriched in seen:
+                if emb_text in seen:
                     continue
-                seen.add(enriched)
+                seen.add(emb_text)
 
-                meta_full = {
+                docs.append(disp_text)
+                metas.append({
                     "file": file.name,
-                    "file_stem": file.stem,
-                    "file_type": file.suffix,
-                    "chunk": i,
                     "type": meta.get("type"),
                     "page": meta.get("page", -1),
-                }
+                    "chunk": i
+                })
+                ids.append(hashlib.sha1(emb_text.encode()).hexdigest())
 
-                docs.append(enriched)
-                metas.append(meta_full)
-                ids.append(make_id(enriched))
+    print(f"Chunks: {len(docs)}")
 
-    print(f"Totalt chunks: {len(docs)}")
-    if not docs:
-        return
+    embeddings = embed_texts([d for d in docs])
 
-    print("Skapar embeddings...")
-    embeddings = embed_texts(docs)
-
-    print("Skriver till Chroma...")
     for i in range(0, len(docs), 500):
         collection.add(
             documents=docs[i:i+500],
@@ -296,20 +305,4 @@ def main():
 
 
 if __name__ == "__main__":
-    """
-    # Exempel på hur du kör:
-    # export DATA_ROOT="./data"
-    # export CHROMA_DIR="./chroma_db"
-    # export OLLAMA_HOST="http://127.0.0.1:11434"
-    # python build_chroma.py
-
-    # FÖR ATT LADDA IN EXTERNT
-    import chromadb
-    from chromadb.config import Settings
-
-    client = chromadb.Client(Settings(persist_directory="./chroma"))
-    # OM NYARE CHROMA
-    client = chromadb.PersistentClient(path=CHROMA_DIR)
-    collection = client.get_collection("spectrum_data")
-    """
     main()
