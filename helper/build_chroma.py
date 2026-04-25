@@ -18,6 +18,8 @@ from chromadb import PersistentClient
 from ollama import Client
 from pypdf import PdfReader
 
+import uuid
+
 try:
     import tabula
     USE_TABULA = True
@@ -297,7 +299,7 @@ def main():
 
                 # Unikt ID baserat på fil, metadata och chunk-index
                 unique_base = f"{file.absolute()}_{meta.get('page', 0)}_{meta.get('row', 0)}_{meta.get('json_key', '')}_{meta.get('table_index', 0)}_{i}"
-                doc_id = hashlib.sha256(unique_base.encode()).hexdigest()[:32]
+                doc_id = str(uuid.uuid4())
 
                 all_emb_texts.append(emb_text)
                 all_docs.append(disp_text)
@@ -342,5 +344,7 @@ if __name__ == "__main__":
     # OM NYARE CHROMA
     client = chromadb.PersistentClient(path=CHROMA_DIR)
     collection = client.get_collection("spectrum_data")
+    # RENSA INNAN KÖRNING
+    rm -r chroma_db/*
     """
     main()
