@@ -1,350 +1,274 @@
 #!/usr/bin/env python3
 """
-Optimerad build_chroma för juridiska dokument, tabeller, CSV och JSON.
-Bevarar ALLA rader i CSV-filer och alla textvärden i JSON-filer (≥10 tecken).
-Använder semantisk chunking, korrekt Ollama-embeddings, och rik metadata.
+build_chroma v5 – större chunks, meningbaserad delning
 """
 
 import os
 import json
 import csv
 import re
-import hashlib
+import uuid
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-import chromadb
 from chromadb import PersistentClient
 from ollama import Client
 from pypdf import PdfReader
-
-import uuid
 
 try:
     import tabula
     USE_TABULA = True
 except ImportError:
     USE_TABULA = False
-    print("INFO: tabula-py inte installerad. Tabeller från PDF extraheras inte specifikt.")
 
 # ==========================
-# KONFIGURATION
+# CONFIG
 # ==========================
-DATA_ROOT       = Path(os.getenv("DATA_ROOT", "./data"))
-CHROMA_DIR      = os.getenv("CHROMA_DIR", "./chroma_db")
-COLLECTION_NAME = os.getenv("COLLECTION_NAME", "spectrum_data")
-OLLAMA_HOST     = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434")
-EMBED_MODEL     = os.getenv("EMBED_MODEL", "bge-m3")          # bäst för svenska men ger buggar
-# större kontextfönster
-# nomic och bge-m3 (båda har 8k tokens enligt dokumentation)
-EMBED_MODEL = os.getenv("EMBED_MODEL", "nomic-embed-text")            # lättare och snabbare
-# EMBED_MODEL = os.getenv("EMBED_MODEL", "snowflake-arctic-embed:137m") # Ett sista alternativ
+DATA_ROOT           = Path(os.getenv("DATA_ROOT", "./data"))
+CHROMA_DIR          = os.getenv("CHROMA_DIR", "./chroma_db")
+COLLECTION_NAME     = os.getenv("COLLECTION_NAME", "spectrum_data")
+OLLAMA_HOST         = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434")
+EMBED_MODEL         = os.getenv("EMBED_MODEL", "nomic-embed-text-v2-moe")
 
-MAX_CHARS   = 800       # max tecken per chunk
-MIN_CHARS   = 10        # lägre gräns – behåller nästan allt, filtrerar bara extremt korta/tomma rader
-MIN_JSON    = 1         # ta med allt
-OVERLAP     = 100       # överlapp mellan delar av samma långa stycke
-BATCH_SIZE  = 32        # ChromaDB batch-insättning
-MAX_WORKERS = 4         # antal parallella embedding-trådar (1 = sekventiell)
+MAX_CHARS       = 1000
+OVERLAP         = 200
+MIN_CHARS       = 3         # lägsta längd för att spara en chunk
+BATCH_SIZE      = 32
+MAX_WORKERS     = 4
 
 # ==========================
 # INIT
 # ==========================
-print(f"Använder ChromaDB i: {CHROMA_DIR}")
-client      = Client(host=OLLAMA_HOST)
-chroma      = PersistentClient(path=CHROMA_DIR)
-collection  = chroma.get_or_create_collection(name=COLLECTION_NAME)
+print(f"ChromaDB path: {CHROMA_DIR}")
+client = Client(host=OLLAMA_HOST)
+chroma = PersistentClient(path=CHROMA_DIR)
+collection = chroma.get_or_create_collection(name=COLLECTION_NAME)
 
 # ==========================
-# SEMANTISK CHUNKING (juridiska markörer)
+# CLEANING
 # ==========================
-def semantic_split(text: str) -> list:
-    """
-    Delar text vid juridiska markörer: §, Kapitel, Artikel.
-    Returnerar lista av textsegment (kan vara långa).
-    """
-    pattern = r'(§\s*\d+|Kapitel\s+\d+|Artikel\s+\d+)'
-    parts = re.split(pattern, text)
-    chunks = []
-    current = ""
-    for i in range(len(parts)):
-        if re.match(pattern, parts[i]):
-            current += parts[i]
-        else:
-            current += parts[i]
-            if len(current) >= MAX_CHARS:
-                chunks.append(current.strip())
-                current = ""
-    if current.strip():
-        chunks.append(current.strip())
-    if not chunks:
-        return [text.strip()]
-    return chunks
-
-def chunk_text(text: str) -> list:
-    """
-    Dela text med semantisk split, och hantera långa segment med overlap.
-    Respekterar MIN_CHARS för att undvika tomma eller extremt korta chunks.
-    """
-    segments = semantic_split(text)
-    final_chunks = []
-    for seg in segments:
-        if not seg.strip():
-            continue
-        if len(seg) <= MAX_CHARS:
-            if len(seg.strip()) >= MIN_CHARS:
-                final_chunks.append(seg.strip())
-        else:
-            i = 0
-            while i < len(seg):
-                part = seg[i:i+MAX_CHARS]
-                if len(part.strip()) >= MIN_CHARS:
-                    final_chunks.append(part.strip())
-                i += MAX_CHARS - OVERLAP
-    return final_chunks
+def clean_text(text: str) -> str:
+    text = text.replace("\n", " ")
+    text = re.sub(r"\s+", " ", text)
+    text = re.sub(r"\b(nan|none|null)\b", "", text, flags=re.IGNORECASE)
+    return text.strip()
 
 # ==========================
-# EXTRAHERING PER FILTYP
+# FÖRBÄTTRAD CHUNKING (meningbaserad)
 # ==========================
-def extract_from_pdf(file_path: Path):
-    """Extrahera text och tabeller från PDF. Returnerar lista av (text, metadata)."""
-    reader = PdfReader(str(file_path))
-    items = []
-
-    # 1. Vanlig text per sida (filtrera bara riktigt korta sidor)
-    for page_num, page in enumerate(reader.pages, start=1):
-        page_text = page.extract_text() or ""
-        if len(page_text.strip()) >= MIN_CHARS:
-            items.append((page_text.strip(), {"type": "pdf_text", "page": page_num}))
-
-    # 2. Tabeller med tabula (om tillgängligt)
-    if USE_TABULA:
-        try:
-            tables = tabula.read_pdf(str(file_path), pages='all', multiple_tables=True)
-            for ti, table in enumerate(tables):
-                if table is not None and not table.empty:
-                    rows_text = []
-                    for _, row in table.iterrows():
-                        row_str = ", ".join(f"{col}: {row[col]}" for col in table.columns)
-                        rows_text.append(row_str)
-                    table_text = "\n".join(rows_text)
-                    items.append((table_text, {"type": "pdf_table", "table_index": ti}))
-        except Exception as e:
-            print(f"Varning: tabula misslyckades för {file_path.name}: {e}")
-
-    return items
-
-def extract_from_csv(file_path: Path):
-    """
-    CSV: spara VARJE rad utan längdfilter.
-    Även korta rader (t.ex. en siffra) kan vara meningsfulla.
-    """
-    with open(file_path, encoding='utf-8') as f:
-        reader = csv.DictReader(f)
-        items = []
-        for row_num, row in enumerate(reader, start=1):
-            row_text = ", ".join(f"{k}: {v}" for k, v in row.items())
-            # Alla rader sparas – inget filter
-            items.append((row_text, {"type": "csv_row", "row": row_num}))
-        return items
-
-def extract_from_json(file_path: Path):
-    """
-    JSON: platta ut och skapa en chunk per textvärde.
-    Sparar även korta strängar (>=10 tecken) – justera vid behov.
-    """
-    with open(file_path, encoding='utf-8') as f:
-        data = json.load(f)
-
-    def flatten(d, prefix=""):
-        items = {}
-        if isinstance(d, dict):
-            for k, v in d.items():
-                key = f"{prefix}.{k}" if prefix else k
-                if isinstance(v, (dict, list)):
-                    items.update(flatten(v, key))
-                elif isinstance(v, str) and len(v) >= MIN_JSON:
-                    items[key] = v
-        elif isinstance(d, list):
-            for idx, elem in enumerate(d):
-                items.update(flatten(elem, f"{prefix}[{idx}]"))
-        return items
-
-    flat = flatten(data)
-    items = [(text, {"type": "json_value", "key": key}) for key, text in flat.items()]
-    return items
-
-def extract_text(file: Path):
-    """Dispatcher för olika filtyper."""
-    if file.suffix == ".pdf":
-        return extract_from_pdf(file)
-    elif file.suffix == ".csv":
-        return extract_from_csv(file)
-    elif file.suffix == ".json":
-        return extract_from_json(file)
-    else:
+def chunk_text(text: str):
+    text = clean_text(text)
+    if not text:
         return []
 
-# ==========================
-# TITEL-EXTRAHERING (för enrich)
-# ==========================
-def extract_title(text: str) -> str:
-    """Första raden som är tillräckligt lång, eller första 120 tecken."""
-    for line in text.split("\n"):
-        stripped = line.strip()
-        if len(stripped) > 20:
-            return stripped[:120]
-    return text[:120]
+    # Försök dela på meningar
+    sentences = re.split(r'(?<=[.!?:;])\s+', text)
+    chunks = []
+    current = ""
 
-def enrich(text: str, meta: dict, file_path: Path) -> tuple:
-    """
-    Skapar embedding_text (används för vektor) och display_text (lagras i ChromaDB).
-    Returnerar (embedding_text, display_text).
-    """
-    title = extract_title(text)
-    source = file_path.name
-    page_info = f" (sida {meta.get('page', 'N/A')})" if 'page' in meta else ""
-    type_info = meta.get("type", "okänd")
-    if 'row' in meta:
-        type_info += f" rad {meta['row']}"
-    if 'key' in meta:
-        type_info += f" nyckel '{meta['key']}'"
+    for sent in sentences:
+        if len(current) + len(sent) + 1 <= MAX_CHARS:
+            current += sent + " "
+        else:
+            if current:
+                chunks.append(current.strip())
+            # Om enskild mening är för lång, dela med overlap
+            if len(sent) > MAX_CHARS:
+                i = 0
+                while i < len(sent):
+                    part = sent[i:i+MAX_CHARS]
+                    if len(part) >= MIN_CHARS:
+                        chunks.append(part.strip())
+                    i += MAX_CHARS - OVERLAP
+                current = ""
+            else:
+                current = sent + " "
 
-    # Texten som skickas till embedding-modellen – prefix för att förbättra retrieval
-    embedding_text = f"search_document: {title}\n{text}"
+    if current:
+        chunks.append(current.strip())
 
-    # Texten som lagras och visas i UI
-    display_text = f"""Titel: {title}
-Källa: {source}{page_info}
-Typ: {type_info}
-
-{text}"""
-    return embedding_text, display_text
+    # Filtrera bort för korta chunks
+    return [c for c in chunks if len(c) >= MIN_CHARS]
 
 # ==========================
-# PARALLELL EMBEDDING (korrekt)
+# TABLE FORMAT (oförändrad, bra)
 # ==========================
-def embed_texts(texts):
-    """Embed en lista med strängar, en i taget, parallellt med ThreadPool."""
-    if MAX_WORKERS <= 1:
-        embeddings = []
-        for t in texts:
-            resp = client.embeddings(model=EMBED_MODEL, prompt=t)
-            embeddings.append(resp["embedding"])
-        return embeddings
+def format_table_row(row, columns, source):
+    fields = []
+    for col in columns:
+        val = str(row[col]).strip()
+        if val and val.lower() not in ["nan", "none", ""]:
+            fields.append(f"{col}: {val}")
+    if not fields:
+        return None
+    return f"Frekvensdata | Källa: {source} | " + " | ".join(fields)
 
-    embeddings = [None] * len(texts)
-    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-        future_to_idx = {
-            executor.submit(client.embeddings, model=EMBED_MODEL, prompt=t): idx
-            for idx, t in enumerate(texts)
-        }
-        for future in as_completed(future_to_idx):
-            idx = future_to_idx[future]
+# ==========================
+# PDF-extrahering (oförändrad)
+# ==========================
+def extract_from_pdf(file_path):
+    items = []
+    reader = PdfReader(str(file_path))
+
+    # Text per sida
+    for i, page in enumerate(reader.pages, 1):
+        txt = page.extract_text() or ""
+        txt = clean_text(txt)
+        if len(txt) > MIN_CHARS:
+            items.append((txt, {"type": "pdf_text", "page": i}))
+
+    # Tabeller
+    if USE_TABULA:
+        try:
+            tables = tabula.read_pdf(str(file_path), pages="all", multiple_tables=True)
+            for ti, table in enumerate(tables):
+                if table is None or table.empty:
+                    continue
+                for _, row in table.iterrows():
+                    row_txt = format_table_row(row, table.columns, file_path.name)
+                    if row_txt:
+                        items.append((row_txt, {"type": "pdf_table", "table": ti}))
+        except Exception as e:
+            print(f"❌ Tabula error: {e}")
+    return items
+
+# ==========================
+# CSV-extrahering
+# ==========================
+def extract_from_csv(file_path):
+    items = []
+    with open(file_path, encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for i, row in enumerate(reader, 1):
+            fields = []
+            for k, v in row.items():
+                v = str(v).strip()
+                if v and v.lower() not in ["nan", "none"]:
+                    fields.append(f"{k}: {v}")
+            if fields:
+                txt = "Frekvensdata | " + " | ".join(fields)
+                items.append((txt, {"type": "csv_row", "row": i}))
+    return items
+
+# ==========================
+# JSON-extrahering
+# ==========================
+def extract_from_json(file_path):
+    items = []
+    with open(file_path, encoding="utf-8") as f:
+        data = json.load(f)
+    def walk(obj, prefix=""):
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                walk(v, f"{prefix}.{k}" if prefix else k)
+        elif isinstance(obj, list):
+            for i, v in enumerate(obj):
+                walk(v, f"{prefix}[{i}]")
+        elif isinstance(obj, str):
+            txt = clean_text(obj)
+            if len(txt) > MIN_CHARS:
+                items.append((txt, {"type": "json", "key": prefix}))
+    walk(data)
+    return items
+
+def extract(file):
+    if file.suffix == ".pdf":
+        return extract_from_pdf(file)
+    if file.suffix == ".csv":
+        return extract_from_csv(file)
+    if file.suffix == ".json":
+        return extract_from_json(file)
+    return []
+
+# ==========================
+# QUERY-AWARE EMBEDDING TEXT ; ADD DICTIONARY HINTS HERE LATER
+# ==========================
+def build_embedding_text(text, meta):
+    hints = []
+    t = text.lower()
+    if meta.get("type") in ["pdf_table", "csv_row"]:
+        hints.append("frekvensband spektrum radio användning")
+    if "rlan" in t or "was" in t:
+        hints.append("wifi WAS RLAN trådlöst nätverk")
+    if "khz" in t or "mhz" in t or "ghz" in t or "thz" in t:
+        hints.append("radiofrekvens band spektrum")
+    if "tillstånd" in t or "not 1" in t:
+        hints.append("regler licens undantag tillståndsplikt")
+    hint_str = " ".join(hints)
+    return f"search_document: {hint_str} {text}"
+
+# ==========================
+# EMBEDDING
+# ==========================
+def embed(texts):
+    results = [None] * len(texts)
+    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as ex:
+        futures = {ex.submit(client.embeddings, model=EMBED_MODEL, prompt=t): i for i, t in enumerate(texts)}
+        for f in as_completed(futures):
+            i = futures[f]
             try:
-                resp = future.result()
-                embeddings[idx] = resp["embedding"]
+                results[i] = f.result()["embedding"]
             except Exception as e:
-                print(f"Fel vid embedding av chunk {idx}: {e}")
-                # Fallback – nollvektor (bör ej ske)
-                embeddings[idx] = [0.0] * 1024   # bge-m3 dimension 1024
-    return embeddings
+                print(f"❌ Embed error {i}: {e}")
+                results[i] = [0.0] * 768
+    return results
 
 # ==========================
-# HUVUDINDEXERING
+# MAIN
 # ==========================
 def main():
-    if not DATA_ROOT.exists():
-        print(f"FEL: DATA_ROOT = '{DATA_ROOT}' finns inte. Sätt miljövariabeln DATA_ROOT.")
-        return
+    docs, emb_texts, metas, ids = [], [], [], []
+    seen = set()
+    total_raw = 0
 
-    all_docs = []      # display_text (lagras i ChromaDB)
-    all_emb_texts = [] # embedding_text (används för vektor, lagras inte)
-    all_metas = []
-    all_ids = []
-
-    # Gå igenom alla filer
     for file in DATA_ROOT.rglob("*"):
         if not file.is_file():
             continue
-        print(f"Processar {file.name}...")
-        items = extract_text(file)
-        if not items:
-            print(f"  Inget extraherbart innehåll i {file.name}")
-            continue
+        print(f"📄 {file.name}")
+        items = extract(file)
+        for text, meta in items:
+            total_raw += 1
+            if meta.get("type") in ["pdf_table", "csv_row"]:
+                chunks = [text]
+            else:
+                chunks = chunk_text(text)
+            for ch in chunks:
+                if not ch:
+                    continue
+                key = ch.lower()
+                if key in seen:
+                    continue
+                seen.add(key)
+                emb_text = build_embedding_text(ch, meta)
+                doc_text = f"Källa: {file.name}\nTyp: {meta.get('type')}\n\n{ch}".strip()
+                docs.append(doc_text)
+                emb_texts.append(emb_text)
+                metas.append({"file": file.name, **meta})
+                ids.append(str(uuid.uuid4()))
 
-        for text_segment, segment_meta in items:
-            # Dela segmentet i chunks
-            chunks = chunk_text(text_segment)
-            for i, chunk_txt in enumerate(chunks):
-                if len(chunk_txt) < MIN_CHARS:
-                    continue   # extremt kort chunk redan filtrerad, men säkerhetskoll
-                # Bygg metadata för denna chunk
-                meta = {
-                    "file": file.name,
-                    "type": segment_meta.get("type", "unknown"),
-                    "chunk_index": i,
-                }
-                if "page" in segment_meta:
-                    meta["page"] = segment_meta["page"]
-                if "key" in segment_meta:
-                    meta["json_key"] = segment_meta["key"]
-                if "row" in segment_meta:
-                    meta["csv_row"] = segment_meta["row"]
-                if "table_index" in segment_meta:
-                    meta["table_index"] = segment_meta["table_index"]
-
-                # Skapa embedding_text och display_text
-                emb_text, disp_text = enrich(chunk_txt, meta, file)
-
-                # Unikt ID baserat på fil, metadata och chunk-index
-                unique_base = f"{file.absolute()}_{meta.get('page', 0)}_{meta.get('row', 0)}_{meta.get('json_key', '')}_{meta.get('table_index', 0)}_{i}"
-                doc_id = str(uuid.uuid4())
-
-                all_emb_texts.append(emb_text)
-                all_docs.append(disp_text)
-                all_metas.append(meta)
-                all_ids.append(doc_id)
-
-    if not all_docs:
-        print("Inga dokument hittades. Avslutar.")
+    print(f"\nRaw segments: {total_raw} | Unique chunks: {len(docs)}")
+    if not docs:
+        print("❌ No data")
         return
 
-    print(f"Skapar embeddings för {len(all_docs)} chunks... (använder {MAX_WORKERS} trådar)")
-    embeddings = embed_texts(all_emb_texts)
+    print(f"\nEmbedding {len(docs)} chunks...")
+    vectors = embed(emb_texts)
 
-    # Lägg till i ChromaDB i batcher
-    print("Lägger till i ChromaDB...")
-    for start in range(0, len(all_docs), BATCH_SIZE):
-        end = min(start + BATCH_SIZE, len(all_docs))
+    print("Writing to Chroma...")
+    for i in range(0, len(docs), BATCH_SIZE):
         collection.add(
-            documents=all_docs[start:end],
-            embeddings=embeddings[start:end],
-            metadatas=all_metas[start:end],
-            ids=all_ids[start:end]
+            documents=docs[i:i+BATCH_SIZE],
+            embeddings=vectors[i:i+BATCH_SIZE],
+            metadatas=metas[i:i+BATCH_SIZE],
+            ids=ids[i:i+BATCH_SIZE]
         )
-        print(f"  Batch {start//BATCH_SIZE + 1}/{(len(all_docs)-1)//BATCH_SIZE + 1} klar")
+        print(f"Batch {i//BATCH_SIZE + 1} done")
 
-    print(f"KLAR! {collection.count()} vektorer i ChromaDB ({CHROMA_DIR})")
+    print(f"\n✅ DONE: {collection.count()} chunks stored\n{CHROMA_DIR}")
 
+    ofile = open( f"{CHROMA_DIR}/chromadb_params.json","w")
+    print( "[{" + f"COLLECTION_NAME:\"{COLLECTION_NAME}\"\nEMBED_MODEL:\"{EMBED_MODEL}\"\nMAX_CHARS:{MAX_CHARS}\nOVERLAP:{OVERLAP}\nMIN_CHARS:{MIN_CHARS}\nBATCH_SIZE:{BATCH_SIZE}\n"+"}]" , file=ofile )
+    ofile.close()
 
 if __name__ == "__main__":
-    """
-    # Exempel på hur du kör:
-    # export DATA_ROOT="./data"
-    # export CHROMA_DIR="./chroma_db"
-    # export OLLAMA_HOST="http://127.0.0.1:11434"
-    # python build_chroma.py
-
-    # FÖR ATT LADDA IN EXTERNT
-    import chromadb
-    from chromadb.config import Settings
-
-    client = chromadb.Client(Settings(persist_directory="./chroma"))
-    # OM NYARE CHROMA
-    client = chromadb.PersistentClient(path=CHROMA_DIR)
-    collection = client.get_collection("spectrum_data")
-    # RENSA INNAN KÖRNING
-    rm -r chroma_db/*
-    """
     main()
