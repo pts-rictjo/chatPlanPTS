@@ -1,149 +1,315 @@
 #!/usr/bin/env python3
+"""
+Production-grade build_chroma för juridiska dokument / spektrumdata.
+Optimerad för hög retrieval-kvalitet i externa UI/RAG-system.
+"""
+
 import os
 import json
 import csv
-from pathlib import Path
+import re
 import hashlib
+from pathlib import Path
 
 import chromadb
 from chromadb.config import Settings
 from ollama import Client
 from pypdf import PdfReader
 
-# ==========================
-# CONFIG
-# ==========================
+# Optional: tabula
+try:
+    import tabula
+    USE_TABULA = True
+except ImportError:
+    USE_TABULA = False
+    print("INFO: tabula-py inte installerad.")
 
-DATA_ROOT = Path(os.getenv("DATA_ROOT", "/data"))
-CHROMA_DIR = os.getenv("CHROMA_DIR", "/chroma")
-
+# ==========================
+# KONFIG
+# ==========================
+DATA_ROOT       = Path(os.getenv("DATA_ROOT", "./data"))
+CHROMA_DIR      = os.getenv("CHROMA_DIR", "./chroma")
 COLLECTION_NAME = os.getenv("COLLECTION_NAME", "spectrum_data")
-OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://ollama:11434")
+OLLAMA_HOST     = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434")
+EMBED_MODEL     = os.getenv("EMBED_MODEL", "bge-m3")
 
-# standard val
-# EMBED_MODEL = os.getenv("EMBED_MODEL", "mxbai-embed-large")
-#
-# större kontextfönster
-# nomic och bge-m3 (båda har 8k tokens enligt dokumentation)
-# EMBED_MODEL = os.getenv("EMBED_MODEL", "nomic-embed-text")            # lättare och snabbare
-EMBED_MODEL = os.getenv("EMBED_MODEL", "bge-m3")                        # Byt till bge-m3 för svenska dokument
-# EMBED_MODEL = os.getenv("EMBED_MODEL", "snowflake-arctic-embed:137m") # Ett sista alternativ
-#
-# Chunks :
-#   färre (större) ger mer sammanhang,
-#   fler (mindre) ger mer precision.
-#       Med bge-m3 rekommenderas MAX_CHARS ≈ 800–1000
-MAX_CHARS = 900 # uptill 1200 eller mer med de nya modeller
-OVERLAP   = 200 # Justera overlap efter behov
-#
-# Om det behöver bantas
-#MAX_CHARS = 400
-#OVERLAP = 80
+MAX_CHARS = 800
+OVERLAP = 150
+BATCH_SIZE = 64
 
 # ==========================
 # INIT
 # ==========================
-
-client = Client(host=OLLAMA_HOST)
-
-chroma = chromadb.Client(
-    Settings(persist_directory=CHROMA_DIR)
-)
-
-collection = chroma.get_or_create_collection(name=COLLECTION_NAME)
+client          = Client(host=OLLAMA_HOST)
+# chroma          = chromadb.Client(Settings(persist_directory=CHROMA_DIR)) # LEGACY
+chroma          = chromadb.PersistentClient(path=CHROMA_DIR)
+collection      = chroma.get_or_create_collection(name=COLLECTION_NAME)
 
 # ==========================
-# HELPERS
+# SEMANTISK CHUNKING
 # ==========================
+def semantic_split(text):
+    """Splitta på juridiska strukturer"""
+    parts = re.split(r'(§\s*\d+|Kapitel\s+\d+|Artikel\s+\d+)', text)
+    chunks = []
+    current = ""
 
-def chunk(text):
+    for part in parts:
+        if len(current) + len(part) < MAX_CHARS:
+            current += part
+        else:
+            if current.strip():
+                chunks.append(current.strip())
+            current = part
+
+    if current.strip():
+        chunks.append(current.strip())
+
+    return chunks
+
+
+def apply_overlap(chunks):
     out = []
-    i = 0
-    while i < len(text):
-        out.append(text[i:i+MAX_CHARS])
-        i += MAX_CHARS - OVERLAP
+    for i, ch in enumerate(chunks):
+        if i == 0:
+            out.append(ch)
+        else:
+            prev = chunks[i-1]
+            out.append(prev[-OVERLAP:] + ch)
     return out
 
-def doc_id(*parts):
-    return hashlib.sha1("::".join(parts).encode()).hexdigest()
 
-def embed(texts):
-    """Embed a list of strings one by one (Ollama requires a single string per call)."""
+def chunk_text(text):
+    chunks = semantic_split(text)
+
+    # fallback om chunk för stor
+    final = []
+    for ch in chunks:
+        if len(ch) <= MAX_CHARS:
+            final.append(ch)
+        else:
+            i = 0
+            while i < len(ch):
+                final.append(ch[i:i+MAX_CHARS])
+                i += MAX_CHARS - OVERLAP
+
+    return apply_overlap(final)
+
+# ==========================
+# TITLE EXTRACTION
+# ==========================
+def extract_title(text):
+    lines = text.strip().split("\n")
+    for line in lines:
+        if len(line.strip()) > 10:
+            return line[:120]
+    return text[:120]
+
+# ==========================
+# JSON FLATTEN
+# ==========================
+def flatten_json(data, parent_key=''):
+    items = {}
+
+    if isinstance(data, dict):
+        for k, v in data.items():
+            new_key = f"{parent_key}.{k}" if parent_key else k
+            if isinstance(v, (dict, list)):
+                items.update(flatten_json(v, new_key))
+            else:
+                items[new_key] = str(v)
+
+    elif isinstance(data, list):
+        for i, v in enumerate(data):
+            items.update(flatten_json(v, f"{parent_key}[{i}]"))
+
+    return items
+
+# ==========================
+# TABLE → SEMANTIC TEXT
+# ==========================
+def table_to_sentences(df):
+    rows = []
+    cols = list(df.columns)
+    for _, r in df.iterrows():
+        row = ", ".join(f"{col}: {r[col]}" for col in cols)
+        rows.append(row)
+    return rows
+
+# ==========================
+# EXTRACTORS
+# ==========================
+def extract_from_pdf(file_path: Path):
+    reader = PdfReader(str(file_path))
+    items = []
+
+    for page_num, page in enumerate(reader.pages, start=1):
+        text = page.extract_text() or ""
+        if text.strip():
+            items.append((text, {"type": "pdf_text", "page": page_num}))
+
+    if USE_TABULA:
+        try:
+            tables = tabula.read_pdf(str(file_path), pages='all', multiple_tables=True)
+            for i, table in enumerate(tables):
+                if table is not None and not table.empty:
+                    for row in table_to_sentences(table):
+                        items.append((row, {"type": "pdf_table", "table_index": i}))
+        except Exception as e:
+            print(f"Tabula-fel: {e}")
+
+    return items
+
+
+def extract_from_csv(file_path: Path):
+    with open(file_path, encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        return [
+            (", ".join(f"{k}: {v}" for k, v in row.items()),
+             {"type": "csv_row", "row": i})
+            for i, row in enumerate(reader)
+        ]
+
+
+def extract_from_json(file_path: Path):
+    with open(file_path, encoding='utf-8') as f:
+        data = json.load(f)
+
+    flat = flatten_json(data)
+    return [
+        (f"{k}: {v}", {"type": "json_field", "key": k})
+        for k, v in flat.items()
+    ]
+
+
+def extract_text(file: Path):
+    if file.suffix == ".pdf":
+        return extract_from_pdf(file)
+    elif file.suffix == ".csv":
+        return extract_from_csv(file)
+    elif file.suffix == ".json":
+        return extract_from_json(file)
+    return []
+
+# ==========================
+# EMBEDDING (BATCH)
+# ==========================
+def embed_texts(texts):
     embeddings = []
-    for text in texts:
-        resp = client.embeddings(model=EMBED_MODEL, prompt=text)
-        embeddings.append(resp["embedding"])
+    for i in range(0, len(texts), BATCH_SIZE):
+        batch = texts[i:i+BATCH_SIZE]
+        try:
+            resp = client.embed(model=EMBED_MODEL, input=batch)
+            embeddings.extend(resp["embeddings"])
+        except Exception as e:
+            print(f"Embedding-fel: {e}")
+            embeddings.extend([[0.0]*1024] * len(batch))
     return embeddings
 
 # ==========================
-# GENERIC FILE LOADER
+# ID
 # ==========================
-
-def extract_text(file: Path):
-    if file.suffix == ".csv":
-        with open(file, encoding="utf-8") as f:
-            reader = csv.DictReader(f)
-            return "\n".join(str(row) for row in reader)
-
-    elif file.suffix == ".json":
-        return json.dumps(json.load(open(file)), ensure_ascii=False)
-
-    elif file.suffix == ".pdf":
-        reader = PdfReader(str(file))
-        return "\n".join(p.extract_text() or "" for p in reader.pages)
-
-    else:
-        return None
+def make_id(text):
+    return hashlib.sha1(text.encode()).hexdigest()
 
 # ==========================
-# MAIN INDEX
+# ENRICHMENT
 # ==========================
+def enrich(text, meta, file):
+    title = extract_title(text)
 
+    enriched = f"""
+Titel: {title}
+Källa: {file.name}
+Typ: {meta.get("type")}
+Sida: {meta.get("page", "N/A")}
+
+Innehåll:
+{text}
+"""
+
+    # BGE instruction prefix
+    return f"Represent this document for retrieval:\n{enriched}"
+
+# ==========================
+# MAIN
+# ==========================
 def main():
-    # Check if data root exists
     if not DATA_ROOT.exists():
-        print(f"ERROR: DATA_ROOT = '{DATA_ROOT}' does not exist. Set DATA_ROOT environment variable to a folder with .pdf, .csv, or .json files.")
+        print("DATA_ROOT saknas")
         return
 
-    docs, ids, metas = [], [], []
+    docs, metas, ids = [], [], []
+    seen = set()
 
     for file in DATA_ROOT.rglob("*"):
         if not file.is_file():
             continue
 
-        text = extract_text(file)
-        if not text:
-            continue
+        print(f"Processar {file.name}")
+        items = extract_text(file)
 
-        for i, ch in enumerate(chunk(text)):
-            docs.append(ch)
-            ids.append(doc_id(file.name, str(i)))
-            metas.append({"file": file.name})
+        for text, meta in items:
+            chunks = chunk_text(text)
 
+            for i, ch in enumerate(chunks):
+                ch = ch.strip()
+                if not ch:
+                    continue
+
+                enriched = enrich(ch, meta, file)
+
+                if enriched in seen:
+                    continue
+                seen.add(enriched)
+
+                meta_full = {
+                    "file": file.name,
+                    "file_stem": file.stem,
+                    "file_type": file.suffix,
+                    "chunk": i,
+                    "type": meta.get("type"),
+                    "page": meta.get("page", -1),
+                }
+
+                docs.append(enriched)
+                metas.append(meta_full)
+                ids.append(make_id(enriched))
+
+    print(f"Totalt chunks: {len(docs)}")
     if not docs:
-        print(f"No documents found in '{DATA_ROOT}'. Supported types: .pdf, .csv, .json")
         return
 
-    print(f"Embedding {len(docs)} chunks...")
+    print("Skapar embeddings...")
+    embeddings = embed_texts(docs)
 
-    embeddings = embed(docs)
+    print("Skriver till Chroma...")
+    for i in range(0, len(docs), 500):
+        collection.add(
+            documents=docs[i:i+500],
+            embeddings=embeddings[i:i+500],
+            metadatas=metas[i:i+500],
+            ids=ids[i:i+500]
+        )
 
-    collection.add(
-        documents=docs,
-        ids=ids,
-        embeddings=embeddings,
-        metadatas=metas
-    )
+    print(f"KLAR: {collection.count()} dokument")
 
-    print(f"Successfully added {collection.count()} items to ChromaDB at '{CHROMA_DIR}'.")
 
 if __name__ == "__main__":
     """
-    $ export DATA_ROOT="./data"
-    $ export CHROMA_DIR="./chroma_db"
-    $ export OLLAMA_HOST="http://127.0.0.1:11434"
-    $ python build_chroma.py
-    OR
-    $ OLLAMA_HOST="http://127.0.0.1:11434" python build_chroma.py
+    # Exempel på hur du kör:
+    # export DATA_ROOT="./data"
+    # export CHROMA_DIR="./chroma_db"
+    # export OLLAMA_HOST="http://127.0.0.1:11434"
+    # python build_chroma.py
+
+    # FÖR ATT LADDA IN EXTERNT
+    import chromadb
+    from chromadb.config import Settings
+
+    client = chromadb.Client(Settings(persist_directory="./chroma"))
+    # OM NYARE CHROMA
+    client = chromadb.PersistentClient(path=CHROMA_DIR)
+    collection = client.get_collection("spectrum_data")
     """
     main()
