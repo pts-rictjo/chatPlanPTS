@@ -36,6 +36,7 @@ EMBED_MODEL     = os.getenv("EMBED_MODEL", "bge-m3")          # bäst för svens
 
 MAX_CHARS   = 800       # max tecken per chunk
 MIN_CHARS   = 10        # lägre gräns – behåller nästan allt, filtrerar bara extremt korta/tomma rader
+MIN_JSON    = 1         # ta med allt
 OVERLAP     = 100       # överlapp mellan delar av samma långa stycke
 BATCH_SIZE  = 32        # ChromaDB batch-insättning
 MAX_WORKERS = 4         # antal parallella embedding-trådar (1 = sekventiell)
@@ -156,7 +157,7 @@ def extract_from_json(file_path: Path):
                 key = f"{prefix}.{k}" if prefix else k
                 if isinstance(v, (dict, list)):
                     items.update(flatten(v, key))
-                elif isinstance(v, str) and len(v) >= 10:   # spara även korta textvärden
+                elif isinstance(v, str) and len(v) >= MIN_JSON:
                     items[key] = v
         elif isinstance(d, list):
             for idx, elem in enumerate(d):
