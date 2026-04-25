@@ -295,8 +295,9 @@ def main():
                 # Skapa embedding_text och display_text
                 emb_text, disp_text = enrich(chunk_txt, meta, file)
 
-                # Unikt ID (hash av embedding_text, för att undvika dubletter)
-                doc_id = hashlib.sha256(emb_text.encode()).hexdigest()[:32]
+                # Unikt ID baserat på fil, metadata och chunk-index
+                unique_base = f"{file.absolute()}_{meta.get('page', 0)}_{meta.get('row', 0)}_{meta.get('json_key', '')}_{meta.get('table_index', 0)}_{i}"
+                doc_id = hashlib.sha256(unique_base.encode()).hexdigest()[:32]
 
                 all_emb_texts.append(emb_text)
                 all_docs.append(disp_text)
