@@ -18,11 +18,27 @@ DATA_ROOT = Path(os.getenv("DATA_ROOT", "/data"))
 CHROMA_DIR = os.getenv("CHROMA_DIR", "/chroma")
 
 COLLECTION_NAME = os.getenv("COLLECTION_NAME", "spectrum_data")
-EMBED_MODEL = os.getenv("EMBED_MODEL", "mxbai-embed-large")
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://ollama:11434")
 
-MAX_CHARS = 1200
-OVERLAP = 200
+# standard
+#EMBED_MODEL = os.getenv("EMBED_MODEL", "mxbai-embed-large")
+#
+# större kontextfönster
+# nomic och bge-m3 (båda har 8k tokens enligt dokumentation)
+# EMBED_MODEL = os.getenv("EMBED_MODEL", "nomic-embed-text") # lättare och snabbare
+EMBED_MODEL = os.getenv("EMBED_MODEL", "bge-m3")  # Byt till bge-m3 för svenska dokument
+# EMBED_MODEL = os.getenv("EMBED_MODEL", "snowflake-arctic-embed:137m")  # Ett sista alternativ
+#
+# Chunks :
+#   färre (större) ger mer sammanhang,
+#   fler (mindre) ger mer precision.
+#       Med bge-m3 rekommenderas MAX_CHARS ≈ 800–1000
+MAX_CHARS = 900   # Du kan öka till 1200 eller mer med de nya modellerna
+OVERLAP = 200      # Justera overlap efter behov
+#
+# Om det behöver bantas
+#MAX_CHARS = 400
+#OVERLAP = 80
 
 # ==========================
 # INIT
