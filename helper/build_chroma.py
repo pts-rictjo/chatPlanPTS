@@ -396,8 +396,10 @@ def create_db():
     docs, emb_texts, metas, ids = [], [], [], []
     seen = set()
 
+    import hashlib
     for text, meta, fname in all_chunks:
-        key = key = hash(text) # text.lower()
+        #key = hash(text) # text.lower()
+        key = hashlib.md5((fname + text).encode()).hexdigest()
         if key in seen:
             continue
         seen.add(key)
@@ -427,7 +429,7 @@ def create_db():
         # Whoosh – lägg till dokument
         writer.add_document(
             id=doc_id,
-            content=text + " " + " ".join(map(str, freqs)) ,
+            content=text + " Frequencies " + " ".join(map(str, freqs)) ,
             freq_min=freq_min,
             freq_max=freq_max,
         )
