@@ -1,19 +1,27 @@
 #!/usr/bin/env python3
 """
-build_chroma v5 – större chunks, meningbaserad delning
+build_chroma v9 + Whoosh (hybrid RAG) + query expansion
+- PMI‑baserad ontologi med bigrams (potentiellt störande)
+- Extraherar automatiskt ordpar som "fast_radio", "data_överföring"
+- Bygger Whoosh‑index för nyckelordssökning
+- Lagrar freq_min / freq_max i båda databaserna
 """
 
-import os
-import json
-import csv
-import re
-import uuid
+import os, re, csv, json, uuid
+import html
+import math
 from pathlib import Path
+from collections import defaultdict, Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from chromadb import PersistentClient
 from ollama import Client
 from pypdf import PdfReader
+
+# Whoosh (keyword search)
+from whoosh import index
+from whoosh.fields import Schema, TEXT, ID, NUMERIC
+from whoosh.analysis import StemmingAnalyzer
 
 try:
     import tabula
@@ -22,76 +30,118 @@ except ImportError:
     USE_TABULA = False
 
 # ==========================
-# CONFIG
+# KONFIGURATION
 # ==========================
 DATA_ROOT           = Path(os.getenv("DATA_ROOT", "./data"))
 CHROMA_DIR          = os.getenv("CHROMA_DIR", "./chroma_db")
+WHOOSH_DIR          = os.getenv("WHOOSH_DIR", "./whoosh_index")
 COLLECTION_NAME     = os.getenv("COLLECTION_NAME", "spectrum_data")
 OLLAMA_HOST         = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434")
 EMBED_MODEL         = os.getenv("EMBED_MODEL", "nomic-embed-text-v2-moe")
 
-MAX_CHARS       = 1000
-OVERLAP         = 200
-MIN_CHARS       = 3         # lägsta längd för att spara en chunk
-BATCH_SIZE      = 32
-MAX_WORKERS     = 4
+MAX_CHARS           = 1000
+OVERLAP             = 200
+MIN_CHARS           = 3
+BATCH_SIZE          = 32
+MAX_WORKERS         = 4
+
+# Stoppordslista (oförändrad från v9)
+STOPWORDS = {
+    "och","eller","med","för","som","den","det","att","av","till","i","på","är","en","ett","sig","om","under","efter","över","vid",
+}
 
 # ==========================
-# INIT
-# ==========================
-print(f"ChromaDB path: {CHROMA_DIR}")
-client = Client(host=OLLAMA_HOST)
-chroma = PersistentClient(path=CHROMA_DIR)
-collection = chroma.get_or_create_collection(name=COLLECTION_NAME)
-
-# ==========================
-# CLEANING
+# RENGÖRING OCH CHUNKING
 # ==========================
 def clean_text(text: str) -> str:
+    text = html.unescape(text)
+    text = re.sub(r'[^\w\s]', ' ', text)
     text = text.replace("\n", " ")
     text = re.sub(r"\s+", " ", text)
     text = re.sub(r"\b(nan|none|null)\b", "", text, flags=re.IGNORECASE)
+    for unit in ['kHz','MHz','GHz']:
+        text = re.sub(rf'(\d+),(\d+)\s*{unit}', r'\1.\2 ' + unit, text)
+        text = re.sub(rf'(\d)\.(\d{{3}})\s*{unit}', r'\1\2 ' + unit, text)
     return text.strip()
 
-# ==========================
-# FÖRBÄTTRAD CHUNKING (meningbaserad)
-# ==========================
 def chunk_text(text: str):
-    text = clean_text(text)
-    if not text:
-        return []
-
-    # Försök dela på meningar
-    sentences = re.split(r'(?<=[.!?:;])\s+', text)
-    chunks = []
-    current = ""
-
-    for sent in sentences:
-        if len(current) + len(sent) + 1 <= MAX_CHARS:
-            current += sent + " "
-        else:
-            if current:
-                chunks.append(current.strip())
-            # Om enskild mening är för lång, dela med overlap
-            if len(sent) > MAX_CHARS:
-                i = 0
-                while i < len(sent):
-                    part = sent[i:i+MAX_CHARS]
-                    if len(part) >= MIN_CHARS:
-                        chunks.append(part.strip())
-                    i += MAX_CHARS - OVERLAP
-                current = ""
-            else:
-                current = sent + " "
-
-    if current:
-        chunks.append(current.strip())
-
-    # Filtrera bort för korta chunks
-    return [c for c in chunks if len(c) >= MIN_CHARS]
+    text = re.sub(r"\s+", " ", text.replace("\n", " ")).strip()
+    out = []
+    i = 0
+    while i < len(text):
+        part = text[i:i+MAX_CHARS]
+        if len(part) >= MIN_CHARS:
+            out.append(part)
+        i += MAX_CHARS - OVERLAP
+    return out
 
 # ==========================
-# TABLE FORMAT (oförändrad, bra)
+# FREKVENSBEHANDLING
+# ==========================
+def normalize_freq_val(freq_str: str) -> int | None:
+    freq_str = re.sub(r'\s+', '', freq_str.lower())
+    m = re.match(r'(\d+(?:[.,]\d+)?)(khz|mhz|ghz)', freq_str)
+    if not m:
+        return None
+    val, unit = m.groups()
+    val = float(val.replace(',', '.'))
+    if unit == 'ghz':
+        val *= 1000
+    elif unit == 'khz':
+        val /= 1000
+    return int(round(val))
+
+def extract_ranges(text: str) -> list[tuple[int, int]]:
+    pattern = r'(\d+(?:[.,]\d+)?)\s*[-–]\s*(\d+(?:[.,]\d+)?)\s*(MHz|GHz)'
+    matches = re.findall(pattern, text, re.I)
+    ranges = []
+    for a, b, unit in matches:
+        a = float(a.replace(',', '.'))
+        b = float(b.replace(',', '.'))
+        if unit.lower() == 'ghz':
+            a *= 1000
+            b *= 1000
+        ranges.append((int(round(a)), int(round(b))))
+    return ranges
+
+def extract_all_frequencies(text: str) -> list[int]:
+    point_matches = re.findall(r'\b\d+(?:[.,]\d+)?\s*(?:khz|mhz|ghz)\b', text, re.I)
+    values = []
+    for p in point_matches:
+        v = normalize_freq_val(p)
+        if v is not None:
+            values.append(v)
+    for lo, hi in extract_ranges(text):
+        values.append(lo)
+        values.append(hi)
+    values = [v for v in values if 1 <= v <= 300000]
+    seen = set()
+    uniq = []
+    for v in values:
+        if v not in seen:
+            seen.add(v)
+            uniq.append(v)
+    return uniq
+
+def extract_features_with_bigrams(text: str):
+    t = text.lower()
+    t = re.sub(r'[^a-zåäö0-9\s]', ' ', t)
+    freqs = extract_all_frequencies(t)
+    words = re.findall(r'\b[a-zåäö]{3,}\b', t)
+    forbidden_units = {"khz", "mhz", "ghz", "hz", "db", "kw", "w", "v", "a"}
+    forbidden = STOPWORDS.union(forbidden_units, {"none","nan","null"})
+    words = [w for w in words if w not in forbidden]
+    # bigrams
+    bigrams = []
+    for i in range(len(words)-1):
+        w1, w2 = words[i], words[i+1]
+        if len(w1) > 3 and len(w2) > 3:
+            bigrams.append(f"{w1}_{w2}")
+    all_terms = words + bigrams
+    return freqs, all_terms
+
+# ==========================
+# EXTRAHERARE (PDF, CSV, JSON)
 # ==========================
 def format_table_row(row, columns, source):
     fields = []
@@ -103,21 +153,14 @@ def format_table_row(row, columns, source):
         return None
     return f"Frekvensdata | Källa: {source} | " + " | ".join(fields)
 
-# ==========================
-# PDF-extrahering (oförändrad)
-# ==========================
 def extract_from_pdf(file_path):
     items = []
     reader = PdfReader(str(file_path))
-
-    # Text per sida
     for i, page in enumerate(reader.pages, 1):
         txt = page.extract_text() or ""
         txt = clean_text(txt)
         if len(txt) > MIN_CHARS:
             items.append((txt, {"type": "pdf_text", "page": i}))
-
-    # Tabeller
     if USE_TABULA:
         try:
             tables = tabula.read_pdf(str(file_path), pages="all", multiple_tables=True)
@@ -129,12 +172,9 @@ def extract_from_pdf(file_path):
                     if row_txt:
                         items.append((row_txt, {"type": "pdf_table", "table": ti}))
         except Exception as e:
-            print(f"❌ Tabula error: {e}")
+            print(f"⚠️ Tabula error: {e}")
     return items
 
-# ==========================
-# CSV-extrahering
-# ==========================
 def extract_from_csv(file_path):
     items = []
     with open(file_path, encoding="utf-8") as f:
@@ -142,7 +182,7 @@ def extract_from_csv(file_path):
         for i, row in enumerate(reader, 1):
             fields = []
             for k, v in row.items():
-                v = str(v).strip()
+                v = clean_text(str(v))
                 if v and v.lower() not in ["nan", "none"]:
                     fields.append(f"{k}: {v}")
             if fields:
@@ -150,9 +190,6 @@ def extract_from_csv(file_path):
                 items.append((txt, {"type": "csv_row", "row": i}))
     return items
 
-# ==========================
-# JSON-extrahering
-# ==========================
 def extract_from_json(file_path):
     items = []
     with open(file_path, encoding="utf-8") as f:
@@ -181,29 +218,52 @@ def extract(file):
     return []
 
 # ==========================
-# QUERY-AWARE EMBEDDING TEXT ; ADD DICTIONARY HINTS HERE LATER
+# WHOOSH (INIT, INDEX)
 # ==========================
-def build_embedding_text(text, meta):
-    hints = []
-    t = text.lower()
-    if meta.get("type") in ["pdf_table", "csv_row"]:
-        hints.append("frekvensband spektrum radio användning")
-    if "rlan" in t or "was" in t:
-        hints.append("wifi WAS RLAN trådlöst nätverk")
-    if "khz" in t or "mhz" in t or "ghz" in t or "thz" in t:
-        hints.append("radiofrekvens band spektrum")
-    if "tillstånd" in t or "not 1" in t:
-        hints.append("regler licens undantag tillståndsplikt")
-    hint_str = " ".join(hints)
-    return f"search_document: {hint_str} {text}"
+def init_whoosh():
+    """Skapar eller öppnar Whoosh‑indexet."""
+    if not os.path.exists(WHOOSH_DIR):
+        os.mkdir(WHOOSH_DIR)
+    schema = Schema(
+        id=ID(stored=True),
+        content=TEXT(analyzer=StemmingAnalyzer()),
+        freq_min=NUMERIC(stored=True),
+        freq_max=NUMERIC(stored=True),
+    )
+    if not index.exists_in(WHOOSH_DIR):
+        return index.create_in(WHOOSH_DIR, schema)
+    return index.open_dir(WHOOSH_DIR)
 
 # ==========================
-# EMBEDDING
+# EMBEDDING & ONTOLOGI
 # ==========================
-def embed(texts):
+def build_embedding_text(text, ontology, meta):
+    freqs, _ = extract_features_with_bigrams(text)
+    hints = []
+    for f in freqs:
+        hints.extend(ontology.get(f, []))
+    hint_str = " ".join(set(hints))
+    if meta.get("type") in ["pdf_table", "csv_row"]:
+        hint_str += " strukturerad frekvensdata tabell"
+    freq_str = " ".join(str(f) for f in freqs)
+    return f"""
+search_document:
+{text}
+
+frekvenser:
+{freq_str}
+
+semantiska_termer:
+{hint_str}
+"""
+
+def embed_texts(texts, ollama_client):
     results = [None] * len(texts)
     with ThreadPoolExecutor(max_workers=MAX_WORKERS) as ex:
-        futures = {ex.submit(client.embeddings, model=EMBED_MODEL, prompt=t): i for i, t in enumerate(texts)}
+        futures = {
+            ex.submit(ollama_client.embeddings, model=EMBED_MODEL, prompt=t): i
+            for i, t in enumerate(texts)
+        }
         for f in as_completed(futures):
             i = futures[f]
             try:
@@ -213,13 +273,36 @@ def embed(texts):
                 results[i] = [0.0] * 768
     return results
 
+def build_inverted_ontology(ontology, chroma_dir):
+    inverted = defaultdict(list)
+    for freq, terms in ontology.items():
+        for term in terms:
+            inverted[term].append(freq)
+    for term in inverted:
+        inverted[term].sort()
+    inverted_display = {k.replace("_", " "): v for k, v in inverted.items()}
+    with open(f"{chroma_dir}/inverted_ontology.json", "w", encoding="utf-8") as f:
+        json.dump(inverted_display, f, indent=2, ensure_ascii=False)
+    print(f"✅ Inverterad ontologi sparad: {len(inverted)} termer")
+
 # ==========================
-# MAIN
+# HUVUDFUNKTION: create_db()
 # ==========================
-def main():
-    docs, emb_texts, metas, ids = [], [], [], []
-    seen = set()
-    total_raw = 0
+def create_db():
+    print("🔌 Initierar ...")
+    ollama = Client(host=OLLAMA_HOST)
+    chroma = PersistentClient(path=CHROMA_DIR)
+    collection = chroma.get_or_create_collection(name=COLLECTION_NAME)
+
+    # Initiera Whoosh
+    ix = init_whoosh()
+    writer = ix.writer()
+
+    print("🧠 Läser dokument och bygger statistik ...")
+    all_chunks = []
+    co_freq = defaultdict(Counter)
+    freq_chunk_count = Counter()
+    global_term_count = Counter()
 
     for file in DATA_ROOT.rglob("*"):
         if not file.is_file():
@@ -227,34 +310,108 @@ def main():
         print(f"📄 {file.name}")
         items = extract(file)
         for text, meta in items:
-            total_raw += 1
-            if meta.get("type") in ["pdf_table", "csv_row"]:
-                chunks = [text]
-            else:
-                chunks = chunk_text(text)
+            chunks = chunk_text(text)
             for ch in chunks:
-                if not ch:
+                if not ch.strip():
                     continue
-                key = ch.lower()
-                if key in seen:
+                freqs, terms = extract_features_with_bigrams(ch)
+                all_chunks.append((ch, meta, file.name))
+                if not freqs or not terms:
                     continue
-                seen.add(key)
-                emb_text = build_embedding_text(ch, meta)
-                doc_text = f"Källa: {file.name}\nTyp: {meta.get('type')}\n\n{ch}".strip()
-                docs.append(doc_text)
-                emb_texts.append(emb_text)
-                metas.append({"file": file.name, **meta})
-                ids.append(str(uuid.uuid4()))
+                unique_freqs = set(freqs)
+                for f in unique_freqs:
+                    freq_chunk_count[f] += 1
+                for t in set(terms):
+                    global_term_count[t] += 1
+                for f in unique_freqs:
+                    for t in terms:
+                        co_freq[f][t] += 1
 
-    print(f"\nRaw segments: {total_raw} | Unique chunks: {len(docs)}")
-    if not docs:
-        print("❌ No data")
+    if not all_chunks:
+        print("❌ Inga chunks hittades.")
         return
 
-    print(f"\nEmbedding {len(docs)} chunks...")
-    vectors = embed(emb_texts)
+    total_chunks = len(all_chunks)
+    print(f"📊 Totalt {total_chunks} chunks.")
+    print(f"   Frekvenser funna: {len(freq_chunk_count)}")
+    print(f"   Termer (ord+bigram) funna: {len(global_term_count)}")
 
-    print("Writing to Chroma...")
+    # Bygg ontologi med PMI
+    print("🔗 Beräknar PMI och skapar ontologi ...")
+    ontology = {}
+    for freq, term_counter in co_freq.items():
+        f_total = freq_chunk_count.get(freq, 1)
+        scored = []
+        for term, co_occ in term_counter.items():
+            t_total = global_term_count.get(term, 1)
+            if t_total == 0 or f_total == 0:
+                continue
+            pmi = math.log((co_occ / f_total) / (t_total / total_chunks) + 1e-12)
+            min_co_occ  = 1 if "_" in term else 2
+            min_pm      = 0.2 if "_" in term else 0.5
+            if co_occ >= min_co_occ and pmi > min_pm:
+                scored.append((term, pmi))
+        scored.sort(key=lambda x: x[1], reverse=True)
+        top_terms = [t for t, _ in scored[:10]]
+        if top_terms:
+            ontology[freq] = top_terms
+
+    build_inverted_ontology(ontology, CHROMA_DIR)
+    print(f"✅ Ontologi innehåller {len(ontology)} frekvenser.")
+    sample = list(ontology.items())[:5]
+    for freq, terms in sample:
+        display_terms = [t.replace("_", " ") for t in terms[:5]]
+        print(f"   {freq} MHz: {', '.join(display_terms)}")
+
+    # Bygg vektordatabas OCH Whoosh
+    print("📦 Bygger ChromaDB och Whoosh ...")
+    docs, emb_texts, metas, ids = [], [], [], []
+    seen = set()
+
+    for text, meta, fname in all_chunks:
+        key = text.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+
+        # Beräkna frekvenser för denna chunk
+        freqs = extract_all_frequencies(text)
+        freq_min = min(freqs) if freqs else 0
+        freq_max = max(freqs) if freqs else 0
+
+        # Chroma‑dokument
+        doc_text = f"Källa: {fname}\n{text}"
+        docs.append(doc_text)
+        emb_texts.append(build_embedding_text(text, ontology, meta))
+
+        # Metadata (lägg till freq_min, freq_max)
+        meta_with_freq = {
+            "file": fname,
+            "freq_min": freq_min,
+            "freq_max": freq_max,
+            **meta
+        }
+        metas.append(meta_with_freq)
+        doc_id = str(uuid.uuid4())
+        ids.append(doc_id)
+
+        # Whoosh – lägg till dokument
+        writer.add_document(
+            id=doc_id,
+            content=text,
+            freq_min=freq_min,
+            freq_max=freq_max,
+        )
+
+    # Spara Whoosh‑indexet
+    writer.commit()
+    print(f"✅ Whoosh-index sparat i {WHOOSH_DIR}")
+
+    # Skapa embeddings för Chroma
+    print(f"🧠 Skapar embeddings för {len(docs)} chunks ...")
+    vectors = embed_texts(emb_texts, ollama)
+
+    print("💾 Skriver till ChromaDB ...")
     for i in range(0, len(docs), BATCH_SIZE):
         collection.add(
             documents=docs[i:i+BATCH_SIZE],
@@ -262,13 +419,24 @@ def main():
             metadatas=metas[i:i+BATCH_SIZE],
             ids=ids[i:i+BATCH_SIZE]
         )
-        print(f"Batch {i//BATCH_SIZE + 1} done")
+        print(f"   Batch {i//BATCH_SIZE + 1} / {(len(docs)-1)//BATCH_SIZE + 1}")
 
-    print(f"\n✅ DONE: {collection.count()} chunks stored\n{CHROMA_DIR}")
+    # Spara konfiguration
+    with open(f"{CHROMA_DIR}/chromadb_params.json", "w", encoding="utf-8") as f:
+        json.dump({
+            "COLLECTION_NAME": COLLECTION_NAME,
+            "EMBED_MODEL": EMBED_MODEL,
+            "MAX_CHARS": MAX_CHARS,
+            "OVERLAP": OVERLAP,
+            "MIN_CHARS": MIN_CHARS,
+            "BATCH_SIZE": BATCH_SIZE,
+        }, f, indent=2)
 
-    ofile = open( f"{CHROMA_DIR}/chromadb_params.json","w")
-    print( "[{" + f"COLLECTION_NAME:\"{COLLECTION_NAME}\"\nEMBED_MODEL:\"{EMBED_MODEL}\"\nMAX_CHARS:{MAX_CHARS}\nOVERLAP:{OVERLAP}\nMIN_CHARS:{MIN_CHARS}\nBATCH_SIZE:{BATCH_SIZE}\n"+"}]" , file=ofile )
-    ofile.close()
+    print(f"\n✅ KLART! {collection.count()} vektorer i {CHROMA_DIR}")
+    print(f"   Whoosh-index i {WHOOSH_DIR}")
 
+# ==========================
+# MAIN
+# ==========================
 if __name__ == "__main__":
-    main()
+    create_db()
