@@ -32,12 +32,12 @@ except ImportError:
 # ==========================
 # KONFIGURATION
 # ==========================
-DATA_ROOT           = Path(os.getenv("DATA_ROOT", "./data"))
-CHROMA_DIR          = os.getenv("CHROMA_DIR", "./chroma_db")
-WHOOSH_DIR          = os.getenv("WHOOSH_DIR", "./whoosh_index")
-COLLECTION_NAME     = os.getenv("COLLECTION_NAME", "spectrum_data")
-OLLAMA_HOST         = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434")
-EMBED_MODEL         = os.getenv("EMBED_MODEL", "nomic-embed-text-v2-moe")
+DATA_ROOT           = Path(os.getenv("DATA_ROOT"    , "./data"))
+CHROMA_DIR          = os.getenv("CHROMA_DIR"        , "./chroma_db")
+WHOOSH_DIR          = os.getenv("WHOOSH_DIR"        , "./chroma_db/whoosh_index")
+COLLECTION_NAME     = os.getenv("COLLECTION_NAME"   , "spectrum_data")
+OLLAMA_HOST         = os.getenv("OLLAMA_HOST"       , "http://127.0.0.1:11434")
+EMBED_MODEL         = os.getenv("EMBED_MODEL"       , "nomic-embed-text-v2-moe")
 
 MAX_CHARS           = 1000
 OVERLAP             = 200
@@ -66,6 +66,8 @@ def clean_text(text: str) -> str:
 
 def chunk_text(text: str):
     text = re.sub(r"\s+", " ", text.replace("\n", " ")).strip()
+    if len(text) < MAX_CHARS and len(text) >= MIN_CHARS:
+        return [text]
     out = []
     i = 0
     while i < len(text):
@@ -139,6 +141,25 @@ def extract_features_with_bigrams(text: str):
             bigrams.append(f"{w1}_{w2}")
     all_terms = words + bigrams
     return freqs, all_terms
+
+# ==========================
+# FREQUENCY BOOST
+# ==========================
+def freq_boost(query_freqs, meta):
+    if not query_freqs:
+        return 0.0
+
+    doc_freqs = meta.get("freqs") or []
+    if not doc_freqs:
+        return 0.0
+
+    score = 0.0
+    for qf in query_freqs:
+        for df in doc_freqs:
+            dist = abs(qf - df)
+            score += math.exp(-dist / 200)  # decay
+
+    return score / (len(doc_freqs) + 1)
 
 # ==========================
 # EXTRAHERARE (PDF, CSV, JSON)
@@ -237,7 +258,7 @@ def init_whoosh():
 # ==========================
 # EMBEDDING & ONTOLOGI
 # ==========================
-def build_embedding_text(text, ontology, meta):
+def build_embedding_text_w_ontology(text, ontology, meta):
     freqs, _ = extract_features_with_bigrams(text)
     hints = []
     for f in freqs:
@@ -256,6 +277,13 @@ frekvenser:
 semantiska_termer:
 {hint_str}
 """
+
+def build_embedding_text(text, ontology, meta):
+    freqs, _ = extract_features_with_bigrams(text)
+    freq_str = " ".join(str(f) for f in freqs)
+    if meta.get("type") in ["pdf_table", "csv_row"]:
+        text = "Structured data: " + text
+    return f"{text} Frequencies: {freq_str}"
 
 def embed_texts(texts, ollama_client):
     results = [None] * len(texts)
@@ -369,7 +397,7 @@ def create_db():
     seen = set()
 
     for text, meta, fname in all_chunks:
-        key = text.lower()
+        key = key = hash(text) # text.lower()
         if key in seen:
             continue
         seen.add(key)
@@ -387,6 +415,7 @@ def create_db():
         # Metadata (lägg till freq_min, freq_max)
         meta_with_freq = {
             "file": fname,
+            "freqs": ",".join(map(str, freqs)) ,
             "freq_min": freq_min,
             "freq_max": freq_max,
             **meta
@@ -398,7 +427,7 @@ def create_db():
         # Whoosh – lägg till dokument
         writer.add_document(
             id=doc_id,
-            content=text,
+            content=text + " " + " ".join(map(str, freqs)) ,
             freq_min=freq_min,
             freq_max=freq_max,
         )
@@ -430,6 +459,7 @@ def create_db():
             "OVERLAP": OVERLAP,
             "MIN_CHARS": MIN_CHARS,
             "BATCH_SIZE": BATCH_SIZE,
+            "WHOOSH_DIR":WHOOSH_DIR,
         }, f, indent=2)
 
     print(f"\n✅ KLART! {collection.count()} vektorer i {CHROMA_DIR}")
