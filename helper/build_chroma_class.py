@@ -158,6 +158,79 @@ class RAGSystem:
         if self.chroma_path:
             self.init_chroma()
 
+
+    def is_good_text(self, t: str) -> bool:
+        if not t or len(t) < 50:
+            return False
+        words = t.split()
+        if len(set(words)) < 5:
+            return False
+        return True
+
+    def split_semantic(self, text: str) -> List[str]:
+        import re
+        blocks = re.split(r"\n\s*\n", text)
+        return [b.strip() for b in blocks if len(b.strip()) > 50]
+
+    def adaptive_chunk(self, texts: List[str], max_tokens=400) -> List[str]:
+        chunks = []
+        current = []
+        current_len = 0
+
+        for t in texts:
+            l = len(t.split())
+            if current_len + l > max_tokens and current:
+                chunks.append(" ".join(current))
+                current = []
+                current_len = 0
+
+            current.append(t)
+            current_len += l
+
+        if current:
+            chunks.append(" ".join(current))
+
+        return chunks
+
+    def build_embedding_text(self, text: str, meta: dict) -> str:
+        return f"""
+    TYPE: {meta.get('type')}
+
+    FREQUENCY_FROM_MHZ: {meta.get('frequency_from_mhz')}
+    FREQUENCY_TO_MHZ: {meta.get('frequency_to_mhz')}
+    FREQ_CENTER: {meta.get('freq_center')}
+    FREQ_WIDTH: {meta.get('freq_width')}
+
+    CONTENT:
+    {text}
+    """.strip()
+
+    def deduplicate(self, texts, metas, ids):
+        seen = set()
+        new_t, new_m, new_i = [], [], []
+
+        for t, m, i in zip(texts, metas, ids):
+            h = hash(t)
+            if h in seen:
+                continue
+            seen.add(h)
+            new_t.append(t)
+            new_m.append(m)
+            new_i.append(i)
+
+        return new_t, new_m, new_i
+
+    def generate_embeddings_batch(self, texts):
+        try:
+            response = self.ollama.embed(
+                model=self.embedding_model,
+                input=texts
+            )
+            return response.embeddings
+        except Exception as e:
+            print(f"Batch embedding error: {e}")
+            return [[0.0]*self.default_embedding_length_] * len(texts)
+
     def init_chroma(self):
         """Skapa eller anslut till ChromaDB‑samling."""
         os.makedirs(self.chroma_path, exist_ok=True)
@@ -208,51 +281,85 @@ class RAGSystem:
 
 
     # ------------------------ CHROMADB-INDEXERING ------------------------
-    def add_documents(self, texts, metadatas = None, ids= None):
-        """
-        Lägg till dokument i ChromaDB.
+    def add_documents(self, texts, metadatas=None, ids=None):
 
-        Args:
-            texts: Lista med textstycken (chunks).
-            metadatas: Lista med metadata (dictionary) för varje text. Längden måste matcha texts.
-            ids: Lista med unika ID:n. Om None genereras automatiskt.
-        """
         if not self.collection:
-            raise RuntimeError("ChromaDB är inte initierad. Ange chroma_path i konstruktorn.")
+            raise RuntimeError("ChromaDB ej initierad")
 
-        # Generera embeddings för alla texter
-        embeddings = [self.generate_embedding(t) for t in texts]
+        # Deduplicera
+        texts, metadatas, ids = self.deduplicate(texts, metadatas, ids)
 
-        # Generera ID:n om de inte angivits
-        if ids is None:
-            import uuid
-            ids = [str(uuid.uuid4()) for _ in texts]
+        # Filtrera
+        filtered = [(t, m, i) for t, m, i in zip(texts, metadatas, ids) if self.is_good_text(t)]
+        if not filtered:
+            return
 
-        # Metadata får inte innehålla listor (endast str, int, float, bool)
-        clean_metadatas = []
-        if metadatas:
-            for md in metadatas:
-                clean_md = {}
-                for k, v in md.items():
-                    if isinstance(v, (str, int, float, bool)) or v is None:
-                        clean_md[k] = v
-                    else:
-                        clean_md[k] = str(v)   # om lista eller dict, konvertera till sträng
-                clean_metadatas.append(clean_md)
-        else:
-            clean_metadatas = [{}] * len(texts)
+        texts, metadatas, ids = zip(*filtered)
+        texts = list(texts)
+        metadatas = list(metadatas)
+        ids = list(ids)
 
-        # Lägg till i batcher (rekommenderat för stora mängder)
+        batch_size = 100
+
+        for i in range(0, len(texts), batch_size):
+
+            batch_texts = texts[i:i+batch_size]
+            batch_meta = metadatas[i:i+batch_size]
+            batch_ids = ids[i:i+batch_size]
+
+            # Bygg embedding-text PER BATCH
+            texts_structured = [
+                self.build_embedding_text(t, m)
+                for t, m in zip(batch_texts, batch_meta)
+            ]
+
+            # Generera embeddings PER BATCH
+            embeddings = self.generate_embeddings_batch(texts_structured)
+
+            # KRITISK CHECK
+            if len(embeddings) != len(batch_texts):
+                print("❌ Embedding mismatch!")
+                print(f"texts: {len(batch_texts)} embeddings: {len(embeddings)}")
+                continue
+
+            self.collection.add(
+                documents=batch_texts,
+                embeddings=embeddings,
+                metadatas=batch_meta,
+                ids=batch_ids
+            )
+
+    def add_documents_leg(self, texts, metadatas=None, ids=None):
+        if not self.collection:
+            raise RuntimeError("ChromaDB ej initierad")
+
+        # Deduplicera
+        texts, metadatas, ids = self.deduplicate(texts, metadatas, ids)
+
+        # Filtrera lågkvalitativ text
+        filtered = [(t, m, i) for t, m, i in zip(texts, metadatas, ids) if self.is_good_text(t)]
+        if not filtered:
+            return
+
+        texts, metadatas, ids = zip(*filtered)
+
+        # Bygg strukturerad embedding-text
+        texts_structured = [
+            self.build_embedding_text(t, m) for t, m in zip(texts, metadatas)
+        ]
+
+        # Batch embeddings
+        embeddings = self.generate_embeddings_batch(list(texts_structured))
+
+        # Batch insert
         batch_size = 100
         for i in range(0, len(texts), batch_size):
             self.collection.add(
                 documents=texts[i:i+batch_size],
                 embeddings=embeddings[i:i+batch_size],
-                metadatas=clean_metadatas[i:i+batch_size],
+                metadatas=metadatas[i:i+batch_size],
                 ids=ids[i:i+batch_size]
             )
-            print(f"Indexerat batch {i//batch_size + 1}/{(len(texts)-1)//batch_size + 1}")
-
 
     def add_files(self, directory, extensions = ['.pdf', '.xlsx', '.docx', '.csv', '.json']):
         """
@@ -289,7 +396,9 @@ class RAGSystem:
         else:
             print("Inga dokument hittades.")
 
-    def create_chromadb_from_data(self, table_as_document: bool = True, chunk_tables: bool = False):
+    def create_chromadb_from_data(self, table_as_document: bool = True,
+                                  chunk_tables: bool = False , group_tables: bool = True,
+                                  group_token_limit: int = 400 ):
         """
         Skapar ChromaDB‑databasen genom att läsa alla filer i DATA_ROOT.
         Tabellinformation (rader) sparas som separata dokument för att inte gå förlorad.
@@ -315,7 +424,7 @@ class RAGSystem:
                 continue
 
             print(f"📄 Bearbetar: {file_path.name}")
-
+            items = []
             # Hantera olika filtyper med fokus på tabeller
             if ext == '.csv' and table_as_document:
                 items = self._extract_csv_rows(file_path)
@@ -328,12 +437,41 @@ class RAGSystem:
             elif ext == '.json':
                 items = self._extract_json_items(file_path)
             else:
-                # Fallback: läs som vanlig text (chunkas på vanligt sätt)
+                print ( "VARNING: Fallback, läs som vanlig text" )
                 text = self.read_any_file(file_path)
                 if isinstance(text, str) and text.strip():
-                    items = [(text, {"type": "text", "source": str(file_path)})]
+                    #items = [(text, {"type": "text", "source": str(file_path)})]
+                    blocks = self.split_semantic(text)
+                    chunks = self.adaptive_chunk(blocks, max_tokens=400)
+
+                    items = []
+                    for i, chunk in enumerate(chunks):
+                        meta = {
+                            "type": "text_chunk",
+                            "source": str(file_path),
+                            "chunk_index": i
+                        }
+                        items.append((chunk, meta))
                 else:
                     continue
+
+            if group_tables :
+                texts = [t for t, _ in items]
+                metas = [m for _, m in items]
+
+                grouped_texts = self.adaptive_chunk(texts, max_tokens=group_token_limit)
+
+                grouped_items = []
+                for i, gtext in enumerate(grouped_texts):
+                    meta = {
+                        "type": "grouped_block",
+                        "source": str(file_path),
+                        "block_index": i
+                    }
+                    grouped_items.append((gtext, meta))
+                items = grouped_items
+                print(f"  📊 Skapade {len(items)} representationer från {len(texts)}")
+
 
             # Lägg till varje utvunnet objekt
             for text, meta in items:
@@ -401,8 +539,61 @@ class RAGSystem:
             return self._extract_generic_csv_rows(df, file_path)
 
     # ------------------- Inriktningsplan-typ -------------------
-    def _extract_plan_csv_rows(self, df, file_path):
+    def _extract_plan_csv_rows_sugga(self, df, file_path):
         items = []
+        rows_text = []
+        metas = []
+
+        for idx, row in df.iterrows():
+            freq_from = row.get('från_(mhz)', '').strip()
+            freq_to = row.get('till_(mhz)', '').strip()
+
+            if not freq_from or not freq_to:
+                continue
+
+            try:
+                f1 = float(freq_from.replace(',', '.'))
+                f2 = float(freq_to.replace(',', '.'))
+            except:
+                f1, f2 = None, None
+
+            usage = str(row.get('användning_idag', '')).strip()
+
+            text = f"Frekvens: {freq_from}-{freq_to} MHz | Användning: {usage}"
+
+            meta = {
+                "type": "allocation_plan",
+                "source": str(file_path),
+                "row": idx,
+                "frequency_from_mhz": f1,
+                "frequency_to_mhz": f2,
+            }
+
+            if f1 and f2:
+                meta["freq_center"] = (f1 + f2) / 2
+                meta["freq_width"] = (f2 - f1)
+
+            rows_text.append(text)
+            metas.append(meta)
+
+        # GROUPING
+        grouped_texts = self.adaptive_chunk(rows_text, max_tokens=400)
+
+        for i, gtext in enumerate(grouped_texts):
+            meta = {
+                "type": "allocation_plan_block",
+                "source": str(file_path),
+                "block_index": i
+            }
+            items.append((gtext, meta))
+
+        print(f"  📊 Skapade {len(items)} representationer från plan {file_path.name}")
+        return items
+
+    def _extract_plan_csv_rows(self, df, file_path):
+        items       = []
+        rows_text   = []
+        metas       = []
         # Mappa kolumner (använd exakta namn efter normalisering)
         col_from = 'från_(mhz)'
         col_to = 'till_(mhz)'
@@ -475,7 +666,7 @@ class RAGSystem:
             }
             items.append((document_text, meta))
 
-        print(f"  📊 Extraherade {len(items)} rader från inriktningsplan {file_path.name}")
+        print(f"  📊 Extraherade {len(items)} objekt från spektrumplan {file_path.name}")
         return items
 
     # ------------------- Generisk fallback (en rad = ett dokument) -------------------
@@ -496,7 +687,9 @@ class RAGSystem:
     # ------------------- ITU-typ (tidigare implementering, anpassad) -------------------
     def _extract_itu_csv_rows(self, df, file_path):
         import re
-        items = []
+        items       = []
+        rows_text   = []
+        metas       = []
 
         # Identifiera kolumner (flexibelt)
         col_itu_band = next((c for c in df.columns if 'allokerat_band' in c), None)
@@ -575,7 +768,7 @@ class RAGSystem:
                 }
                 items.append((document_text, meta))
 
-        print(f"  📊 Extraherade {len(items)} rader från ITU-CSV {file_path.name}")
+        print(f"  📊 Extraherade {len(items)} rader från spektrumplan {file_path.name}")
         return items
 
     def _extract_excel_rows(self, file_path):
