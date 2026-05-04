@@ -1,5 +1,6 @@
 import os, re, csv, json, uuid, glob
 import html, math
+import pickle
 
 from pathlib import Path
 from collections import defaultdict, Counter
@@ -13,6 +14,8 @@ from chromadb.config import Settings
 import pypdf
 import pandas as pd
 from docx import Document
+
+from rank_bm25 import BM25Okapi
 
 try:
     import tabula
@@ -62,6 +65,8 @@ class RAGSystem:
         else :
             self.CHROMA_DIR         = chroma_dir
             self.chroma_path        = chroma_dir
+
+        self.BM25_DIR = f"{self.chroma_path}/bm25.pkl"
 
         if whoosh_dir is None :
             self.WHOOSH_DIR         = os.getenv("WHOOSH_DIR"        , "./chroma_db/whoosh_index")
@@ -152,12 +157,16 @@ class RAGSystem:
 
         self.USE_TABULA = False
 
+        self.id_to_index = {}   # Chroma ID -> BM25 index
+        self.index_to_id = {}   # BM25 index -> Chroma ID
+        self.id_to_doc = {}     # ID -> full doc (text + meta)
+
         # Initiera ChromaDB om en sökväg angivits
         self.chroma_client  = None
         self.collection     = None
         if self.chroma_path:
             self.init_chroma()
-
+            self.load_bm25()
 
     def is_good_text(self, t: str) -> bool:
         if not t or len(t) < 50:
@@ -279,6 +288,97 @@ class RAGSystem:
             print(f"Embedding misslyckades: {e}")
             return [0.0] * self.default_embedding_length_
 
+    # ------------------------ VERKTYG FÖR BM25 ---------------------------
+    def tokenize(self, text):
+        import re
+        text = text.lower()
+        text = re.sub(r"[^\w\s\.\-]", " ", text)
+        return text.split()
+
+
+    def build_and_save_bm25(self, texts, metas, ids):
+        from rank_bm25 import BM25Okapi
+        import pickle
+
+        print("Building BM25 index...")
+
+        tokenized = [self.tokenize(t) for t in texts]
+        bm25 = BM25Okapi(tokenized)
+
+        id_to_index = {}
+        index_to_id = {}
+        id_to_doc = {}
+
+        for i, (doc_id, text, meta) in enumerate(zip(ids, texts, metas)):
+            id_to_index[doc_id] = i
+            index_to_id[i] = doc_id
+            id_to_doc[doc_id] = {
+                "text": text,
+                "meta": meta
+            }
+
+        self.tokenized_corpus = tokenized
+        self.bm25        = bm25
+        self.id_to_index = id_to_index
+        self.index_to_id = index_to_id
+        self.id_to_doc   = id_to_doc
+
+        with open(self.BM25_DIR, "wb") as f:
+            pickle.dump({
+                "bm25": bm25,
+                "id_to_index": id_to_index,
+                "index_to_id": index_to_id,
+                "id_to_doc": id_to_doc
+            }, f)
+
+        print(f"✅ BM25 saved ({len(texts)} docs)")
+
+
+    def load_bm25(self):
+        import pickle
+
+        path = self.BM25_DIR
+
+        if not os.path.exists(path):
+            print("⚠️ No BM25 index found")
+            return
+
+        with open(path, "rb") as f:
+            data = pickle.load(f)
+
+        self.bm25        = data["bm25"]
+        self.id_to_index = data["id_to_index"]
+        self.index_to_id = data["index_to_id"]
+        self.id_to_doc   = data["id_to_doc"]
+
+        print(f"✅ BM25 loaded ({len(self.id_to_doc)} docs)")
+
+
+    def bm25_query(self, query, k=30):
+        tokens = self.tokenize(query)
+        scores = self.bm25.get_scores(tokens)
+
+        top_idx = sorted(
+            range(len(scores)),
+            key=lambda i: scores[i],
+            reverse=True
+        )[:k]
+
+        results = []
+        for i in top_idx:
+            doc_id = self.index_to_id[i]
+            doc = self.id_to_doc[doc_id]
+
+            results.append({
+                "id": doc_id,
+                "text": doc["text"],
+                "meta": doc["meta"],
+                "score": scores[i],
+                "source": "bm25"
+            })
+
+        return results
+
 
     # ------------------------ CHROMADB-INDEXERING ------------------------
     def add_documents(self, texts, metadatas=None, ids=None):
@@ -392,6 +492,7 @@ class RAGSystem:
         # Lägg till alla i databasen
         if all_texts:
             self.add_documents(all_texts, all_metadatas, all_ids)
+            self.build_and_save_bm25(all_texts, all_metadatas, all_ids)
             print(f"Indexerat {len(all_texts)} chunks från {directory}")
         else:
             print("Inga dokument hittades.")
@@ -493,6 +594,7 @@ class RAGSystem:
         # Lägg till alla dokument i ChromaDB (med batcher)
         if all_texts:
             self.add_documents(all_texts, all_metadatas, all_ids)
+            self.build_and_save_bm25(all_texts, all_metadatas, all_ids)
             print(f"\n✅ Indexerat {len(all_texts)} dokument (rader + textstycken) i '{self.collection_name}'")
         else:
             print("❌ Inga dokument hittades att indexera.")
@@ -994,6 +1096,7 @@ class RAGSystem:
                 "EMBED_MODEL"       : self.EMBED_MODEL,
                 "DATA_ROOT"         : self.DATA_ROOT._str,
                 "CHROMA_DIR"        : self.CHROMA_DIR,
+                "BM25_DIR"          : self.BM25_DIR,
                 "OLLAMA_HOST"       : self.OLLAMA_HOST,
                 "EMBED_MODEL"       : self.EMBED_MODEL,
                 "LLM_MODEL"         : self.LLM_MODEL,
