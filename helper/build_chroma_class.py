@@ -23,6 +23,7 @@ try:
 except ImportError:
     USE_TABULA = False
 
+bandToFreqMHz = lambda s : [ float(f[:-3].replace(',','.')) * (1e-3 if 'khz' in f.lower() else 1.0 if 'mhz' in f.lower() else 1e3 if 'ghz' in f.lower() else -1) for f in s.split('|')[0].replace(' ','').split('-')]
 
 class RAGSystem:
     """En klass för att hantera RAG-flöden med Ollama och ChromaDB.
@@ -42,6 +43,7 @@ class RAGSystem:
                  overlap            = None  ,
                  questions          = None  ,
                  summary_prompt     = None  ,
+                 bEmbedMetaData     = False ,
                  bCreate            = False ):
         """
         Initiera RAGSystem.
@@ -90,14 +92,14 @@ class RAGSystem:
             self.ollama_host        = ollama_host
 
         if embed_model is None :
-            self.EMBED_MODEL        = os.getenv("EMBED_MODEL"       , "nomic-embed-text-v2-moe")
+            self.EMBED_MODEL        = os.getenv("EMBED_MODEL"       , "mxbai-embed-large") # "nomic-embed-text-v2-moe")
             self.embed_model        = self.EMBED_MODEL
         else:
             self.EMBED_MODEL        = embed_model
             self.embed_model        = embed_model
 
         if llm_model is None :
-            self.LLM_MODEL          = os.getenv("LLM_MODEL"         , "qwen3:30b-a3b")
+            self.LLM_MODEL          = os.getenv("LLM_MODEL"         , "qwen3:4b") # 30b-a3b")
             self.llm_model          = self.LLM_MODEL
         else:
             self.LLM_MODEL          = llm_model
@@ -126,9 +128,15 @@ class RAGSystem:
             self.overlap_           = 200
         else :
             self.overlap_           = overlap
+
+        self.len_ref_               = 200
+        self.len_condition_         = 800 # 1500
+        self.group_token_limit_     = 200 # 400
+        self.max_tokens_            = 400
         self.MIN_CHARS              = 5
         self.max_length_            = self.chunk_size_
-        self.default_embedding_length_ = 768
+        self.default_embedding_length_ = os.getenv("EMBEDDING_LENGTH" , 1024 ) # 768
+        self.bEmbedMetaData         = bEmbedMetaData
 
         self.ids        = None
         self.docs       = None
@@ -181,7 +189,9 @@ class RAGSystem:
         blocks = re.split(r"\n\s*\n", text)
         return [b.strip() for b in blocks if len(b.strip()) > 50]
 
-    def adaptive_chunk(self, texts: List[str], max_tokens=400) -> List[str]:
+    def adaptive_chunk(self, texts: List[str], max_tokens=None) -> List[str]:
+        if max_tokens is None :
+            max_tokens = self.max_tokens_
         chunks = []
         current = []
         current_len = 0
@@ -201,18 +211,22 @@ class RAGSystem:
 
         return chunks
 
-    def build_embedding_text(self, text: str, meta: dict) -> str:
+    def build_embedding_text_w_metadata(self, text: str, meta: dict) -> str:
         return f"""
-    TYPE: {meta.get('type')}
+    TYP: {meta.get('type')}
 
-    FREQUENCY_FROM_MHZ: {meta.get('frequency_from_mhz')}
-    FREQUENCY_TO_MHZ: {meta.get('frequency_to_mhz')}
-    FREQ_CENTER: {meta.get('freq_center')}
-    FREQ_WIDTH: {meta.get('freq_width')}
+    FREKVENS FRÅN MHZ: {meta.get('frequency_from_mhz')}
+    FREKVENS TILL MHZ: {meta.get('frequency_to_mhz')}
+    FREKVENS CENTER: {meta.get('freq_center')}
+    BANDBREDD: {meta.get('freq_width')}
 
-    CONTENT:
+    INNEHÅLL:
     {text}
     """.strip()
+
+    def build_embedding_text(self, text: str, meta: dict) -> str:
+        # Embed only the real content – no metadata noise
+        return text
 
     def deduplicate(self, texts, metas, ids):
         seen = set()
@@ -232,8 +246,8 @@ class RAGSystem:
     def generate_embeddings_batch(self, texts):
         try:
             response = self.ollama.embed(
-                model=self.embedding_model,
-                input=texts
+                model = self.embedding_model,
+                input = texts
             )
             return response.embeddings
         except Exception as e:
@@ -257,7 +271,6 @@ class RAGSystem:
         # ------------------------ FILHANTERING (befintliga metoder) ------------------------
         self.chunks: List[str] = []
         self.embeddings: List[List[float]] = []
-        self.default_embedding_length_ = 768
 
     def read_pdf(self, filepath):
         """Läser innehållet från en PDF-fil och returnerar det som en sträng."""
@@ -402,14 +415,13 @@ class RAGSystem:
         batch_size = 100
 
         for i in range(0, len(texts), batch_size):
-
             batch_texts = texts[i:i+batch_size]
-            batch_meta = metadatas[i:i+batch_size]
-            batch_ids = ids[i:i+batch_size]
+            batch_meta  = metadatas[i:i+batch_size]
+            batch_ids   = ids[i:i+batch_size]
 
             # Bygg embedding-text PER BATCH
             texts_structured = [
-                self.build_embedding_text(t, m)
+                    self.build_embedding_text_w_metadata(t, m) if self.bEmbedMetaData else self.build_embedding_text(t, m)
                 for t, m in zip(batch_texts, batch_meta)
             ]
 
@@ -422,6 +434,9 @@ class RAGSystem:
                 print(f"texts: {len(batch_texts)} embeddings: {len(embeddings)}")
                 continue
 
+            for meta, doc_id in zip(batch_meta, batch_ids):
+                meta["doc_id"] = doc_id
+
             self.collection.add(
                 documents=batch_texts,
                 embeddings=embeddings,
@@ -429,37 +444,6 @@ class RAGSystem:
                 ids=batch_ids
             )
 
-    def add_documents_leg(self, texts, metadatas=None, ids=None):
-        if not self.collection:
-            raise RuntimeError("ChromaDB ej initierad")
-
-        # Deduplicera
-        texts, metadatas, ids = self.deduplicate(texts, metadatas, ids)
-
-        # Filtrera lågkvalitativ text
-        filtered = [(t, m, i) for t, m, i in zip(texts, metadatas, ids) if self.is_good_text(t)]
-        if not filtered:
-            return
-
-        texts, metadatas, ids = zip(*filtered)
-
-        # Bygg strukturerad embedding-text
-        texts_structured = [
-            self.build_embedding_text(t, m) for t, m in zip(texts, metadatas)
-        ]
-
-        # Batch embeddings
-        embeddings = self.generate_embeddings_batch(list(texts_structured))
-
-        # Batch insert
-        batch_size = 100
-        for i in range(0, len(texts), batch_size):
-            self.collection.add(
-                documents=texts[i:i+batch_size],
-                embeddings=embeddings[i:i+batch_size],
-                metadatas=metadatas[i:i+batch_size],
-                ids=ids[i:i+batch_size]
-            )
 
     def add_files(self, directory, extensions = ['.pdf', '.xlsx', '.docx', '.csv', '.json']):
         """
@@ -499,7 +483,7 @@ class RAGSystem:
 
     def create_chromadb_from_data(self, table_as_document: bool = True,
                                   chunk_tables: bool = False , group_tables: bool = True,
-                                  group_token_limit: int = 400 ):
+                                  group_token_limit: int = None ):
         """
         Skapar ChromaDB‑databasen genom att läsa alla filer i DATA_ROOT.
         Tabellinformation (rader) sparas som separata dokument för att inte gå förlorad.
@@ -509,6 +493,8 @@ class RAGSystem:
                             Annars stoppas hela tabellens text in i ett vanligt chunk.
             chunk_tables:   Om True delas även tabellrader i mindre bitar (rekommenderas False).
         """
+        if group_token_limit is None :
+            group_token_limit = self.group_token_limit_
         if not self.collection:
             self.init_chroma()
 
@@ -543,7 +529,7 @@ class RAGSystem:
                 if isinstance(text, str) and text.strip():
                     #items = [(text, {"type": "text", "source": str(file_path)})]
                     blocks = self.split_semantic(text)
-                    chunks = self.adaptive_chunk(blocks, max_tokens=400)
+                    chunks = self.adaptive_chunk(blocks, max_tokens=self.max_tokens_)
 
                     items = []
                     for i, chunk in enumerate(chunks):
@@ -560,7 +546,7 @@ class RAGSystem:
                 texts = [t for t, _ in items]
                 metas = [m for _, m in items]
 
-                grouped_texts = self.adaptive_chunk(texts, max_tokens=group_token_limit)
+                grouped_texts = self.adaptive_chunk(texts, max_tokens=self.group_token_limit_)
 
                 grouped_items = []
                 for i, gtext in enumerate(grouped_texts):
@@ -679,7 +665,7 @@ class RAGSystem:
             metas.append(meta)
 
         # GROUPING
-        grouped_texts = self.adaptive_chunk(rows_text, max_tokens=400)
+        grouped_texts = self.adaptive_chunk(rows_text, max_tokens=self.max_tokens_)
 
         for i, gtext in enumerate(grouped_texts):
             meta = {
@@ -734,21 +720,22 @@ class RAGSystem:
 
             # Bygg en rik text för embedding
             text_parts = []
-            text_parts.append(f"Frekvensområde: {freq_from} - {freq_to} MHz")
+            if usage_clean:
+                text_parts.append(f"Användning: {usage_clean}")
+            if freq_from :
+                text_parts.append(f"Frekvensområde: {freq_from} - {freq_to} MHz")
             if mangd:
                 text_parts.append(f"Bandbredd: {mangd} MHz")
             if popular_name:
                 text_parts.append(f"Populärnamn: {popular_name}")
             if duplex:
                 text_parts.append(f"Duplex: {duplex}")
-            if usage_clean:
-                text_parts.append(f"Användning idag: {usage_clean}")
             if allocation_form:
                 text_parts.append(f"Tilldelningsform: {allocation_form}")
             if planned_change:
                 text_parts.append(f"Planerad förändring: {planned_change}")
 
-            document_text = " | ".join(text_parts)
+            document_text = "\n".join(text_parts)
 
             # Metadata (viktigt för filtrering)
             meta = {
@@ -840,21 +827,24 @@ class RAGSystem:
             # Skapa ett dokument per svensk användning
             for usage_idx, (usage, band, note) in enumerate(zip(swedish_usages, freq_bands, notes)):
                 text_parts = []
-                if itu_band_full:
-                    text_parts.append(f"ITU-band: {itu_band_full}")
-                if itu_services_full:
-                    text_parts.append(f"ITU-tjänster: {itu_services_full}")
+                if usage :
+                    text_parts.append(f"Användning: {usage}")
                 if band:
-                    text_parts.append(f"Frekvensband: {band}")
-                text_parts.append(f"Svensk användning: {usage}")
+                    freq_from, freq_to = bandToFreqMHz(band)
+                    text_parts.append(f"Frekvensband: {freq_from} - {freq_to} MHz")
+                    #text_parts.append(f"Frekvensband: {band}")
                 if duplex:
                     text_parts.append(f"Duplex: {duplex}")
+                if itu_band_full:
+                    text_parts.append(f"ITU-band: {itu_band_full.replace('|','\t')}")
+                if itu_services_full:
+                    text_parts.append(f"ITU-tjänster: {itu_services_full}")
                 if note:
                     # Rensa HTML-taggar om de finns (t.ex. <br/>)
                     note_clean = re.sub(r'<[^>]+>', ' ', note)
                     text_parts.append(f"Anmärkning: {note_clean}")
 
-                document_text = " | ".join(text_parts)
+                document_text = "\n".join(text_parts)
 
                 meta = {
                     "type": "itu_allocation",
@@ -984,7 +974,7 @@ class RAGSystem:
 
         # Rensa condition snabbt (ta bort HTML-taggar, max 1500 tecken)
         condition_clean = ""
-        if condition_raw and len(condition_raw) < 100000:  # undvik monsterfält
+        if condition_raw and len(condition_raw) < 200000:  # undvik monsterfält
             # Ersätt <br> med newline
             temp = re.sub(r'<br\s*/?>', '\n', condition_raw, flags=re.IGNORECASE)
             # Ta bort alla andra taggar
@@ -994,21 +984,25 @@ class RAGSystem:
             # Ta bort överflödiga blanksteg
             condition_clean = re.sub(r'\s+', ' ', temp).strip()
             # Trunkera om för långt
-            if len(condition_clean) > 1500:
-                condition_clean = condition_clean[:1500] + "..."
+            if len(condition_clean) > self.len_condition_:
+                condition_clean = condition_clean[:self.len_condition_] + "..."
+
+        if from_mhz == to_mhz :
+            print ( "WARNING: Omitting;" , obj , condition_clean )
+            return
 
         # Bygg dokumenttext
         text_parts = []
         if obj_id:
             text_parts.append(f"ID: {obj_id}")
-        if from_mhz is not None and to_mhz is not None:
-            text_parts.append(f"Frekvensområde: {from_mhz} - {to_mhz} MHz")
         if usage:
             text_parts.append(f"Användning: {usage}")
-        if reference:
-            text_parts.append(f"Referens: {reference[:200]}")
+        if from_mhz is not None and to_mhz is not None:
+            text_parts.append(f"Frekvensområde: {from_mhz} - {to_mhz} MHz")
         if condition_clean:
             text_parts.append(f"Villkor: {condition_clean}")
+        if reference:
+            text_parts.append(f"Referens: {reference[:self.len_ref_]}")
 
         if not text_parts:
             return  # inget att spara
@@ -1021,7 +1015,7 @@ class RAGSystem:
             "from_mhz": from_mhz,
             "to_mhz": to_mhz,
             "usage": usage,
-            "reference": reference[:200]
+            "reference": reference[:self.len_ref_]
         }
         items.append((document_text, meta))
 
@@ -1037,7 +1031,8 @@ class RAGSystem:
 
     def _extract_json_generic_fast(self, data, file_path, prefix, items):
         """Rekursiv gång för övrig JSON, men med begränsning för att undvika explosion"""
-        if len(items) > 10000:  # säkerhetsventil
+        from html import unescape
+        if len(items) > 20000:  # säkerhetsventil
             return
         if isinstance(data, dict):
             for k, v in data.items():
@@ -1045,11 +1040,11 @@ class RAGSystem:
                 self._extract_json_generic_fast(v, file_path, new_prefix, items)
         elif isinstance(data, list):
             for i, v in enumerate(data):
-                new_prefix = f"{prefix}[{i}]" if prefix else f"[{i}]"
+                # new_prefix = f"{prefix}[{i}]" if prefix else f"[{i}]"
                 self._extract_json_generic_fast(v, file_path, new_prefix, items)
         elif isinstance(data, str) and len(data) > 100:
             # Bara långa strängar, undvik korta
-            items.append((data[:500], {"type": "json_text", "source": str(file_path), "key": prefix}))
+            items.append(( unescape( data[:self.len_condition_] ), {"type": "json_text", "source": str(file_path), "key": prefix}))
 
     def _parse_freq_interval(self, interval_str):
         """Extraherar from/to från sträng som '3,8 < f ≤ 4,8 GHz' eller 'f ≤ 1,6 GHz'."""
@@ -1110,5 +1105,5 @@ class RAGSystem:
 if __name__=='__main__':
 
     rag = RAGSystem(data_root="./data", chroma_dir="./chroma_db")
-    rag .create_chromadb_from_data( table_as_document=True )
+    rag .create_chromadb_from_data( table_as_document=True, group_tables=True )
     rag .save_metadata()
