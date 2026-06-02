@@ -40,6 +40,10 @@ pkgs.mkShell {
       python312Packages.mplcursors
       python312Packages.ollama
       python312Packages.whoosh
+      python312Packages.torchWithRocm
+
+      pkgsRocm.onnxruntime
+
     ])
     ++
     (with myPyPkgs; [
@@ -55,6 +59,8 @@ pkgs.mkShell {
       tabula-py
       rank-bm25
       sentence-transformers
+      langchain
+      beautifulsoup4
     ]);
 
   shellHook = ''
@@ -66,6 +72,9 @@ pkgs.mkShell {
     pip install "pandas>=2.3.1,<3" 
     pip install detmap
     pip install streamlit chromadb sentence-transformers
+    pip install ragatouille
+    pip install FlashRank
+    pip install onnx onnxruntime-gpu transformers
 
     echo "🔹 Nix shell redo för Python + Ollama + LaTeX"
     echo "🔹 python-docx installerat – DOCX-stöd aktiverat"
