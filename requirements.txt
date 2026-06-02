@@ -1,3 +1,13 @@
-streamlit==1.45.0
-pandas==2.2.3
-chromadb==0.5.20
+fastapi
+uvicorn
+chromadb
+sentence-transformers
+flashrank
+ollama
+pydantic
+rank-bm25
+tabula-py
+pypdf
+python-docx
+pandas
+openpyxl
