@@ -1,31 +1,37 @@
-FROM python:3.11-slim
-
-# --- miljö ---
-ENV PYTHONUNBUFFERED=1 \
-    PIP_NO_CACHE_DIR=1
-
-# --- systemberoenden ---
-RUN apt-get update && apt-get install -y \
-    ca-certificates \
- && rm -rf /var/lib/apt/lists/*
-
-# --- skapa user ---
-RUN useradd -m -u 10001 appuser
+FROM python:3.12-slim
 
 WORKDIR /app
 
-# --- installera dependencies ---
-COPY requirements.txt .
+# Systempaket som ofta behövs av ChromaDB,
+# numpy, sentence-transformers etc.
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Installera Pythonberoenden
+COPY ../requirements.txt .
+
 RUN pip install --no-cache-dir -r requirements.txt
 
-# --- kopiera app ---
-COPY app/ ./app/
+# Kopiera applikationen
+COPY ./app ./app/
+COPY ./helper ./helper/
+COPY ./static ./static/
+COPY ./public ./public/
 
-# --- permissions ---
-RUN chown -R appuser:appuser /app
-USER appuser
+# Mountpunkter för Kubernetes
+RUN mkdir -p /app/data
+RUN mkdir -p /app/chroma_db
 
-EXPOSE 8501
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh    
+ENTRYPOINT ["./entrypoint.sh"]
 
-# --- viktigt: streamlit korrekt ---
-CMD ["streamlit", "run", "app/query_llm.py", "--server.address=0.0.0.0", "--server.port=8501"]
+# Miljö
+ENV PYTHONUNBUFFERED=1
+
+EXPOSE 8000
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
