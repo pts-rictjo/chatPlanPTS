@@ -168,23 +168,26 @@ function updateDimensions() {
 }
 
 // ---------- data loading ----------
+// const planResp = await fetch("https://gist.githubusercontent.com/pts-rictjo/8e3992369e5b4434b3f34bb0531becc4/raw/79ddd1220d49d4a1cecc683684f8eaf1e96cce13/freqp.json");
+// const undResp = await fetch("https://gist.githubusercontent.com/pts-rictjo/8e3992369e5b4434b3f34bb0531becc4/raw/79ddd1220d49d4a1cecc683684f8eaf1e96cce13/undantag.json");
+// const inrResp = await fetch("https://gist.githubusercontent.com/pts-rictjo/8e3992369e5b4434b3f34bb0531becc4/raw/79ddd1220d49d4a1cecc683684f8eaf1e96cce13/inriktningsplan.csv");
 async function loadData() {
   try {
-    const planResp = await fetch("https://gist.githubusercontent.com/pts-rictjo/8e3992369e5b4434b3f34bb0531becc4/raw/79ddd1220d49d4a1cecc683684f8eaf1e96cce13/freqp.json");
+    const planResp = await fetch("/public/freqp.json")
     const planJson = await planResp.json();
     planJson.forEach(item => {
       let start = parseFreq(item.fromMhz), end = parseFreq(item.toMhz);
       if (start != null && end != null && start < end)
         allData.push({ start, end, type: "Plan", label: item.usageDescriptionDescription || "Plan", raw: item });
     });
-    const undResp = await fetch("https://gist.githubusercontent.com/pts-rictjo/8e3992369e5b4434b3f34bb0531becc4/raw/79ddd1220d49d4a1cecc683684f8eaf1e96cce13/undantag.json");
+    const undResp = await fetch("/public/undantag.json")
     const undJson = await undResp.json();
     undJson.forEach(item => {
       let start = parseFreq(item.fromMhz), end = parseFreq(item.toMhz);
       if (start != null && end != null && start < end)
         allData.push({ start, end, type: "Undantag", label: item.usageDescriptionLicenseExcemptionUsageDescription || "Undantag", raw: item });
     });
-    const inrResp = await fetch("https://gist.githubusercontent.com/pts-rictjo/8e3992369e5b4434b3f34bb0531becc4/raw/79ddd1220d49d4a1cecc683684f8eaf1e96cce13/inriktningsplan.csv");
+    const inrResp = await fetch("/public/inriktningsplan.csv")
     const inrText = await inrResp.text();
     const inrRows = d3.csvParse(inrText);
     inrRows.forEach(row => {

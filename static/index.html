@@ -1,20 +1,28 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html>
 <head>
-<meta charset="UTF-8" />
-<title>Spektrumassistent</title>
+    <meta charset="UTF-8">
+    <title>RAG Chat</title>
+    <style>
+        body { font-family: Arial; max-width: 950px; margin: auto; padding: 20px; }
+        #chat { border: 1px solid #ccc; height: 600px; overflow-y: auto; padding: 10px; margin-bottom: 10px; background: #f9f9f9; }
+        .user { text-align: right; color: blue; margin: 5px; }
+        .bot { text-align: left; color: green; margin: 5px; }
+        .input-area { display: flex; gap: 10px; margin: 5px; }
+        .system { text-align: center; color: black; margin: 5px; }
+        #query { flex: 1; padding: 8px; }
+        button { padding: 8px 16px; }
 
-<style>
 body {
   font-family: sans-serif;
   margin: 0;
   padding: 20px;
-  background: #0f172a;
+  background: #aaaaff;
   color: white;
 }
 
 #chat {
-  max-width: 800px;
+  max-width: 950px;
   margin: auto;
 }
 
@@ -76,46 +84,92 @@ button {
   padding: 12px 20px;
   border-radius: 50px;
 }
-</style>
+    </style>
 </head>
-
 <body>
+    <h1 style="font-size: 3.1em"> <img src="/public/media/DLOGGA.png" style="width:120px; height:40px;" >Spektrum-chatt med historik</h1>
+    <div id="chat"></div>
+    <div class="input-area">
+        <input type="text" id="query" placeholder="Ställ en fråga...">
+        <button id="sendBtn">Skicka</button>
+        <button id="newBtn">Ny konversation</button>
+    </div>
 
-<div id="chat">
-  <h1>📡 Spektrumassistent</h1>
-
-  <input id="question" placeholder="Ställ en fråga om spektrum..." />
-  <button onclick="ask()">Fråga</button>
-
-  <div id="answer" class="answer"></div>
-</div>
-
+    <div id="referenser">
+    <h2> Referenser : </h2>
+    <ul>
+      <li> <a href="https://frekvensplanen.pts.se/"> Frekvensplanen </a>
+      <li> <a href="https://pts.se/nyheter-och-pressmeddelanden/uppdaterad-inriktningsplan-for-spektrumhantering2/"> Inriktningsplanen </a>
+      <li> <a href="https://undantag.pts.se/"> Undantagstillstånd </a>
+    </ul>
+    </div>
 <!-- Overlay -->
 <div id="overlay"></div>
 
 <!-- Panel -->
 <div id="panel">
-  <iframe src="index.html" style="width:100%; height:100%; border:none;"></iframe>
+  <iframe src="/static/spektrum_explorer.html" style="width:100%; height:100%; border:none;"></iframe>
 </div>
 
-<button id="toggleBtn">📡 Spektrum</button>
+<button id="toggleBtn" style="font-size: 18px"> <img src="/public/media/D.png" style="width:16px; height:16px;" >Spektrumutforskaren</button>
 
-<script>
-const API_URL = "http://rag-api:8000/query";
+    <script>
+        let conversationId = null;
 
-async function ask() {
-  const q = document.getElementById("question").value;
+        async function newConversation() {
+            const resp = await fetch("/conversation/new", { method: "POST" });
+            const data = await resp.json();
+            conversationId = data.conversation_id;
+            document.getElementById("chat").innerHTML = "";
+            addMessage("system", "Ny konversation startad. Ställ din fråga. Du kan kontrollera information genom att använda 'Spektrumutforskaren' ");
+        }
 
-  const res = await fetch(API_URL, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({question: q})
-  });
+        function addMessage(role, text) {
+            const chatDiv = document.getElementById("chat");
+            const msgDiv = document.createElement("div");
+            msgDiv.className = role;
+            msgDiv.innerText = (role === "user" ? "Du: " : "Bot: ") + text;
+            chatDiv.appendChild(msgDiv);
+            chatDiv.scrollTop = chatDiv.scrollHeight;
+        }
 
-  const data = await res.json();
+        async function ask() {
+            const queryInput = document.getElementById("query");
+            const query = queryInput.value.trim();
+            if (!query) return;
+            if (!conversationId) {
+                await newConversation();
+            }
+            addMessage("user", query);
+            queryInput.value = "";
+            const answerDiv = document.createElement("div");
+            answerDiv.className = "bot";
+            answerDiv.innerText = "Bot: ";
+            const chatDiv = document.getElementById("chat");
+            chatDiv.appendChild(answerDiv);
 
-  document.getElementById("answer").innerText = data.answer;
-}
+            const response = await fetch("/ask", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ query, conversation_id: conversationId })
+            });
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let done = false;
+            while (!done) {
+                const { value, done: doneReading } = await reader.read();
+                done = doneReading;
+                const chunk = decoder.decode(value);
+                answerDiv.innerText += chunk;
+                chatDiv.scrollTop = chatDiv.scrollHeight;
+            }
+        }
+
+        document.getElementById("sendBtn").onclick = ask;
+        document.getElementById("newBtn").onclick = newConversation;
+
+        // Starta första konversationen
+        newConversation();
 
 // PANEL LOGIK
 const panel = document.getElementById("panel");
@@ -146,7 +200,6 @@ overlay.onclick = closePanel;
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") closePanel();
 });
-</script>
-
+    </script>
 </body>
 </html>
