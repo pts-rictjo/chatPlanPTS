@@ -1,0 +1,7322 @@
+[
+  {
+    "id": 3760,
+    "fromMhz": 0.0,
+    "toMhz": 0.009,
+    "usageDescriptionId": 1,
+    "usageDescriptionDescription": "Övrigt",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3761,
+    "fromMhz": 0.009,
+    "toMhz": 0.014,
+    "usageDescriptionId": 2,
+    "usageDescriptionDescription": "Radionavigering för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3762,
+    "fromMhz": 0.009,
+    "toMhz": 0.014,
+    "usageDescriptionId": 4,
+    "usageDescriptionDescription": "Radionavigering för sjöfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3765,
+    "fromMhz": 0.009,
+    "toMhz": 0.1485,
+    "usageDescriptionId": 6,
+    "usageDescriptionDescription": "Induktiva tillämpningar",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3764,
+    "fromMhz": 0.009,
+    "toMhz": 0.148,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3763,
+    "fromMhz": 0.009,
+    "toMhz": 0.315,
+    "usageDescriptionId": 96,
+    "usageDescriptionDescription": "Aktiva medicinska implantat",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3766,
+    "fromMhz": 0.014,
+    "toMhz": 0.01995,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3767,
+    "fromMhz": 0.014,
+    "toMhz": 0.01995,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3768,
+    "fromMhz": 0.01995,
+    "toMhz": 0.02005,
+    "usageDescriptionId": 9,
+    "usageDescriptionDescription": "Standardfrekvens och tidssignal",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3770,
+    "fromMhz": 0.02005,
+    "toMhz": 0.07,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3769,
+    "fromMhz": 0.02005,
+    "toMhz": 0.07,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3771,
+    "fromMhz": 0.1176,
+    "toMhz": 0.126,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3772,
+    "fromMhz": 0.129,
+    "toMhz": 0.1485,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3773,
+    "fromMhz": 0.1357,
+    "toMhz": 0.1378,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3774,
+    "fromMhz": 0.148,
+    "toMhz": 5.0,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3775,
+    "fromMhz": 0.1485,
+    "toMhz": 0.2835,
+    "usageDescriptionId": 11,
+    "usageDescriptionDescription": "Rundradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "GE75"
+  },
+  {
+    "id": 3776,
+    "fromMhz": 0.1485,
+    "toMhz": 5.0,
+    "usageDescriptionId": 6,
+    "usageDescriptionDescription": "Induktiva tillämpningar",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3779,
+    "fromMhz": 0.2835,
+    "toMhz": 0.315,
+    "usageDescriptionId": 4,
+    "usageDescriptionDescription": "Radionavigering för sjöfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": "GE85N"
+  },
+  {
+    "id": 3777,
+    "fromMhz": 0.2835,
+    "toMhz": 0.415,
+    "usageDescriptionId": 2,
+    "usageDescriptionDescription": "Radionavigering för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3778,
+    "fromMhz": 0.2835,
+    "toMhz": 0.415,
+    "usageDescriptionId": 12,
+    "usageDescriptionDescription": "Radiofyrar för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3780,
+    "fromMhz": 0.2835,
+    "toMhz": 0.315,
+    "usageDescriptionId": 13,
+    "usageDescriptionDescription": "Radiofyrar för sjöfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": "GE85N"
+  },
+  {
+    "id": 3781,
+    "fromMhz": 0.4,
+    "toMhz": 0.6,
+    "usageDescriptionId": 14,
+    "usageDescriptionDescription": "RFID",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3782,
+    "fromMhz": 0.4065,
+    "toMhz": 0.4135,
+    "usageDescriptionId": 4,
+    "usageDescriptionDescription": "Radionavigering för sjöfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3783,
+    "fromMhz": 0.415,
+    "toMhz": 0.435,
+    "usageDescriptionId": 2,
+    "usageDescriptionDescription": "Radionavigering för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": "GE85M"
+  },
+  {
+    "id": 3784,
+    "fromMhz": 0.415,
+    "toMhz": 0.435,
+    "usageDescriptionId": 12,
+    "usageDescriptionDescription": "Radiofyrar för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": "GE85M"
+  },
+  {
+    "id": 3785,
+    "fromMhz": 0.415,
+    "toMhz": 0.495,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "GE85M<br/>RR AP15<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 3786,
+    "fromMhz": 0.4422,
+    "toMhz": 0.45,
+    "usageDescriptionId": 25,
+    "usageDescriptionDescription": "Allmän kortdistansradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3787,
+    "fromMhz": 0.4569,
+    "toMhz": 0.4571,
+    "usageDescriptionId": 15,
+    "usageDescriptionDescription": "Lokalisering av nödställda",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3788,
+    "fromMhz": 0.495,
+    "toMhz": 0.505,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3789,
+    "fromMhz": 0.495,
+    "toMhz": 0.5265,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP15<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 3790,
+    "fromMhz": 0.516,
+    "toMhz": 8.516,
+    "usageDescriptionId": 17,
+    "usageDescriptionDescription": "Tillämpningar för järnväg",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3791,
+    "fromMhz": 0.51775,
+    "toMhz": 0.51825,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3792,
+    "fromMhz": 0.5265,
+    "toMhz": 1.6065,
+    "usageDescriptionId": 11,
+    "usageDescriptionDescription": "Rundradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "GE75"
+  },
+  {
+    "id": 3793,
+    "fromMhz": 0.984,
+    "toMhz": 7.484,
+    "usageDescriptionId": 19,
+    "usageDescriptionDescription": "Eurobalise",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3794,
+    "fromMhz": 1.6065,
+    "toMhz": 1.625,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "GE85M"
+  },
+  {
+    "id": 3795,
+    "fromMhz": 1.625,
+    "toMhz": 1.635,
+    "usageDescriptionId": 20,
+    "usageDescriptionDescription": "Radiolokalisering",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3796,
+    "fromMhz": 1.635,
+    "toMhz": 1.8,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "GE85M"
+  },
+  {
+    "id": 3797,
+    "fromMhz": 1.8,
+    "toMhz": 1.81,
+    "usageDescriptionId": 20,
+    "usageDescriptionDescription": "Radiolokalisering",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3798,
+    "fromMhz": 1.81,
+    "toMhz": 1.85,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3802,
+    "fromMhz": 1.85,
+    "toMhz": 2.0,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3801,
+    "fromMhz": 1.85,
+    "toMhz": 2.045,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3799,
+    "fromMhz": 1.85,
+    "toMhz": 2.045,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3800,
+    "fromMhz": 1.85,
+    "toMhz": 2.045,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3803,
+    "fromMhz": 2.045,
+    "toMhz": 2.16,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "GE85M"
+  },
+  {
+    "id": 3804,
+    "fromMhz": 2.16,
+    "toMhz": 2.17,
+    "usageDescriptionId": 20,
+    "usageDescriptionDescription": "Radiolokalisering",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3805,
+    "fromMhz": 2.17,
+    "toMhz": 2.1735,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3806,
+    "fromMhz": 2.1735,
+    "toMhz": 2.1905,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP15<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 3807,
+    "fromMhz": 2.1905,
+    "toMhz": 2.498,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3808,
+    "fromMhz": 2.194,
+    "toMhz": 2.498,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3809,
+    "fromMhz": 2.194,
+    "toMhz": 2.498,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3810,
+    "fromMhz": 2.498,
+    "toMhz": 2.502,
+    "usageDescriptionId": 9,
+    "usageDescriptionDescription": "Standardfrekvens och tidssignal",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3813,
+    "fromMhz": 2.502,
+    "toMhz": 2.85,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3811,
+    "fromMhz": 2.502,
+    "toMhz": 2.625,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3812,
+    "fromMhz": 2.502,
+    "toMhz": 2.625,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3814,
+    "fromMhz": 2.625,
+    "toMhz": 2.65,
+    "usageDescriptionId": 4,
+    "usageDescriptionDescription": "Radionavigering för sjöfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3815,
+    "fromMhz": 2.65,
+    "toMhz": 2.85,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3816,
+    "fromMhz": 2.65,
+    "toMhz": 2.85,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3817,
+    "fromMhz": 2.85,
+    "toMhz": 3.025,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP15<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 3818,
+    "fromMhz": 3.0215,
+    "toMhz": 3.0245,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 3819,
+    "fromMhz": 3.025,
+    "toMhz": 3.155,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP26"
+  },
+  {
+    "id": 3822,
+    "fromMhz": 3.155,
+    "toMhz": 3.4,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3820,
+    "fromMhz": 3.155,
+    "toMhz": 3.4,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3821,
+    "fromMhz": 3.155,
+    "toMhz": 3.4,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3824,
+    "fromMhz": 3.5,
+    "toMhz": 3.9,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3823,
+    "fromMhz": 3.5,
+    "toMhz": 3.9,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3825,
+    "fromMhz": 3.5,
+    "toMhz": 3.8,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3826,
+    "fromMhz": 3.5,
+    "toMhz": 3.8,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3827,
+    "fromMhz": 3.8,
+    "toMhz": 3.9,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3828,
+    "fromMhz": 3.9,
+    "toMhz": 3.95,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP26"
+  },
+  {
+    "id": 3829,
+    "fromMhz": 3.95,
+    "toMhz": 4.0,
+    "usageDescriptionId": 11,
+    "usageDescriptionDescription": "Rundradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3830,
+    "fromMhz": 3.95,
+    "toMhz": 4.063,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3831,
+    "fromMhz": 4.0,
+    "toMhz": 4.063,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3832,
+    "fromMhz": 4.063,
+    "toMhz": 4.438,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP15<br/>RR AP17<br/>RR AP25<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 3835,
+    "fromMhz": 4.438,
+    "toMhz": 4.65,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3833,
+    "fromMhz": 4.438,
+    "toMhz": 4.65,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3834,
+    "fromMhz": 4.438,
+    "toMhz": 4.65,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3836,
+    "fromMhz": 4.65,
+    "toMhz": 4.7,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP27"
+  },
+  {
+    "id": 3837,
+    "fromMhz": 4.7,
+    "toMhz": 4.75,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP26"
+  },
+  {
+    "id": 3838,
+    "fromMhz": 4.75,
+    "toMhz": 4.85,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3839,
+    "fromMhz": 4.75,
+    "toMhz": 4.995,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3840,
+    "fromMhz": 4.75,
+    "toMhz": 4.995,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3841,
+    "fromMhz": 4.995,
+    "toMhz": 5.005,
+    "usageDescriptionId": 9,
+    "usageDescriptionDescription": "Standardfrekvens och tidssignal",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3843,
+    "fromMhz": 5.0,
+    "toMhz": 27.5,
+    "usageDescriptionId": 6,
+    "usageDescriptionDescription": "Induktiva tillämpningar",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3842,
+    "fromMhz": 5.0,
+    "toMhz": 27.5,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3844,
+    "fromMhz": 5.005,
+    "toMhz": 5.48,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3846,
+    "fromMhz": 5.06,
+    "toMhz": 5.45,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3845,
+    "fromMhz": 5.06,
+    "toMhz": 5.48,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3847,
+    "fromMhz": 5.3515,
+    "toMhz": 5.3665,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3848,
+    "fromMhz": 5.45,
+    "toMhz": 5.48,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3849,
+    "fromMhz": 5.48,
+    "toMhz": 5.68,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP27"
+  },
+  {
+    "id": 3850,
+    "fromMhz": 5.6785,
+    "toMhz": 5.6815,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP15<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 3851,
+    "fromMhz": 5.68,
+    "toMhz": 5.73,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP26"
+  },
+  {
+    "id": 3852,
+    "fromMhz": 5.73,
+    "toMhz": 5.9,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3853,
+    "fromMhz": 5.73,
+    "toMhz": 5.9,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3854,
+    "fromMhz": 5.9,
+    "toMhz": 6.2,
+    "usageDescriptionId": 11,
+    "usageDescriptionDescription": "Rundradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3855,
+    "fromMhz": 6.2,
+    "toMhz": 6.525,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP15<br/>RR AP17<br/>RR AP25<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 3856,
+    "fromMhz": 6.525,
+    "toMhz": 6.685,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP27"
+  },
+  {
+    "id": 3857,
+    "fromMhz": 6.685,
+    "toMhz": 6.765,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP26"
+  },
+  {
+    "id": 3858,
+    "fromMhz": 6.765,
+    "toMhz": 7.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3859,
+    "fromMhz": 6.765,
+    "toMhz": 7.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3860,
+    "fromMhz": 7.0,
+    "toMhz": 7.2,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3861,
+    "fromMhz": 7.2,
+    "toMhz": 7.45,
+    "usageDescriptionId": 11,
+    "usageDescriptionDescription": "Rundradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3862,
+    "fromMhz": 7.3,
+    "toMhz": 23.0,
+    "usageDescriptionId": 22,
+    "usageDescriptionDescription": "Euroloop",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3864,
+    "fromMhz": 7.45,
+    "toMhz": 8.1,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3863,
+    "fromMhz": 7.45,
+    "toMhz": 8.195,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3865,
+    "fromMhz": 8.1,
+    "toMhz": 8.195,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3866,
+    "fromMhz": 8.195,
+    "toMhz": 8.815,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP15<br/>RR AP17<br/>RR AP25<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 3867,
+    "fromMhz": 8.815,
+    "toMhz": 8.965,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP27"
+  },
+  {
+    "id": 3868,
+    "fromMhz": 8.965,
+    "toMhz": 9.04,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP26"
+  },
+  {
+    "id": 3869,
+    "fromMhz": 9.04,
+    "toMhz": 9.4,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3870,
+    "fromMhz": 9.4,
+    "toMhz": 9.9,
+    "usageDescriptionId": 11,
+    "usageDescriptionDescription": "Rundradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3871,
+    "fromMhz": 9.9,
+    "toMhz": 9.995,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3872,
+    "fromMhz": 9.995,
+    "toMhz": 10.005,
+    "usageDescriptionId": 9,
+    "usageDescriptionDescription": "Standardfrekvens och tidssignal",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3873,
+    "fromMhz": 10.005,
+    "toMhz": 10.1,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP27"
+  },
+  {
+    "id": 3875,
+    "fromMhz": 10.1,
+    "toMhz": 10.15,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3874,
+    "fromMhz": 10.1,
+    "toMhz": 11.175,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3877,
+    "fromMhz": 10.15,
+    "toMhz": 11.175,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3876,
+    "fromMhz": 10.15,
+    "toMhz": 11.175,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3878,
+    "fromMhz": 11.275,
+    "toMhz": 11.4,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP27"
+  },
+  {
+    "id": 3879,
+    "fromMhz": 11.4,
+    "toMhz": 11.6,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3880,
+    "fromMhz": 11.6,
+    "toMhz": 12.1,
+    "usageDescriptionId": 11,
+    "usageDescriptionDescription": "Rundradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3881,
+    "fromMhz": 12.1,
+    "toMhz": 12.23,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3882,
+    "fromMhz": 12.23,
+    "toMhz": 13.2,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP15<br/>RR AP17<br/>RR AP25<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 3883,
+    "fromMhz": 13.2,
+    "toMhz": 13.26,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP26"
+  },
+  {
+    "id": 3884,
+    "fromMhz": 13.26,
+    "toMhz": 13.36,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP27"
+  },
+  {
+    "id": 3885,
+    "fromMhz": 13.36,
+    "toMhz": 13.57,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3886,
+    "fromMhz": 13.36,
+    "toMhz": 13.41,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 3887,
+    "fromMhz": 13.41,
+    "toMhz": 13.57,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3888,
+    "fromMhz": 13.41,
+    "toMhz": 13.57,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3889,
+    "fromMhz": 13.553,
+    "toMhz": 13.567,
+    "usageDescriptionId": 14,
+    "usageDescriptionDescription": "RFID",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3890,
+    "fromMhz": 13.553,
+    "toMhz": 13.567,
+    "usageDescriptionId": 25,
+    "usageDescriptionDescription": "Allmän kortdistansradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3892,
+    "fromMhz": 13.87,
+    "toMhz": 14.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3893,
+    "fromMhz": 13.87,
+    "toMhz": 14.0,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3891,
+    "fromMhz": 13.87,
+    "toMhz": 14.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3894,
+    "fromMhz": 14.0,
+    "toMhz": 14.35,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3897,
+    "fromMhz": 14.35,
+    "toMhz": 14.99,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3895,
+    "fromMhz": 14.35,
+    "toMhz": 14.99,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3896,
+    "fromMhz": 14.35,
+    "toMhz": 14.99,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3898,
+    "fromMhz": 14.99,
+    "toMhz": 15.01,
+    "usageDescriptionId": 9,
+    "usageDescriptionDescription": "Standardfrekvens och tidssignal",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3899,
+    "fromMhz": 15.01,
+    "toMhz": 15.1,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP26"
+  },
+  {
+    "id": 3900,
+    "fromMhz": 15.1,
+    "toMhz": 15.8,
+    "usageDescriptionId": 11,
+    "usageDescriptionDescription": "Rundradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3901,
+    "fromMhz": 15.8,
+    "toMhz": 16.36,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3902,
+    "fromMhz": 16.36,
+    "toMhz": 17.41,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP15<br/>RR AP17<br/>RR AP25<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 3903,
+    "fromMhz": 17.41,
+    "toMhz": 17.48,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3904,
+    "fromMhz": 17.48,
+    "toMhz": 17.9,
+    "usageDescriptionId": 11,
+    "usageDescriptionDescription": "Rundradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3905,
+    "fromMhz": 17.9,
+    "toMhz": 17.97,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP27"
+  },
+  {
+    "id": 3906,
+    "fromMhz": 17.97,
+    "toMhz": 18.03,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP26"
+  },
+  {
+    "id": 3907,
+    "fromMhz": 18.03,
+    "toMhz": 18.068,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3908,
+    "fromMhz": 18.068,
+    "toMhz": 18.168,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3911,
+    "fromMhz": 18.168,
+    "toMhz": 18.78,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3909,
+    "fromMhz": 18.168,
+    "toMhz": 18.78,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3910,
+    "fromMhz": 18.168,
+    "toMhz": 18.78,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3912,
+    "fromMhz": 18.78,
+    "toMhz": 18.9,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP17"
+  },
+  {
+    "id": 3913,
+    "fromMhz": 18.9,
+    "toMhz": 19.02,
+    "usageDescriptionId": 11,
+    "usageDescriptionDescription": "Rundradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3914,
+    "fromMhz": 19.02,
+    "toMhz": 19.68,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3915,
+    "fromMhz": 19.68,
+    "toMhz": 19.8,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP15<br/>RR AP17<br/>RR AP25<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 3916,
+    "fromMhz": 19.8,
+    "toMhz": 19.99,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3917,
+    "fromMhz": 19.99,
+    "toMhz": 20.01,
+    "usageDescriptionId": 9,
+    "usageDescriptionDescription": "Standardfrekvens och tidssignal",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3918,
+    "fromMhz": 20.01,
+    "toMhz": 21.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3919,
+    "fromMhz": 20.01,
+    "toMhz": 21.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3920,
+    "fromMhz": 21.0,
+    "toMhz": 21.45,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3921,
+    "fromMhz": 21.45,
+    "toMhz": 21.85,
+    "usageDescriptionId": 11,
+    "usageDescriptionDescription": "Rundradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3922,
+    "fromMhz": 21.85,
+    "toMhz": 21.924,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3923,
+    "fromMhz": 21.924,
+    "toMhz": 22.0,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP27"
+  },
+  {
+    "id": 3924,
+    "fromMhz": 22.0,
+    "toMhz": 22.855,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP15<br/>RR AP17<br/>RR AP25<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 3925,
+    "fromMhz": 22.855,
+    "toMhz": 24.89,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3927,
+    "fromMhz": 23.0,
+    "toMhz": 23.2,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3926,
+    "fromMhz": 23.0,
+    "toMhz": 23.2,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3928,
+    "fromMhz": 23.2,
+    "toMhz": 23.35,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3930,
+    "fromMhz": 23.35,
+    "toMhz": 24.0,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3929,
+    "fromMhz": 23.35,
+    "toMhz": 24.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3931,
+    "fromMhz": 24.89,
+    "toMhz": 24.99,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3932,
+    "fromMhz": 24.99,
+    "toMhz": 25.01,
+    "usageDescriptionId": 9,
+    "usageDescriptionDescription": "Standardfrekvens och tidssignal",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3935,
+    "fromMhz": 25.01,
+    "toMhz": 25.07,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3933,
+    "fromMhz": 25.01,
+    "toMhz": 25.07,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3934,
+    "fromMhz": 25.01,
+    "toMhz": 25.07,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3936,
+    "fromMhz": 25.07,
+    "toMhz": 25.21,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP17"
+  },
+  {
+    "id": 3939,
+    "fromMhz": 25.21,
+    "toMhz": 25.55,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3937,
+    "fromMhz": 25.21,
+    "toMhz": 25.55,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3938,
+    "fromMhz": 25.21,
+    "toMhz": 25.55,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3940,
+    "fromMhz": 25.55,
+    "toMhz": 25.67,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 3941,
+    "fromMhz": 25.67,
+    "toMhz": 26.1,
+    "usageDescriptionId": 11,
+    "usageDescriptionDescription": "Rundradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3942,
+    "fromMhz": 26.1,
+    "toMhz": 26.175,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP15<br/>RR AP17<br/>RR AP25<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 3943,
+    "fromMhz": 26.175,
+    "toMhz": 27.5,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3944,
+    "fromMhz": 26.175,
+    "toMhz": 28.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3945,
+    "fromMhz": 26.175,
+    "toMhz": 27.5,
+    "usageDescriptionId": 27,
+    "usageDescriptionDescription": "Personsökning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3946,
+    "fromMhz": 26.82,
+    "toMhz": 27.2,
+    "usageDescriptionId": 28,
+    "usageDescriptionDescription": "Telemetri och radiostyrning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3947,
+    "fromMhz": 26.85,
+    "toMhz": 26.86,
+    "usageDescriptionId": 29,
+    "usageDescriptionDescription": "Larmöverföring",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3948,
+    "fromMhz": 26.957,
+    "toMhz": 27.283,
+    "usageDescriptionId": 25,
+    "usageDescriptionDescription": "Allmän kortdistansradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3949,
+    "fromMhz": 26.99,
+    "toMhz": 27.0,
+    "usageDescriptionId": 31,
+    "usageDescriptionDescription": "Trådlösa barnvaktssystem",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3951,
+    "fromMhz": 27.5,
+    "toMhz": 30.0,
+    "usageDescriptionId": 6,
+    "usageDescriptionDescription": "Induktiva tillämpningar",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3950,
+    "fromMhz": 27.5,
+    "toMhz": 30.0,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3952,
+    "fromMhz": 28.0,
+    "toMhz": 29.7,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3953,
+    "fromMhz": 29.7,
+    "toMhz": 37.5,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3955,
+    "fromMhz": 30.0,
+    "toMhz": 130.0,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3954,
+    "fromMhz": 30.0,
+    "toMhz": 37.5,
+    "usageDescriptionId": 96,
+    "usageDescriptionDescription": "Aktiva medicinska implantat",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3956,
+    "fromMhz": 30.015,
+    "toMhz": 30.025,
+    "usageDescriptionId": 28,
+    "usageDescriptionDescription": "Telemetri och radiostyrning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Radiostyrning av trafikljus"
+  },
+  {
+    "id": 3957,
+    "fromMhz": 30.265,
+    "toMhz": 30.355,
+    "usageDescriptionId": 28,
+    "usageDescriptionDescription": "Telemetri och radiostyrning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3958,
+    "fromMhz": 30.925,
+    "toMhz": 31.375,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3959,
+    "fromMhz": 34.995,
+    "toMhz": 35.275,
+    "usageDescriptionId": 32,
+    "usageDescriptionDescription": "Radiostyrning av modellflygplan",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3960,
+    "fromMhz": 37.5,
+    "toMhz": 41.015,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3961,
+    "fromMhz": 37.5,
+    "toMhz": 38.25,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 3962,
+    "fromMhz": 39.525,
+    "toMhz": 39.55,
+    "usageDescriptionId": 28,
+    "usageDescriptionDescription": "Telemetri och radiostyrning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3963,
+    "fromMhz": 40.45,
+    "toMhz": 40.575,
+    "usageDescriptionId": 28,
+    "usageDescriptionDescription": "Telemetri och radiostyrning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3964,
+    "fromMhz": 40.66,
+    "toMhz": 40.8,
+    "usageDescriptionId": 28,
+    "usageDescriptionDescription": "Telemetri och radiostyrning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3965,
+    "fromMhz": 40.66,
+    "toMhz": 40.7,
+    "usageDescriptionId": 25,
+    "usageDescriptionDescription": "Allmän kortdistansradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3966,
+    "fromMhz": 50.0,
+    "toMhz": 52.0,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3967,
+    "fromMhz": 68.0,
+    "toMhz": 74.8,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 3968,
+    "fromMhz": 68.0,
+    "toMhz": 74.8,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 3970,
+    "fromMhz": 69.6,
+    "toMhz": 69.725,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>ECC/DEC/(19)02"
+  },
+  {
+    "id": 3969,
+    "fromMhz": 69.6,
+    "toMhz": 69.725,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>ECC/DEC/(19)02"
+  },
+  {
+    "id": 3971,
+    "fromMhz": 73.0,
+    "toMhz": 74.6,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 3972,
+    "fromMhz": 74.8,
+    "toMhz": 75.2,
+    "usageDescriptionId": 2,
+    "usageDescriptionDescription": "Radionavigering för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3973,
+    "fromMhz": 75.2,
+    "toMhz": 75.625,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 3974,
+    "fromMhz": 75.2,
+    "toMhz": 75.625,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 3976,
+    "fromMhz": 75.625,
+    "toMhz": 77.475,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "80,625 - 82,475",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 3975,
+    "fromMhz": 75.625,
+    "toMhz": 77.475,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "80,625 - 82,475",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 3977,
+    "fromMhz": 77.475,
+    "toMhz": 80.625,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 3978,
+    "fromMhz": 77.475,
+    "toMhz": 80.625,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 3980,
+    "fromMhz": 80.625,
+    "toMhz": 82.475,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "75,625 - 77,475",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 3979,
+    "fromMhz": 80.625,
+    "toMhz": 82.475,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "75,625 - 77,475",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 3981,
+    "fromMhz": 82.475,
+    "toMhz": 87.5,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 3982,
+    "fromMhz": 82.475,
+    "toMhz": 87.5,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 3984,
+    "fromMhz": 87.5,
+    "toMhz": 108.0,
+    "usageDescriptionId": 35,
+    "usageDescriptionDescription": "FM analog ljudradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Band II, GE84"
+  },
+  {
+    "id": 3985,
+    "fromMhz": 87.5,
+    "toMhz": 108.0,
+    "usageDescriptionId": 33,
+    "usageDescriptionDescription": "Ljudöverföring",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 3983,
+    "fromMhz": 87.5,
+    "toMhz": 108.0,
+    "usageDescriptionId": 11,
+    "usageDescriptionDescription": "Rundradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Band II, GE84"
+  },
+  {
+    "id": 3986,
+    "fromMhz": 108.0,
+    "toMhz": 117.975,
+    "usageDescriptionId": 2,
+    "usageDescriptionDescription": "Radionavigering för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ILS, VOR"
+  },
+  {
+    "id": 3987,
+    "fromMhz": 117.975,
+    "toMhz": 137.0,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3988,
+    "fromMhz": 121.45,
+    "toMhz": 121.55,
+    "usageDescriptionId": 38,
+    "usageDescriptionDescription": "Luftfartsradio (ELT)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>RR AP15<br/>Positionsbestämning COSPAS/SARSAT<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 3989,
+    "fromMhz": 121.45,
+    "toMhz": 121.55,
+    "usageDescriptionId": 39,
+    "usageDescriptionDescription": "Personlig radio (PLB)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>RR AP15<br/>Positionsbestämning COSPAS/SARSAT<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 3990,
+    "fromMhz": 121.45,
+    "toMhz": 121.55,
+    "usageDescriptionId": 40,
+    "usageDescriptionDescription": "Sjöfartsradio (EPIRB)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>RR AP15<br/>Positionsbestämning COSPAS/SARSAT<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 3991,
+    "fromMhz": 137.0,
+    "toMhz": 138.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "MSS nedlänk<br/>ERC/DEC/(99)05"
+  },
+  {
+    "id": 3993,
+    "fromMhz": 138.0,
+    "toMhz": 143.6,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3992,
+    "fromMhz": 138.0,
+    "toMhz": 162.025,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 3994,
+    "fromMhz": 144.0,
+    "toMhz": 146.0,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 3995,
+    "fromMhz": 146.05,
+    "toMhz": 147.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "150,05 - 151",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 3996,
+    "fromMhz": 146.05,
+    "toMhz": 147.0,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "150,05 - 151",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 3997,
+    "fromMhz": 147.0,
+    "toMhz": 149.9,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 3998,
+    "fromMhz": 148.0,
+    "toMhz": 150.05,
+    "usageDescriptionId": 42,
+    "usageDescriptionDescription": "Jordstationer (mobila satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "MSS upplänk<br/>Undantag från tillståndsplikt<br/>ERC/DEC/(99)05<br/>ERC/DEC/(99)06"
+  },
+  {
+    "id": 4001,
+    "fromMhz": 150.05,
+    "toMhz": 151.0,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "146,05 - 147",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 3999,
+    "fromMhz": 150.05,
+    "toMhz": 151.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "146,05 - 147",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4000,
+    "fromMhz": 150.05,
+    "toMhz": 153.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4002,
+    "fromMhz": 151.0,
+    "toMhz": 153.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4003,
+    "fromMhz": 151.52,
+    "toMhz": 151.555,
+    "usageDescriptionId": 43,
+    "usageDescriptionDescription": "Spårning, pejling och datainsamling",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4004,
+    "fromMhz": 151.52,
+    "toMhz": 152.2675,
+    "usageDescriptionId": 44,
+    "usageDescriptionDescription": "Radiopejling av djur",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4005,
+    "fromMhz": 154.0,
+    "toMhz": 155.9875,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4006,
+    "fromMhz": 154.0,
+    "toMhz": 155.9875,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4007,
+    "fromMhz": 155.3875,
+    "toMhz": 155.5375,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>ECC/DEC/(19)02"
+  },
+  {
+    "id": 4008,
+    "fromMhz": 155.9875,
+    "toMhz": 156.0125,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>ECC/DEC/(19)02"
+  },
+  {
+    "id": 4009,
+    "fromMhz": 156.0125,
+    "toMhz": 156.2875,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "160,6125 - 160,8875",
+    "remark": "RR AP18<br/>ECC/DEC/(19)03"
+  },
+  {
+    "id": 4010,
+    "fromMhz": 156.2875,
+    "toMhz": 156.3125,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP15<br/>RR AP18<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 4011,
+    "fromMhz": 156.3125,
+    "toMhz": 156.3625,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "160,9125 - 160,9625",
+    "remark": "RR AP18<br/>ECC/DEC/(19)03"
+  },
+  {
+    "id": 4012,
+    "fromMhz": 156.3625,
+    "toMhz": 156.3875,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18"
+  },
+  {
+    "id": 4013,
+    "fromMhz": 156.3875,
+    "toMhz": 156.4375,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18"
+  },
+  {
+    "id": 4014,
+    "fromMhz": 156.4375,
+    "toMhz": 156.4625,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18"
+  },
+  {
+    "id": 4015,
+    "fromMhz": 156.4625,
+    "toMhz": 156.4875,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18"
+  },
+  {
+    "id": 4016,
+    "fromMhz": 156.4875,
+    "toMhz": 156.5125,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18"
+  },
+  {
+    "id": 4017,
+    "fromMhz": 156.4875,
+    "toMhz": 156.7625,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4018,
+    "fromMhz": 156.5125,
+    "toMhz": 156.5375,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP15<br/>RR AP18<br/>Nöd- och säkerhetstrafik<br/>ECC/DEC/(22)02"
+  },
+  {
+    "id": 4019,
+    "fromMhz": 156.5375,
+    "toMhz": 156.5625,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18"
+  },
+  {
+    "id": 4020,
+    "fromMhz": 156.5625,
+    "toMhz": 156.6125,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18"
+  },
+  {
+    "id": 4021,
+    "fromMhz": 156.6125,
+    "toMhz": 156.6375,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18"
+  },
+  {
+    "id": 4022,
+    "fromMhz": 156.6375,
+    "toMhz": 156.6625,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP15<br/>RR AP18<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 4023,
+    "fromMhz": 156.6625,
+    "toMhz": 156.6875,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18"
+  },
+  {
+    "id": 4024,
+    "fromMhz": 156.6875,
+    "toMhz": 156.7375,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18"
+  },
+  {
+    "id": 4025,
+    "fromMhz": 156.7375,
+    "toMhz": 156.7625,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18"
+  },
+  {
+    "id": 4026,
+    "fromMhz": 156.7625,
+    "toMhz": 156.7875,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18"
+  },
+  {
+    "id": 4027,
+    "fromMhz": 156.7875,
+    "toMhz": 156.8125,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP15<br/>RR AP18<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 4028,
+    "fromMhz": 156.8125,
+    "toMhz": 156.8375,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18"
+  },
+  {
+    "id": 4031,
+    "fromMhz": 156.8375,
+    "toMhz": 156.8625,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18"
+  },
+  {
+    "id": 4029,
+    "fromMhz": 156.8375,
+    "toMhz": 158.075,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4030,
+    "fromMhz": 156.8375,
+    "toMhz": 158.075,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4032,
+    "fromMhz": 156.8625,
+    "toMhz": 156.8875,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18"
+  },
+  {
+    "id": 4033,
+    "fromMhz": 156.8875,
+    "toMhz": 157.0125,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "161,4875 - 161,6125",
+    "remark": "RR AP18"
+  },
+  {
+    "id": 4034,
+    "fromMhz": 157.0125,
+    "toMhz": 157.1875,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "161,6125 - 161,7875",
+    "remark": "RR AP18<br/>ECC/DEC/(19)03"
+  },
+  {
+    "id": 4035,
+    "fromMhz": 157.1875,
+    "toMhz": 157.3375,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18<br/>ECC/DEC/(19)03"
+  },
+  {
+    "id": 4036,
+    "fromMhz": 157.3375,
+    "toMhz": 157.4375,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18"
+  },
+  {
+    "id": 4038,
+    "fromMhz": 158.075,
+    "toMhz": 160.6,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "166,075 - 168,6",
+    "remark": ""
+  },
+  {
+    "id": 4037,
+    "fromMhz": 158.075,
+    "toMhz": 160.6,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "166,075 - 168,6",
+    "remark": ""
+  },
+  {
+    "id": 4039,
+    "fromMhz": 160.6125,
+    "toMhz": 162.0375,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4040,
+    "fromMhz": 160.6125,
+    "toMhz": 162.0375,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4041,
+    "fromMhz": 160.6125,
+    "toMhz": 160.8875,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "156,0125 - 156,2875",
+    "remark": "RR AP18<br/>ECC/DEC/(19)03"
+  },
+  {
+    "id": 4042,
+    "fromMhz": 160.8875,
+    "toMhz": 160.9125,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18<br/>ECC/DEC/(22)02"
+  },
+  {
+    "id": 4043,
+    "fromMhz": 160.9125,
+    "toMhz": 160.9625,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "156,3125 - 156,3625",
+    "remark": "RR AP18<br/>ECC/DEC/(19)03"
+  },
+  {
+    "id": 4044,
+    "fromMhz": 161.4875,
+    "toMhz": 161.6125,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "156,8875 - 157,0125",
+    "remark": "RR AP18<br/>ECC/DEC/(19)03"
+  },
+  {
+    "id": 4045,
+    "fromMhz": 161.6125,
+    "toMhz": 161.7875,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "157,0125 - 157,1875",
+    "remark": "RR AP18<br/>ECC/DEC/(19)03"
+  },
+  {
+    "id": 4046,
+    "fromMhz": 161.7875,
+    "toMhz": 161.9375,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18<br/>ECC/DEC/(19)03"
+  },
+  {
+    "id": 4047,
+    "fromMhz": 161.9375,
+    "toMhz": 161.9625,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18<br/>ECC/DEC/(19)03"
+  },
+  {
+    "id": 4048,
+    "fromMhz": 161.9625,
+    "toMhz": 161.9875,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP15<br/>RR AP18<br/>Nöd- och säkerhetstrafik<br/>ECC/DEC/(22)02"
+  },
+  {
+    "id": 4049,
+    "fromMhz": 161.9875,
+    "toMhz": 162.0125,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP18"
+  },
+  {
+    "id": 4050,
+    "fromMhz": 162.0125,
+    "toMhz": 162.0375,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RR AP15<br/>RR AP18<br/>Nöd- och säkerhetstrafik<br/>ECC/DEC/(22)02"
+  },
+  {
+    "id": 4052,
+    "fromMhz": 162.025,
+    "toMhz": 163.0,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "170,025 - 171",
+    "remark": ""
+  },
+  {
+    "id": 4051,
+    "fromMhz": 162.025,
+    "toMhz": 163.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "170,025 - 171",
+    "remark": ""
+  },
+  {
+    "id": 4053,
+    "fromMhz": 163.0,
+    "toMhz": 164.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "171 - 172",
+    "remark": ""
+  },
+  {
+    "id": 4054,
+    "fromMhz": 164.0,
+    "toMhz": 166.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "172 - 174",
+    "remark": ""
+  },
+  {
+    "id": 4055,
+    "fromMhz": 164.0,
+    "toMhz": 166.0,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "172 - 174",
+    "remark": ""
+  },
+  {
+    "id": 4057,
+    "fromMhz": 166.0,
+    "toMhz": 166.075,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4056,
+    "fromMhz": 166.0,
+    "toMhz": 166.075,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4058,
+    "fromMhz": 166.075,
+    "toMhz": 168.6,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "158,075 - 160,6",
+    "remark": ""
+  },
+  {
+    "id": 4059,
+    "fromMhz": 166.075,
+    "toMhz": 168.6,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "158,075 - 160,6",
+    "remark": ""
+  },
+  {
+    "id": 4062,
+    "fromMhz": 168.625,
+    "toMhz": 170.025,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4060,
+    "fromMhz": 168.625,
+    "toMhz": 170.025,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4061,
+    "fromMhz": 168.625,
+    "toMhz": 170.025,
+    "usageDescriptionId": 27,
+    "usageDescriptionDescription": "Personsökning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4063,
+    "fromMhz": 169.375,
+    "toMhz": 169.4,
+    "usageDescriptionId": 25,
+    "usageDescriptionDescription": "Allmän kortdistansradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4064,
+    "fromMhz": 169.4,
+    "toMhz": 169.8125,
+    "usageDescriptionId": 25,
+    "usageDescriptionDescription": "Allmän kortdistansradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4065,
+    "fromMhz": 169.4,
+    "toMhz": 169.475,
+    "usageDescriptionId": 47,
+    "usageDescriptionDescription": "Hörselhjälpmedel",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4066,
+    "fromMhz": 169.4875,
+    "toMhz": 169.5875,
+    "usageDescriptionId": 47,
+    "usageDescriptionDescription": "Hörselhjälpmedel",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4067,
+    "fromMhz": 170.025,
+    "toMhz": 171.0,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "162,025 - 163",
+    "remark": ""
+  },
+  {
+    "id": 4068,
+    "fromMhz": 171.0,
+    "toMhz": 172.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "163 - 164",
+    "remark": ""
+  },
+  {
+    "id": 4069,
+    "fromMhz": 172.0,
+    "toMhz": 174.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "164 - 166",
+    "remark": ""
+  },
+  {
+    "id": 4070,
+    "fromMhz": 172.0,
+    "toMhz": 174.0,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "164 - 166",
+    "remark": ""
+  },
+  {
+    "id": 4071,
+    "fromMhz": 173.965,
+    "toMhz": 216.0,
+    "usageDescriptionId": 47,
+    "usageDescriptionDescription": "Hörselhjälpmedel",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1<br/>Band III, kanal 5 - 11, GE06"
+  },
+  {
+    "id": 4072,
+    "fromMhz": 174.0,
+    "toMhz": 223.0,
+    "usageDescriptionId": 49,
+    "usageDescriptionDescription": "Rundradio (T-DAB)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Även DVB-T2<br/>Band III, kanal 5 - 11, GE06<br/>Regeringens beslut om sändningsutrymme för kommersiell radio Ku2010/1721/MFI (tills vidare)"
+  },
+  {
+    "id": 4073,
+    "fromMhz": 174.0,
+    "toMhz": 240.0,
+    "usageDescriptionId": 33,
+    "usageDescriptionDescription": "Ljudöverföring",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ERC/REC 70-03"
+  },
+  {
+    "id": 4075,
+    "fromMhz": 223.0,
+    "toMhz": 230.0,
+    "usageDescriptionId": 49,
+    "usageDescriptionDescription": "Rundradio (T-DAB)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Även DVB-T2<br/>Band III, kanal 12, GE06<br/>Regeringens beslut om sändningsutrymme för kommersiell radio Ku2010/1721/MFI (tills vidare)"
+  },
+  {
+    "id": 4074,
+    "fromMhz": 223.0,
+    "toMhz": 230.0,
+    "usageDescriptionId": 48,
+    "usageDescriptionDescription": "Rundradio (DVB-T)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Även DVB-T2<br/>Band III, kanal 12, GE06<br/>Regeringens beslut om sändningsutrymme för tv-sändningar Ku2018/01183/MD och Ku2019/01817/MD (tom 31 december 2025)"
+  },
+  {
+    "id": 4076,
+    "fromMhz": 230.0,
+    "toMhz": 240.0,
+    "usageDescriptionId": 49,
+    "usageDescriptionDescription": "Rundradio (T-DAB)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "WI95revCO07<br/>Regeringens beslut om sändningsutrymme för kommersiell radio Ku2010/1721/MFI (tills vidare)"
+  },
+  {
+    "id": 4077,
+    "fromMhz": 230.0,
+    "toMhz": 386.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4078,
+    "fromMhz": 230.016,
+    "toMhz": 236.544,
+    "usageDescriptionId": 97,
+    "usageDescriptionDescription": "Radar",
+    "reference": "",
+    "duplexband": "",
+    "remark": "EISCAT"
+  },
+  {
+    "id": 4079,
+    "fromMhz": 240.0,
+    "toMhz": 267.0,
+    "usageDescriptionId": 16,
+    "usageDescriptionDescription": "Luftfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4080,
+    "fromMhz": 242.95,
+    "toMhz": 243.05,
+    "usageDescriptionId": 50,
+    "usageDescriptionDescription": "SAR (kommunikation)",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4081,
+    "fromMhz": 328.6,
+    "toMhz": 335.4,
+    "usageDescriptionId": 2,
+    "usageDescriptionDescription": "Radionavigering för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ILS Glide Path"
+  },
+  {
+    "id": 4082,
+    "fromMhz": 336.0,
+    "toMhz": 339.0,
+    "usageDescriptionId": 51,
+    "usageDescriptionDescription": "Ljudlänkar",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4083,
+    "fromMhz": 357.0,
+    "toMhz": 360.0,
+    "usageDescriptionId": 51,
+    "usageDescriptionDescription": "Ljudlänkar",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4084,
+    "fromMhz": 370.0,
+    "toMhz": 371.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "386 - 387",
+    "remark": "Svensk kanalplan<br/>Smalbandig"
+  },
+  {
+    "id": 4086,
+    "fromMhz": 380.0,
+    "toMhz": 385.0,
+    "usageDescriptionId": 52,
+    "usageDescriptionDescription": "TETRA",
+    "reference": "",
+    "duplexband": "390 - 395",
+    "remark": "Blocktillstånd<br/>Rakel<br/>ECC/DEC/(08)05<br/>ECC/DEC/(06)05<br/>ERC/DEC/(01)19"
+  },
+  {
+    "id": 4085,
+    "fromMhz": 380.0,
+    "toMhz": 385.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "390 - 395",
+    "remark": "Blocktillstånd<br/>Rakel<br/>ECC/DEC/(08)05<br/>ECC/DEC/(06)05<br/>ERC/DEC/(01)19"
+  },
+  {
+    "id": 4087,
+    "fromMhz": 386.0,
+    "toMhz": 387.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "370 - 371",
+    "remark": "Svensk kanalplan<br/>Smalbandig"
+  },
+  {
+    "id": 4088,
+    "fromMhz": 387.0,
+    "toMhz": 390.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4089,
+    "fromMhz": 390.0,
+    "toMhz": 395.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "380 - 385",
+    "remark": "Blocktillstånd<br/>Rakel<br/>ECC/DEC/(08)05<br/>ECC/DEC/(06)05<br/>ERC/DEC/(01)19"
+  },
+  {
+    "id": 4090,
+    "fromMhz": 390.0,
+    "toMhz": 395.0,
+    "usageDescriptionId": 52,
+    "usageDescriptionDescription": "TETRA",
+    "reference": "",
+    "duplexband": "380 - 385",
+    "remark": "Blocktillstånd<br/>Rakel<br/>ECC/DEC/(08)05<br/>ECC/DEC/(06)05<br/>ERC/DEC/(01)19"
+  },
+  {
+    "id": 4091,
+    "fromMhz": 395.0,
+    "toMhz": 399.9,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4092,
+    "fromMhz": 399.9,
+    "toMhz": 400.05,
+    "usageDescriptionId": 42,
+    "usageDescriptionDescription": "Jordstationer (mobila satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "MSS upplänk"
+  },
+  {
+    "id": 4093,
+    "fromMhz": 400.05,
+    "toMhz": 400.15,
+    "usageDescriptionId": 53,
+    "usageDescriptionDescription": "Standardfrekvens och tidssignal via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4094,
+    "fromMhz": 400.15,
+    "toMhz": 404.0,
+    "usageDescriptionId": 54,
+    "usageDescriptionDescription": "Meteorologi",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4095,
+    "fromMhz": 400.15,
+    "toMhz": 404.0,
+    "usageDescriptionId": 55,
+    "usageDescriptionDescription": "Ballongburna radiosonder",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4096,
+    "fromMhz": 400.15,
+    "toMhz": 401.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "MSS nedlänk<br/>ERC/DEC/(99)05"
+  },
+  {
+    "id": 4097,
+    "fromMhz": 401.0,
+    "toMhz": 402.0,
+    "usageDescriptionId": 56,
+    "usageDescriptionDescription": "Rymdfarkostkontroll",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Nedlänk"
+  },
+  {
+    "id": 4098,
+    "fromMhz": 401.0,
+    "toMhz": 406.0,
+    "usageDescriptionId": 96,
+    "usageDescriptionDescription": "Aktiva medicinska implantat",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1<br/>ERC/DEC/(01)17"
+  },
+  {
+    "id": 4099,
+    "fromMhz": 402.0,
+    "toMhz": 403.0,
+    "usageDescriptionId": 57,
+    "usageDescriptionDescription": "Meteorologi via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Upplänk"
+  },
+  {
+    "id": 4100,
+    "fromMhz": 402.0,
+    "toMhz": 403.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Upplänk"
+  },
+  {
+    "id": 4101,
+    "fromMhz": 404.0,
+    "toMhz": 405.9,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4103,
+    "fromMhz": 406.0,
+    "toMhz": 406.1,
+    "usageDescriptionId": 40,
+    "usageDescriptionDescription": "Sjöfartsradio (EPIRB)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>RR AP15<br/>Positionsbestämning COSPAS/SARSAT<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 4104,
+    "fromMhz": 406.0,
+    "toMhz": 406.1,
+    "usageDescriptionId": 38,
+    "usageDescriptionDescription": "Luftfartsradio (ELT)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>RR AP15<br/>Positionsbestämning COSPAS/SARSAT<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 4102,
+    "fromMhz": 406.0,
+    "toMhz": 406.1,
+    "usageDescriptionId": 39,
+    "usageDescriptionDescription": "Personlig radio (PLB)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>RR AP15<br/>Positionsbestämning COSPAS/SARSAT<br/>Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 4106,
+    "fromMhz": 406.2,
+    "toMhz": 410.0,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4105,
+    "fromMhz": 406.2,
+    "toMhz": 410.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4107,
+    "fromMhz": 406.2,
+    "toMhz": 450.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4108,
+    "fromMhz": 410.0,
+    "toMhz": 420.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "420 - 430",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4109,
+    "fromMhz": 410.0,
+    "toMhz": 420.0,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "420 - 430",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4110,
+    "fromMhz": 410.0,
+    "toMhz": 420.0,
+    "usageDescriptionId": 52,
+    "usageDescriptionDescription": "TETRA",
+    "reference": "",
+    "duplexband": "420 - 430",
+    "remark": ""
+  },
+  {
+    "id": 4113,
+    "fromMhz": 420.0,
+    "toMhz": 430.0,
+    "usageDescriptionId": 52,
+    "usageDescriptionDescription": "TETRA",
+    "reference": "",
+    "duplexband": "410 - 420",
+    "remark": ""
+  },
+  {
+    "id": 4112,
+    "fromMhz": 420.0,
+    "toMhz": 430.0,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "410 - 420",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4111,
+    "fromMhz": 420.0,
+    "toMhz": 430.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "410 - 420",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4114,
+    "fromMhz": 429.4375,
+    "toMhz": 429.4625,
+    "usageDescriptionId": 29,
+    "usageDescriptionDescription": "Larmöverföring",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4115,
+    "fromMhz": 430.0,
+    "toMhz": 432.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "kanalplan ECC/REC TR 25-08"
+  },
+  {
+    "id": 4116,
+    "fromMhz": 430.0,
+    "toMhz": 440.0,
+    "usageDescriptionId": 98,
+    "usageDescriptionDescription": "Insamling medicinska data",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4117,
+    "fromMhz": 432.0,
+    "toMhz": 438.0,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4118,
+    "fromMhz": 433.05,
+    "toMhz": 434.79,
+    "usageDescriptionId": 25,
+    "usageDescriptionDescription": "Allmän kortdistansradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4119,
+    "fromMhz": 438.0,
+    "toMhz": 439.6875,
+    "usageDescriptionId": 28,
+    "usageDescriptionDescription": "Telemetri och radiostyrning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4120,
+    "fromMhz": 439.6875,
+    "toMhz": 439.9875,
+    "usageDescriptionId": 28,
+    "usageDescriptionDescription": "Telemetri och radiostyrning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4121,
+    "fromMhz": 440.0,
+    "toMhz": 442.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "kanalplan ECC/REC TR 25-08"
+  },
+  {
+    "id": 4122,
+    "fromMhz": 442.0,
+    "toMhz": 444.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "448 - 450",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4123,
+    "fromMhz": 442.0,
+    "toMhz": 444.0,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "448 - 450",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4124,
+    "fromMhz": 443.9875,
+    "toMhz": 444.4125,
+    "usageDescriptionId": 28,
+    "usageDescriptionDescription": "Telemetri och radiostyrning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4126,
+    "fromMhz": 444.0,
+    "toMhz": 444.5875,
+    "usageDescriptionId": 28,
+    "usageDescriptionDescription": "Telemetri och radiostyrning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4125,
+    "fromMhz": 444.0,
+    "toMhz": 444.5875,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4127,
+    "fromMhz": 444.5875,
+    "toMhz": 448.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4128,
+    "fromMhz": 444.5875,
+    "toMhz": 444.9875,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4129,
+    "fromMhz": 444.5875,
+    "toMhz": 448.0,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4130,
+    "fromMhz": 446.0,
+    "toMhz": 446.2,
+    "usageDescriptionId": 59,
+    "usageDescriptionDescription": "PMR 446",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1<br/>ECC/DEC/(15)05<br/>ECC/DEC/(19)02"
+  },
+  {
+    "id": 4131,
+    "fromMhz": 448.0,
+    "toMhz": 450.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "442 - 444",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4132,
+    "fromMhz": 448.0,
+    "toMhz": 450.0,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "442 - 444",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4134,
+    "fromMhz": 450.0,
+    "toMhz": 452.5,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "460 - 462,5",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4133,
+    "fromMhz": 450.0,
+    "toMhz": 452.5,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "460 - 462,5",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4135,
+    "fromMhz": 452.5,
+    "toMhz": 457.5,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "462,5 - 467,5",
+    "remark": "Blocktillstånd"
+  },
+  {
+    "id": 4136,
+    "fromMhz": 457.5,
+    "toMhz": 460.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "467,5 - 470",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4137,
+    "fromMhz": 457.5,
+    "toMhz": 460.0,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "467,5 - 470",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4138,
+    "fromMhz": 457.5125,
+    "toMhz": 457.5875,
+    "usageDescriptionId": 61,
+    "usageDescriptionDescription": "Kommunikation ombord på fartyg",
+    "reference": "",
+    "duplexband": "467,5125 - 467,5875",
+    "remark": ""
+  },
+  {
+    "id": 4140,
+    "fromMhz": 460.0,
+    "toMhz": 462.5,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "450 - 452,5",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4139,
+    "fromMhz": 460.0,
+    "toMhz": 462.5,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "450 - 452,5",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4141,
+    "fromMhz": 462.5,
+    "toMhz": 467.5,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "452,5 - 457,5",
+    "remark": "Blocktillstånd"
+  },
+  {
+    "id": 4142,
+    "fromMhz": 467.5,
+    "toMhz": 470.0,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "457,5 - 460",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4143,
+    "fromMhz": 467.5,
+    "toMhz": 470.0,
+    "usageDescriptionId": 34,
+    "usageDescriptionDescription": "PMR",
+    "reference": "",
+    "duplexband": "457,5 - 460",
+    "remark": "ECC/DEC/(19)02"
+  },
+  {
+    "id": 4144,
+    "fromMhz": 467.5125,
+    "toMhz": 467.5875,
+    "usageDescriptionId": 61,
+    "usageDescriptionDescription": "Kommunikation ombord på fartyg",
+    "reference": "",
+    "duplexband": "457,5125 - 457,5875",
+    "remark": ""
+  },
+  {
+    "id": 4145,
+    "fromMhz": 470.0,
+    "toMhz": 694.0,
+    "usageDescriptionId": 48,
+    "usageDescriptionDescription": "Rundradio (DVB-T)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Även DVB-T2<br/>Band IV/V, kanal 21-48, GE06<br/>Regeringens beslut om sändningsutrymme för tv-sändningar Ku2018/01183/MD och Ku2019/01817/MD (tom 31 december 2025)<br/>Beslut 2017/899/EU"
+  },
+  {
+    "id": 4146,
+    "fromMhz": 470.0,
+    "toMhz": 694.0,
+    "usageDescriptionId": 33,
+    "usageDescriptionDescription": "Ljudöverföring",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ERC/REC 70-03"
+  },
+  {
+    "id": 4147,
+    "fromMhz": 694.0,
+    "toMhz": 790.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Blocktillstånd<br/>Undantag från tillståndsplikt<br/>Regeringens beslut om sändningsutrymme för tv-sändningar Ku2024/01347 (för 703-713 MHz och 758-768 MHz tom 30 juni 2025)<br/>Beslut 2016/687/EU<br/>Beslut 2017/899/EU<br/>ECC/DEC(15)01<br/>ECC/DEC/(16)02<br/>ECC/DEC/(22)01"
+  },
+  {
+    "id": 4148,
+    "fromMhz": 790.0,
+    "toMhz": 862.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Blocktillstånd<br/>Undantag från tillståndsplikt<br/>Beslut 2010/267/EU<br/>ECC/DEC/(09)03<br/>ECC/DEC/(22)01"
+  },
+  {
+    "id": 4149,
+    "fromMhz": 821.5,
+    "toMhz": 832.0,
+    "usageDescriptionId": 33,
+    "usageDescriptionDescription": "Ljudöverföring",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4150,
+    "fromMhz": 862.0,
+    "toMhz": 870.0,
+    "usageDescriptionId": 25,
+    "usageDescriptionDescription": "Allmän kortdistansradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4152,
+    "fromMhz": 863.0,
+    "toMhz": 865.0,
+    "usageDescriptionId": 33,
+    "usageDescriptionDescription": "Ljudöverföring",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4151,
+    "fromMhz": 863.0,
+    "toMhz": 868.0,
+    "usageDescriptionId": 62,
+    "usageDescriptionDescription": "Dataöverföring",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4153,
+    "fromMhz": 865.0,
+    "toMhz": 868.0,
+    "usageDescriptionId": 14,
+    "usageDescriptionDescription": "RFID",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4154,
+    "fromMhz": 868.6,
+    "toMhz": 869.7,
+    "usageDescriptionId": 29,
+    "usageDescriptionDescription": "Larmöverföring",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4155,
+    "fromMhz": 869.2,
+    "toMhz": 869.25,
+    "usageDescriptionId": 63,
+    "usageDescriptionDescription": "Trygghetslarm",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4157,
+    "fromMhz": 870.0,
+    "toMhz": 874.4,
+    "usageDescriptionId": 62,
+    "usageDescriptionDescription": "Dataöverföring",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Beslut (EU) 2018/1538, i lydelsen enligt beslut (EU) 2022/172<br/>ERC/REC 70-03"
+  },
+  {
+    "id": 4156,
+    "fromMhz": 870.0,
+    "toMhz": 874.4,
+    "usageDescriptionId": 25,
+    "usageDescriptionDescription": "Allmän kortdistansradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Beslut (EU) 2018/1538, i lydelsen enligt beslut (EU) 2022/172<br/>ERC/REC 70-03"
+  },
+  {
+    "id": 4158,
+    "fromMhz": 870.5375,
+    "toMhz": 870.6625,
+    "usageDescriptionId": 28,
+    "usageDescriptionDescription": "Telemetri och radiostyrning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4159,
+    "fromMhz": 874.4,
+    "toMhz": 880.0,
+    "usageDescriptionId": 99,
+    "usageDescriptionDescription": "Mobil radio för järnväg (RMR)",
+    "reference": "",
+    "duplexband": "919,4 - 925",
+    "remark": "Beslut (EU) 2021/1730<br/>ECC/DEC/(20)02"
+  },
+  {
+    "id": 4160,
+    "fromMhz": 880.0,
+    "toMhz": 915.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "925 - 960",
+    "remark": "Blocktillstånd<br/>Undantag från tillståndsplikt<br/>Direktiv 87/372/EEG, i lydelsen enligt direktiv 2009/114/EG<br/>Beslut (EU) 2022/173<br/>Beslut (EU) 2024/340<br/>Rekommendation 2010/167/EU<br/>ERC/DEC/(97)02<br/>ECC/DEC/(06)13<br/>ECC/DEC/(08)08<br/>ECC/DEC/(22)01"
+  },
+  {
+    "id": 4162,
+    "fromMhz": 915.0,
+    "toMhz": 919.4,
+    "usageDescriptionId": 62,
+    "usageDescriptionDescription": "Dataöverföring",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Beslut (EU) 2018/1538, i lydelsen enligt beslut (EU) 2022/172<br/>ERC/REC 70-03"
+  },
+  {
+    "id": 4161,
+    "fromMhz": 915.0,
+    "toMhz": 919.4,
+    "usageDescriptionId": 25,
+    "usageDescriptionDescription": "Allmän kortdistansradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Beslut (EU) 2018/1538, i lydelsen enligt beslut (EU) 2022/172<br/>ERC/REC 70-03"
+  },
+  {
+    "id": 4163,
+    "fromMhz": 916.1,
+    "toMhz": 918.9,
+    "usageDescriptionId": 14,
+    "usageDescriptionDescription": "RFID",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Beslut (EU) 2018/1538, i lydelsen enligt beslut (EU) 2022/172"
+  },
+  {
+    "id": 4164,
+    "fromMhz": 919.4,
+    "toMhz": 925.0,
+    "usageDescriptionId": 99,
+    "usageDescriptionDescription": "Mobil radio för järnväg (RMR)",
+    "reference": "",
+    "duplexband": "874,4 - 880",
+    "remark": "Beslut (EU) 2021/1730<br/>ECC/DEC/(20)02"
+  },
+  {
+    "id": 4165,
+    "fromMhz": 925.0,
+    "toMhz": 960.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "880 - 915",
+    "remark": "Blocktillstånd<br/>Undantag från tillståndsplikt<br/>Direktiv 87/372/EEG, i lydelsen enligt direktiv 2009/114/EG<br/>Beslut (EU) 2022/173<br/>Beslut (EU) 2024/340<br/>Rekommendation 2010/167/EU<br/>ERC/DEC/(97)02<br/>ECC/DEC/(06)13<br/>ECC/DEC/(08)08<br/>ECC/DEC/(22)01"
+  },
+  {
+    "id": 4167,
+    "fromMhz": 960.0,
+    "toMhz": 1215.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4166,
+    "fromMhz": 960.0,
+    "toMhz": 1215.0,
+    "usageDescriptionId": 2,
+    "usageDescriptionDescription": "Radionavigering för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": "DME"
+  },
+  {
+    "id": 4168,
+    "fromMhz": 1026.0,
+    "toMhz": 1034.0,
+    "usageDescriptionId": 66,
+    "usageDescriptionDescription": "Luftfartsradio (SSR)",
+    "reference": "",
+    "duplexband": "1086 - 1094",
+    "remark": ""
+  },
+  {
+    "id": 4169,
+    "fromMhz": 1086.0,
+    "toMhz": 1094.0,
+    "usageDescriptionId": 66,
+    "usageDescriptionDescription": "Luftfartsradio (SSR)",
+    "reference": "",
+    "duplexband": "1026 - 1034",
+    "remark": ""
+  },
+  {
+    "id": 4170,
+    "fromMhz": 1087.7,
+    "toMhz": 1092.3,
+    "usageDescriptionId": 67,
+    "usageDescriptionDescription": "Mobil luftfart via satellit (ADS-B)",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4171,
+    "fromMhz": 1164.0,
+    "toMhz": 1215.0,
+    "usageDescriptionId": 68,
+    "usageDescriptionDescription": "Satellitnavigerings-system",
+    "reference": "",
+    "duplexband": "",
+    "remark": "GALILEO<br/>ECC/REC/(10)02"
+  },
+  {
+    "id": 4172,
+    "fromMhz": 1164.0,
+    "toMhz": 1191.795,
+    "usageDescriptionId": 68,
+    "usageDescriptionDescription": "Satellitnavigerings-system",
+    "reference": "",
+    "duplexband": "",
+    "remark": "GPS<br/>ECC/REC/(10)02"
+  },
+  {
+    "id": 4173,
+    "fromMhz": 1191.795,
+    "toMhz": 1215.0,
+    "usageDescriptionId": 68,
+    "usageDescriptionDescription": "Satellitnavigerings-system",
+    "reference": "",
+    "duplexband": "",
+    "remark": "GLONASS<br/>ECC/REC/(10)02"
+  },
+  {
+    "id": 4175,
+    "fromMhz": 1215.0,
+    "toMhz": 1237.0,
+    "usageDescriptionId": 68,
+    "usageDescriptionDescription": "Satellitnavigerings-system",
+    "reference": "",
+    "duplexband": "",
+    "remark": "GPS<br/>ECC/REC/(10)02"
+  },
+  {
+    "id": 4174,
+    "fromMhz": 1215.0,
+    "toMhz": 1400.0,
+    "usageDescriptionId": 20,
+    "usageDescriptionDescription": "Radiolokalisering",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4176,
+    "fromMhz": 1237.0,
+    "toMhz": 1260.0,
+    "usageDescriptionId": 68,
+    "usageDescriptionDescription": "Satellitnavigerings-system",
+    "reference": "",
+    "duplexband": "",
+    "remark": "GLONASS<br/>ECC/REC/(10)02"
+  },
+  {
+    "id": 4177,
+    "fromMhz": 1240.0,
+    "toMhz": 1300.0,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4178,
+    "fromMhz": 1260.0,
+    "toMhz": 1300.0,
+    "usageDescriptionId": 68,
+    "usageDescriptionDescription": "Satellitnavigerings-system",
+    "reference": "",
+    "duplexband": "",
+    "remark": "GALILEO<br/>ECC/REC/(10)02"
+  },
+  {
+    "id": 4179,
+    "fromMhz": 1300.0,
+    "toMhz": 1400.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(11)01"
+  },
+  {
+    "id": 4180,
+    "fromMhz": 1330.0,
+    "toMhz": 1427.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4181,
+    "fromMhz": 1400.0,
+    "toMhz": 1427.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(11)01"
+  },
+  {
+    "id": 4182,
+    "fromMhz": 1427.0,
+    "toMhz": 1518.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Beslut (EU) 2015/750, i lydelsen enligt beslut (EU) 2018/661<br/>ECC/DEC/(11)01<br/>ECC/DEC(13)03<br/>ECC/DEC (17)06<br/>ECC/DEC/(22)01"
+  },
+  {
+    "id": 4184,
+    "fromMhz": 1518.0,
+    "toMhz": 1525.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "MSS nedlänk<br/>ECC/DEC/(04)09<br/>ECC/DEC/(12)01"
+  },
+  {
+    "id": 4183,
+    "fromMhz": 1518.0,
+    "toMhz": 1544.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4185,
+    "fromMhz": 1525.0,
+    "toMhz": 1559.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "MSS nedlänk<br/>ECC/DEC/(12)01"
+  },
+  {
+    "id": 4186,
+    "fromMhz": 1544.0,
+    "toMhz": 1545.0,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 4187,
+    "fromMhz": 1545.0,
+    "toMhz": 1559.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4188,
+    "fromMhz": 1559.0,
+    "toMhz": 1591.0,
+    "usageDescriptionId": 68,
+    "usageDescriptionDescription": "Satellitnavigerings-system",
+    "reference": "",
+    "duplexband": "",
+    "remark": "GALILEO<br/>ECC/REC/(10)02"
+  },
+  {
+    "id": 4189,
+    "fromMhz": 1563.0,
+    "toMhz": 1587.0,
+    "usageDescriptionId": 68,
+    "usageDescriptionDescription": "Satellitnavigerings-system",
+    "reference": "",
+    "duplexband": "",
+    "remark": "GPS<br/>ECC/REC/(10)02"
+  },
+  {
+    "id": 4190,
+    "fromMhz": 1591.0,
+    "toMhz": 1610.0,
+    "usageDescriptionId": 68,
+    "usageDescriptionDescription": "Satellitnavigerings-system",
+    "reference": "",
+    "duplexband": "",
+    "remark": "GLONASS<br/>ECC/REC/(10)02"
+  },
+  {
+    "id": 4191,
+    "fromMhz": 1610.0,
+    "toMhz": 1613.8,
+    "usageDescriptionId": 42,
+    "usageDescriptionDescription": "Jordstationer (mobila satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "MSS upplänk<br/>Undantag från tillståndsplikt<br/>ECC/DEC/(09)02<br/>ECC/DEC/(12)01"
+  },
+  {
+    "id": 4192,
+    "fromMhz": 1610.6,
+    "toMhz": 1613.8,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4193,
+    "fromMhz": 1613.8,
+    "toMhz": 1626.5,
+    "usageDescriptionId": 42,
+    "usageDescriptionDescription": "Jordstationer (mobila satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "MSS upplänk<br/>Undantag från tillståndsplikt<br/>ECC/DEC/(09)02<br/>ECC/DEC/(09)04<br/>ECC/DEC/(12)01"
+  },
+  {
+    "id": 4194,
+    "fromMhz": 1626.5,
+    "toMhz": 1645.5,
+    "usageDescriptionId": 42,
+    "usageDescriptionDescription": "Jordstationer (mobila satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "MSS upplänk<br/>Undantag från tillståndsplikt<br/>ECC/DEC/(12)01"
+  },
+  {
+    "id": 4195,
+    "fromMhz": 1645.5,
+    "toMhz": 1646.5,
+    "usageDescriptionId": 8,
+    "usageDescriptionDescription": "Sjöfartsradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Nöd- och säkerhetstrafik"
+  },
+  {
+    "id": 4196,
+    "fromMhz": 1646.5,
+    "toMhz": 1660.5,
+    "usageDescriptionId": 42,
+    "usageDescriptionDescription": "Jordstationer (mobila satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "MSS upplänk<br/>Undantag från tillståndsplikt<br/>ECC/DEC/(12)01"
+  },
+  {
+    "id": 4197,
+    "fromMhz": 1660.0,
+    "toMhz": 1670.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4198,
+    "fromMhz": 1668.0,
+    "toMhz": 1670.0,
+    "usageDescriptionId": 42,
+    "usageDescriptionDescription": "Jordstationer (mobila satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "MSS upplänk"
+  },
+  {
+    "id": 4199,
+    "fromMhz": 1670.0,
+    "toMhz": 1675.0,
+    "usageDescriptionId": 42,
+    "usageDescriptionDescription": "Jordstationer (mobila satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "MSS upplänk<br/>ECC/DEC/(04)09"
+  },
+  {
+    "id": 4200,
+    "fromMhz": 1675.0,
+    "toMhz": 1710.0,
+    "usageDescriptionId": 57,
+    "usageDescriptionDescription": "Meteorologi via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4201,
+    "fromMhz": 1710.0,
+    "toMhz": 1785.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "1805 - 1880",
+    "remark": "Blocktillstånd<br/>Undantag från tillståndsplikt<br/>Beslut 2008/294/EG, i lydelsen enligt beslut (EU) 2022/2324<br/>Rekommendation 2008/295/EG<br/>Beslut (EU) 2022/173<br/>Beslut (EU) 2024/340<br/>Rekommendation 2010/167/EU<br/>ECC/DEC/(06)07<br/>ECC/DEC/(06)13<br/>ECC/DEC/(08)08<br/>ECC/DEC/(22)01"
+  },
+  {
+    "id": 4202,
+    "fromMhz": 1718.8,
+    "toMhz": 1722.2,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4203,
+    "fromMhz": 1785.0,
+    "toMhz": 1804.8,
+    "usageDescriptionId": 33,
+    "usageDescriptionDescription": "Ljudöverföring",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4204,
+    "fromMhz": 1805.0,
+    "toMhz": 1880.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "1710 - 1785",
+    "remark": "Blocktillstånd<br/>Undantag från tillståndsplikt<br/>Beslut 2008/294/EG, i lydelsen enligt beslut (EU) 2022/2324<br/>Rekommendation 2008/295/EG<br/>Beslut (EU) 2022/173<br/>Beslut (EU) 2024/340<br/>Rekommendation 2010/167/EU<br/>ECC/DEC/(06)07<br/>ECC/DEC/(06)13<br/>ECC/DEC/(08)08<br/>ECC/DEC/(22)01"
+  },
+  {
+    "id": 4205,
+    "fromMhz": 1880.0,
+    "toMhz": 1900.0,
+    "usageDescriptionId": 70,
+    "usageDescriptionDescription": "DECT",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Direktiv 91/287/EEG<br/>ERC/DEC/(98)22"
+  },
+  {
+    "id": 4206,
+    "fromMhz": 1900.0,
+    "toMhz": 1910.0,
+    "usageDescriptionId": 99,
+    "usageDescriptionDescription": "Mobil radio för järnväg (RMR)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Beslut (EU) 2021/1730<br/>ECC/DEC/(20)02"
+  },
+  {
+    "id": 4207,
+    "fromMhz": 1900.0,
+    "toMhz": 1920.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Blocktillstånd<br/>ECC/DEC/(22)01"
+  },
+  {
+    "id": 4208,
+    "fromMhz": 1920.0,
+    "toMhz": 1980.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "2110 - 2170",
+    "remark": "Blocktillstånd<br/>Undantag från tillståndsplikt<br/>Beslut 2008/294/EG, i lydelsen enligt beslut (EU) 2022/2324<br/>Beslut (EU) 2024/340<br/>Rekommendation 2010/167/EU<br/>Beslut 2012/688/EU, i lydelsen enligt beslut (EU) 2020/667<br/>Beslut (EU) 2024/340<br/>ECC/DEC/(06)01<br/>ECC/DEC/(06)07<br/>ECC/DEC/(08)08<br/>ECC/DEC/(22)01"
+  },
+  {
+    "id": 4209,
+    "fromMhz": 1980.0,
+    "toMhz": 2010.0,
+    "usageDescriptionId": 42,
+    "usageDescriptionDescription": "Jordstationer (mobila satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "MSS upplänk<br/>Blocktillstånd<br/>Undantag från tillståndsplikt<br/>Beslut nr 626/2008/EG, i lydelsen enligt förordning (EU) 2019/1243<br/>Beslut 2009/449/EG<br/>Beslut 2007/98/EG<br/>ECC/DEC/(06)09<br/>ECC/DEC/(06)10<br/>ECC/DEC/(12)01"
+  },
+  {
+    "id": 4210,
+    "fromMhz": 2010.0,
+    "toMhz": 2025.0,
+    "usageDescriptionId": 71,
+    "usageDescriptionDescription": "Video PMSE",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Beslut (EU) 2016/339"
+  },
+  {
+    "id": 4213,
+    "fromMhz": 2025.0,
+    "toMhz": 2110.0,
+    "usageDescriptionId": 85,
+    "usageDescriptionDescription": "Rymdforskning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Esrange<br/>ESAs Kiruna station"
+  },
+  {
+    "id": 4212,
+    "fromMhz": 2025.0,
+    "toMhz": 2110.0,
+    "usageDescriptionId": 56,
+    "usageDescriptionDescription": "Rymdfarkostkontroll",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Upplänk<br/>Satellit-satellit"
+  },
+  {
+    "id": 4211,
+    "fromMhz": 2025.0,
+    "toMhz": 2110.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4214,
+    "fromMhz": 2110.0,
+    "toMhz": 2170.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "1920 - 1980",
+    "remark": "Blocktillstånd<br/>Undantag från tillståndsplikt<br/>Beslut 2008/294/EG, i lydelsen enligt beslut (EU) 2022/2324<br/>Beslut (EU) 2024/340<br/>Rekommendation 2010/167/EU<br/>Beslut 2012/688/EU, i lydelsen enligt beslut (EU) 2020/667<br/>ECC/DEC/(06)01<br/>ECC/DEC/(06)07<br/>ECC/DEC/(08)08<br/>ECC/DEC/(22)01"
+  },
+  {
+    "id": 4215,
+    "fromMhz": 2170.0,
+    "toMhz": 2200.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "MSS nedlänk<br/>Blocktillstånd<br/>Beslut nr 626/2008/EG, i lydelsen enligt förordning (EU) 2019/1243<br/>Beslut 2009/449/EG<br/>Beslut 2007/98/EG<br/>ECC/DEC/(06)09<br/>ECC/DEC/(06)10<br/>ECC/DEC/(12)01"
+  },
+  {
+    "id": 4216,
+    "fromMhz": 2180.0,
+    "toMhz": 2370.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4218,
+    "fromMhz": 2200.0,
+    "toMhz": 2290.0,
+    "usageDescriptionId": 56,
+    "usageDescriptionDescription": "Rymdfarkostkontroll",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Nedlänk<br/>Satellit-satellit"
+  },
+  {
+    "id": 4217,
+    "fromMhz": 2200.0,
+    "toMhz": 2300.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4219,
+    "fromMhz": 2200.0,
+    "toMhz": 2290.0,
+    "usageDescriptionId": 85,
+    "usageDescriptionDescription": "Rymdforskning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Esrange<br/>ESAs Kiruna station"
+  },
+  {
+    "id": 4220,
+    "fromMhz": 2300.0,
+    "toMhz": 2380.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Blocktillstånd<br/>ECC/DEC/(14)02<br/>ECC/DEC/(22)01"
+  },
+  {
+    "id": 4221,
+    "fromMhz": 2380.0,
+    "toMhz": 2400.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(14)02<br/>ECC/DEC/(22)01"
+  },
+  {
+    "id": 4227,
+    "fromMhz": 2400.0,
+    "toMhz": 2483.5,
+    "usageDescriptionId": 62,
+    "usageDescriptionDescription": "Dataöverföring",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4225,
+    "fromMhz": 2400.0,
+    "toMhz": 2483.5,
+    "usageDescriptionId": 25,
+    "usageDescriptionDescription": "Allmän kortdistansradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4223,
+    "fromMhz": 2400.0,
+    "toMhz": 2483.5,
+    "usageDescriptionId": 21,
+    "usageDescriptionDescription": "Landmobil radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4222,
+    "fromMhz": 2400.0,
+    "toMhz": 2483.5,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4224,
+    "fromMhz": 2400.0,
+    "toMhz": 2450.0,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4226,
+    "fromMhz": 2400.0,
+    "toMhz": 2483.5,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4228,
+    "fromMhz": 2446.0,
+    "toMhz": 2454.0,
+    "usageDescriptionId": 14,
+    "usageDescriptionDescription": "RFID",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4229,
+    "fromMhz": 2483.5,
+    "toMhz": 2500.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "MSS nedlänk<br/>ECC/DEC/(09)02<br/>ECC/DEC/(12)01"
+  },
+  {
+    "id": 4231,
+    "fromMhz": 2483.5,
+    "toMhz": 2500.0,
+    "usageDescriptionId": 100,
+    "usageDescriptionDescription": "MBANS",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4230,
+    "fromMhz": 2483.5,
+    "toMhz": 2500.0,
+    "usageDescriptionId": 96,
+    "usageDescriptionDescription": "Aktiva medicinska implantat",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4232,
+    "fromMhz": 2500.0,
+    "toMhz": 2690.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Blocktillstånd<br/>Undantag från tillståndsplikt<br/>Beslut 2008/477/EG, i lydelsen enligt beslut (EU) 2020/636<br/>Beslut (EU) 2024/340<br/>ECC/DEC/(05)05<br/>ECC/DEC/(08)08<br/>ECC/DEC/(22)01"
+  },
+  {
+    "id": 4233,
+    "fromMhz": 2655.0,
+    "toMhz": 2690.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4234,
+    "fromMhz": 2690.0,
+    "toMhz": 2700.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4236,
+    "fromMhz": 2700.0,
+    "toMhz": 2900.0,
+    "usageDescriptionId": 20,
+    "usageDescriptionDescription": "Radiolokalisering",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4235,
+    "fromMhz": 2700.0,
+    "toMhz": 2900.0,
+    "usageDescriptionId": 2,
+    "usageDescriptionDescription": "Radionavigering för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4237,
+    "fromMhz": 2700.0,
+    "toMhz": 2900.0,
+    "usageDescriptionId": 81,
+    "usageDescriptionDescription": "Meteorologisk radar",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4240,
+    "fromMhz": 2900.0,
+    "toMhz": 3100.0,
+    "usageDescriptionId": 74,
+    "usageDescriptionDescription": "Sjöfartsradar",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4238,
+    "fromMhz": 2900.0,
+    "toMhz": 3400.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4239,
+    "fromMhz": 2900.0,
+    "toMhz": 3100.0,
+    "usageDescriptionId": 4,
+    "usageDescriptionDescription": "Radionavigering för sjöfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4241,
+    "fromMhz": 3100.0,
+    "toMhz": 3400.0,
+    "usageDescriptionId": 20,
+    "usageDescriptionDescription": "Radiolokalisering",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4242,
+    "fromMhz": 3260.0,
+    "toMhz": 3267.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4243,
+    "fromMhz": 3332.0,
+    "toMhz": 3339.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4244,
+    "fromMhz": 3345.8,
+    "toMhz": 3352.5,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4245,
+    "fromMhz": 3400.0,
+    "toMhz": 3720.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Blocktillstånd<br/>Beslut 2008/411/EG, i lydelsen enligt beslut (EU) 2019/235<br/>ECC/DEC/(11)06<br/>ECC/DEC/(22)01"
+  },
+  {
+    "id": 4246,
+    "fromMhz": 3720.0,
+    "toMhz": 3800.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Blocktillstånd (lokala tillstånd)<br/>Beslut 2008/411/EG, i lydelsen enligt beslut (EU) 2019/235<br/>ECC/DEC/(11)06<br/>ECC/DEC/(22)01"
+  },
+  {
+    "id": 4248,
+    "fromMhz": 3800.0,
+    "toMhz": 4200.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(24)01"
+  },
+  {
+    "id": 4247,
+    "fromMhz": 3800.0,
+    "toMhz": 4200.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS nedlänk<br/>ECC/DEC/(05)09"
+  },
+  {
+    "id": 4249,
+    "fromMhz": 3900.0,
+    "toMhz": 4990.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4250,
+    "fromMhz": 4200.0,
+    "toMhz": 4400.0,
+    "usageDescriptionId": 2,
+    "usageDescriptionDescription": "Radionavigering för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4251,
+    "fromMhz": 4200.0,
+    "toMhz": 4400.0,
+    "usageDescriptionId": 76,
+    "usageDescriptionDescription": "Höjdmätare",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4252,
+    "fromMhz": 4200.0,
+    "toMhz": 4400.0,
+    "usageDescriptionId": 77,
+    "usageDescriptionDescription": "Mobil luftfartsradio (WAIC)",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4254,
+    "fromMhz": 4500.0,
+    "toMhz": 7000.0,
+    "usageDescriptionId": 78,
+    "usageDescriptionDescription": "Nivåmätare för kärl och behållare (TLPR)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4253,
+    "fromMhz": 4500.0,
+    "toMhz": 4800.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS nedlänk<br/>RR AP30B"
+  },
+  {
+    "id": 4255,
+    "fromMhz": 4800.0,
+    "toMhz": 5000.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4256,
+    "fromMhz": 5000.0,
+    "toMhz": 5250.0,
+    "usageDescriptionId": 2,
+    "usageDescriptionDescription": "Radionavigering för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4257,
+    "fromMhz": 5030.0,
+    "toMhz": 5150.0,
+    "usageDescriptionId": 79,
+    "usageDescriptionDescription": "Luftfartsradio (MLS)",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4258,
+    "fromMhz": 5091.0,
+    "toMhz": 5850.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4260,
+    "fromMhz": 5150.0,
+    "toMhz": 5350.0,
+    "usageDescriptionId": 62,
+    "usageDescriptionDescription": "Dataöverföring",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Beslut (EU) 2022/179, i lydelsen enligt beslut (EU) 2022/2307<br/>ECC/DEC/(04)08"
+  },
+  {
+    "id": 4259,
+    "fromMhz": 5150.0,
+    "toMhz": 5250.0,
+    "usageDescriptionId": 80,
+    "usageDescriptionDescription": "Luftfartsradio (telemetri)",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4261,
+    "fromMhz": 5350.0,
+    "toMhz": 5470.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Copernicus"
+  },
+  {
+    "id": 4262,
+    "fromMhz": 5440.0,
+    "toMhz": 5440.0,
+    "usageDescriptionId": 2,
+    "usageDescriptionDescription": "Radionavigering för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4263,
+    "fromMhz": 5440.0,
+    "toMhz": 5440.0,
+    "usageDescriptionId": 12,
+    "usageDescriptionDescription": "Radiofyrar för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4264,
+    "fromMhz": 5460.0,
+    "toMhz": 5470.0,
+    "usageDescriptionId": 2,
+    "usageDescriptionDescription": "Radionavigering för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4265,
+    "fromMhz": 5470.0,
+    "toMhz": 5650.0,
+    "usageDescriptionId": 4,
+    "usageDescriptionDescription": "Radionavigering för sjöfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4266,
+    "fromMhz": 5470.0,
+    "toMhz": 5725.0,
+    "usageDescriptionId": 62,
+    "usageDescriptionDescription": "Dataöverföring",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Beslut (EU) 2022/179, i lydelsen enligt beslut (EU) 2022/2307<br/>ECC/DEC/(04)08"
+  },
+  {
+    "id": 4267,
+    "fromMhz": 5525.0,
+    "toMhz": 5525.0,
+    "usageDescriptionId": 2,
+    "usageDescriptionDescription": "Radionavigering för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4268,
+    "fromMhz": 5525.0,
+    "toMhz": 5525.0,
+    "usageDescriptionId": 12,
+    "usageDescriptionDescription": "Radiofyrar för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4269,
+    "fromMhz": 5600.0,
+    "toMhz": 5650.0,
+    "usageDescriptionId": 81,
+    "usageDescriptionDescription": "Meteorologisk radar",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4270,
+    "fromMhz": 5650.0,
+    "toMhz": 5850.0,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4271,
+    "fromMhz": 5725.0,
+    "toMhz": 5875.0,
+    "usageDescriptionId": 25,
+    "usageDescriptionDescription": "Allmän kortdistansradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4272,
+    "fromMhz": 5795.0,
+    "toMhz": 5815.0,
+    "usageDescriptionId": 82,
+    "usageDescriptionDescription": "Väg- och fordonstelemetri",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4273,
+    "fromMhz": 5855.0,
+    "toMhz": 5875.0,
+    "usageDescriptionId": 83,
+    "usageDescriptionDescription": "ITS",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4274,
+    "fromMhz": 5875.0,
+    "toMhz": 5925.0,
+    "usageDescriptionId": 83,
+    "usageDescriptionDescription": "ITS",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Beslut (EU) 2020/1426<br/>Säkerhetsrelaterade tillämpningar"
+  },
+  {
+    "id": 4275,
+    "fromMhz": 5875.0,
+    "toMhz": 6725.0,
+    "usageDescriptionId": 84,
+    "usageDescriptionDescription": "Jordstationer (fasta satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS upplänk<br/>ECC/DEC/(05)09"
+  },
+  {
+    "id": 4276,
+    "fromMhz": 5925.0,
+    "toMhz": 5935.0,
+    "usageDescriptionId": 83,
+    "usageDescriptionDescription": "ITS",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Beslut (EU) 2020/1426<br/>Säkerhetsrelaterade tillämpningar"
+  },
+  {
+    "id": 4277,
+    "fromMhz": 5930.0,
+    "toMhz": 6168.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "6182 - 6420",
+    "remark": "Kanalplan<br/>ERC/REC 14-01"
+  },
+  {
+    "id": 4278,
+    "fromMhz": 5945.0,
+    "toMhz": 6425.0,
+    "usageDescriptionId": 62,
+    "usageDescriptionDescription": "Dataöverföring",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Beslut (EU) 2021/1067<br/>ECC/DEC/(20)01"
+  },
+  {
+    "id": 4279,
+    "fromMhz": 6000.0,
+    "toMhz": 8500.0,
+    "usageDescriptionId": 101,
+    "usageDescriptionDescription": "Nivåmätare (LPR)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1<br/>ECC/DEC/(11)02"
+  },
+  {
+    "id": 4280,
+    "fromMhz": 6182.0,
+    "toMhz": 6420.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "5930 - 6168",
+    "remark": "Kanalplan<br/>ERC/REC 14-01"
+  },
+  {
+    "id": 4281,
+    "fromMhz": 6425.0,
+    "toMhz": 6760.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "6770 - 7125",
+    "remark": "Kanalplan<br/>ERC/REC 14-02"
+  },
+  {
+    "id": 4282,
+    "fromMhz": 6425.0,
+    "toMhz": 7025.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Användning över hav"
+  },
+  {
+    "id": 4283,
+    "fromMhz": 6650.0,
+    "toMhz": 6675.2,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4284,
+    "fromMhz": 6725.0,
+    "toMhz": 7025.0,
+    "usageDescriptionId": 84,
+    "usageDescriptionDescription": "Jordstationer (fasta satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS upplänk<br/>RR AP30B"
+  },
+  {
+    "id": 4285,
+    "fromMhz": 6770.0,
+    "toMhz": 7125.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "6425 - 6760",
+    "remark": "Kanalplan<br/>ERC/REC 14-02"
+  },
+  {
+    "id": 4286,
+    "fromMhz": 7025.0,
+    "toMhz": 7075.0,
+    "usageDescriptionId": 84,
+    "usageDescriptionDescription": "Jordstationer (fasta satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS upplänk"
+  },
+  {
+    "id": 4287,
+    "fromMhz": 7075.0,
+    "toMhz": 7250.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Användning över hav"
+  },
+  {
+    "id": 4288,
+    "fromMhz": 7125.0,
+    "toMhz": 7424.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4289,
+    "fromMhz": 7190.0,
+    "toMhz": 7250.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "TT&C Upplänk"
+  },
+  {
+    "id": 4290,
+    "fromMhz": 7250.0,
+    "toMhz": 7750.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS nedlänk"
+  },
+  {
+    "id": 4291,
+    "fromMhz": 7427.1,
+    "toMhz": 7568.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "7581,1 - 7722",
+    "remark": "Kanalplan<br/>ECC/REC (02)06, Annex 1"
+  },
+  {
+    "id": 4292,
+    "fromMhz": 7450.0,
+    "toMhz": 7550.0,
+    "usageDescriptionId": 57,
+    "usageDescriptionDescription": "Meteorologi via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4293,
+    "fromMhz": 7581.1,
+    "toMhz": 7722.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "7427,1 - 7568",
+    "remark": "Kanalplan<br/>ECC/REC (02)06, Annex 1"
+  },
+  {
+    "id": 4294,
+    "fromMhz": 7750.0,
+    "toMhz": 7900.0,
+    "usageDescriptionId": 57,
+    "usageDescriptionDescription": "Meteorologi via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4295,
+    "fromMhz": 7900.0,
+    "toMhz": 8185.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "8210 - 8495",
+    "remark": "Kanalplan<br/>ECC/REC (02)06, Annex 2"
+  },
+  {
+    "id": 4296,
+    "fromMhz": 7900.0,
+    "toMhz": 8400.0,
+    "usageDescriptionId": 84,
+    "usageDescriptionDescription": "Jordstationer (fasta satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS upplänk"
+  },
+  {
+    "id": 4297,
+    "fromMhz": 8025.0,
+    "toMhz": 8400.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4298,
+    "fromMhz": 8190.0,
+    "toMhz": 9000.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4299,
+    "fromMhz": 8210.0,
+    "toMhz": 8495.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "7900 - 8185",
+    "remark": "Kanalplan<br/>ECC/REC (02)06, Annex 2"
+  },
+  {
+    "id": 4300,
+    "fromMhz": 8400.0,
+    "toMhz": 8500.0,
+    "usageDescriptionId": 85,
+    "usageDescriptionDescription": "Rymdforskning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4303,
+    "fromMhz": 8500.0,
+    "toMhz": 10600.0,
+    "usageDescriptionId": 78,
+    "usageDescriptionDescription": "Nivåmätare för kärl och behållare (TLPR)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4301,
+    "fromMhz": 8500.0,
+    "toMhz": 10210.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4302,
+    "fromMhz": 8500.0,
+    "toMhz": 8850.0,
+    "usageDescriptionId": 20,
+    "usageDescriptionDescription": "Radiolokalisering",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4304,
+    "fromMhz": 8750.0,
+    "toMhz": 8850.0,
+    "usageDescriptionId": 2,
+    "usageDescriptionDescription": "Radionavigering för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4305,
+    "fromMhz": 8750.0,
+    "toMhz": 8850.0,
+    "usageDescriptionId": 86,
+    "usageDescriptionDescription": "Flygburen dopplernavigerings-utrustning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4306,
+    "fromMhz": 9000.0,
+    "toMhz": 9200.0,
+    "usageDescriptionId": 2,
+    "usageDescriptionDescription": "Radionavigering för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4307,
+    "fromMhz": 9000.0,
+    "toMhz": 9200.0,
+    "usageDescriptionId": 20,
+    "usageDescriptionDescription": "Radiolokalisering",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4308,
+    "fromMhz": 9200.0,
+    "toMhz": 9300.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4309,
+    "fromMhz": 9225.0,
+    "toMhz": 9500.0,
+    "usageDescriptionId": 74,
+    "usageDescriptionDescription": "Sjöfartsradar",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4310,
+    "fromMhz": 9300.0,
+    "toMhz": 9500.0,
+    "usageDescriptionId": 81,
+    "usageDescriptionDescription": "Meteorologisk radar",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4311,
+    "fromMhz": 9900.0,
+    "toMhz": 10400.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4313,
+    "fromMhz": 10000.0,
+    "toMhz": 10210.0,
+    "usageDescriptionId": 20,
+    "usageDescriptionDescription": "Radiolokalisering",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4312,
+    "fromMhz": 10000.0,
+    "toMhz": 10500.0,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4314,
+    "fromMhz": 10210.0,
+    "toMhz": 10266.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "10560 - 10616",
+    "remark": "Blocktillstånd<br/>ECC/DEC/(10)01"
+  },
+  {
+    "id": 4315,
+    "fromMhz": 10250.0,
+    "toMhz": 10280.0,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4316,
+    "fromMhz": 10266.0,
+    "toMhz": 10322.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "10616 - 10672",
+    "remark": "Svensk kanalplan <br/>ERC/REC 12-05"
+  },
+  {
+    "id": 4317,
+    "fromMhz": 10350.0,
+    "toMhz": 10380.0,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4318,
+    "fromMhz": 10450.0,
+    "toMhz": 10560.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4319,
+    "fromMhz": 10510.0,
+    "toMhz": 10580.0,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4320,
+    "fromMhz": 10560.0,
+    "toMhz": 10616.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "10210 - 10266",
+    "remark": "Blocktillstånd<br/>ECC/DEC/(10)01"
+  },
+  {
+    "id": 4322,
+    "fromMhz": 10600.0,
+    "toMhz": 10680.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "RES751 (WRC-07)"
+  },
+  {
+    "id": 4321,
+    "fromMhz": 10600.0,
+    "toMhz": 10700.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4323,
+    "fromMhz": 10616.0,
+    "toMhz": 10672.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "10266 - 10322",
+    "remark": "Svensk kanalplan <br/>ERC/REC 12-05"
+  },
+  {
+    "id": 4324,
+    "fromMhz": 10644.0,
+    "toMhz": 10680.0,
+    "usageDescriptionId": 20,
+    "usageDescriptionDescription": "Radiolokalisering",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4325,
+    "fromMhz": 10700.0,
+    "toMhz": 10950.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS nedlänk<br/>RR AP30B<br/>ERC/DEC(00)08<br/>ECC/DEC(03)04<br/>ECC/DEC/(05)10<br/>ECC/DEC/(05)11<br/>ECC/DEC/(06)03<br/>ECC/DEC/(17)04<br/>ECC/DEC/(18)04<br/>ECC/DEC/(18)05<br/>ECC/DEC/(19)04"
+  },
+  {
+    "id": 4326,
+    "fromMhz": 10950.0,
+    "toMhz": 11200.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS nedlänk<br/>ERC/DEC(00)08<br/>ECC/DEC(03)04<br/>ECC/DEC/(05)10<br/>ECC/DEC/(05)11<br/>ECC/DEC/(06)03<br/>ECC/DEC/(17)04<br/>ECC/DEC/(18)04<br/>ECC/DEC/(18)05<br/>ECC/DEC/(19)04"
+  },
+  {
+    "id": 4327,
+    "fromMhz": 11200.0,
+    "toMhz": 11450.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS nedlänk<br/>RR AP30B<br/>ERC/DEC(00)08<br/>ECC/DEC(03)04<br/>ECC/DEC/(05)10<br/>ECC/DEC/(05)11<br/>ECC/DEC/(06)03<br/>ECC/DEC/(17)04<br/>ECC/DEC/(18)04<br/>ECC/DEC/(18)05<br/>ECC/DEC/(19)04"
+  },
+  {
+    "id": 4328,
+    "fromMhz": 11450.0,
+    "toMhz": 11700.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS nedlänk<br/>ERC/DEC(00)08<br/>ECC/DEC(03)04<br/>ECC/DEC/(05)10<br/>ECC/DEC/(05)11<br/>ECC/DEC/(06)03<br/>ECC/DEC/(17)04<br/>ECC/DEC/(18)04<br/>ECC/DEC/(18)05<br/>ECC/DEC/(19)04"
+  },
+  {
+    "id": 4329,
+    "fromMhz": 11700.0,
+    "toMhz": 12500.0,
+    "usageDescriptionId": 88,
+    "usageDescriptionDescription": "Rundradio via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "BSS nedlänk<br/>RR AP30<br/>ERC/DEC(00)08<br/>ECC/DEC/(06)03<br/>ECC/DEC/(17)04<br/>ECC/DEC/(18)04<br/>ECC/DEC/(18)05<br/>ECC/DEC/(19)04"
+  },
+  {
+    "id": 4330,
+    "fromMhz": 12500.0,
+    "toMhz": 12750.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS nedlänk<br/>ECC/DEC/(05)10<br/>ECC/DEC/(05)11<br/>ECC/DEC/(06)03<br/>ECC/DEC/(17)04<br/>ECC/DEC/(18)04<br/>ECC/DEC/(18)05<br/>ECC/DEC/(19)04"
+  },
+  {
+    "id": 4331,
+    "fromMhz": 12750.0,
+    "toMhz": 14000.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4332,
+    "fromMhz": 12750.0,
+    "toMhz": 13250.0,
+    "usageDescriptionId": 84,
+    "usageDescriptionDescription": "Jordstationer (fasta satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS upplänk<br/>RR AP30B<br/>ECC/DEC/(19)04"
+  },
+  {
+    "id": 4333,
+    "fromMhz": 12751.0,
+    "toMhz": 12863.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "13017 - 13129",
+    "remark": "ERC/REC 12-02"
+  },
+  {
+    "id": 4334,
+    "fromMhz": 13017.0,
+    "toMhz": 13129.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "12751 - 12863",
+    "remark": "ERC/REC 12-02"
+  },
+  {
+    "id": 4335,
+    "fromMhz": 13250.0,
+    "toMhz": 13400.0,
+    "usageDescriptionId": 2,
+    "usageDescriptionDescription": "Radionavigering för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4336,
+    "fromMhz": 13250.0,
+    "toMhz": 13400.0,
+    "usageDescriptionId": 86,
+    "usageDescriptionDescription": "Flygburen dopplernavigerings-utrustning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4339,
+    "fromMhz": 13400.0,
+    "toMhz": 14000.0,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4337,
+    "fromMhz": 13400.0,
+    "toMhz": 14000.0,
+    "usageDescriptionId": 20,
+    "usageDescriptionDescription": "Radiolokalisering",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4338,
+    "fromMhz": 13400.0,
+    "toMhz": 13650.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS (nedlänk)"
+  },
+  {
+    "id": 4340,
+    "fromMhz": 13750.0,
+    "toMhz": 14000.0,
+    "usageDescriptionId": 84,
+    "usageDescriptionDescription": "Jordstationer (fasta satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS upplänk"
+  },
+  {
+    "id": 4341,
+    "fromMhz": 14000.0,
+    "toMhz": 14500.0,
+    "usageDescriptionId": 84,
+    "usageDescriptionDescription": "Jordstationer (fasta satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS upplänk<br/>Undantag från tillståndsplikt<br/>ECC/DEC/(05)10<br/>ECC/DEC/(17)04<br/>ECC/DEC/(18)04<br/>ECC/DEC/(18)05"
+  },
+  {
+    "id": 4342,
+    "fromMhz": 14000.0,
+    "toMhz": 14250.0,
+    "usageDescriptionId": 84,
+    "usageDescriptionDescription": "Jordstationer (fasta satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS upplänk<br/>Undantag från tillståndsplikt<br/>ECC/DEC/(06)03"
+  },
+  {
+    "id": 4343,
+    "fromMhz": 14000.0,
+    "toMhz": 14500.0,
+    "usageDescriptionId": 42,
+    "usageDescriptionDescription": "Jordstationer (mobila satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "MSS upplänk<br/>Undantag från tillståndsplikt<br/>ECC/DEC/(05)11"
+  },
+  {
+    "id": 4344,
+    "fromMhz": 14250.0,
+    "toMhz": 14500.0,
+    "usageDescriptionId": 84,
+    "usageDescriptionDescription": "Jordstationer (fasta satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS upplänk<br/>Undantag från tillståndsplikt<br/>ECC/DEC/(03)04"
+  },
+  {
+    "id": 4345,
+    "fromMhz": 14470.0,
+    "toMhz": 14500.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4346,
+    "fromMhz": 14500.0,
+    "toMhz": 15350.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4347,
+    "fromMhz": 14500.0,
+    "toMhz": 14800.0,
+    "usageDescriptionId": 85,
+    "usageDescriptionDescription": "Rymdforskning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4348,
+    "fromMhz": 14501.0,
+    "toMhz": 14781.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "14921 - 15201",
+    "remark": "Svensk kanalplan"
+  },
+  {
+    "id": 4349,
+    "fromMhz": 14921.0,
+    "toMhz": 15201.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "14501 - 14781",
+    "remark": "Svensk kanalplan"
+  },
+  {
+    "id": 4350,
+    "fromMhz": 15350.0,
+    "toMhz": 15400.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4351,
+    "fromMhz": 15350.0,
+    "toMhz": 15400.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4352,
+    "fromMhz": 15400.0,
+    "toMhz": 15700.0,
+    "usageDescriptionId": 2,
+    "usageDescriptionDescription": "Radionavigering för luftfart",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4353,
+    "fromMhz": 15400.0,
+    "toMhz": 17300.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4356,
+    "fromMhz": 17100.0,
+    "toMhz": 17300.0,
+    "usageDescriptionId": 62,
+    "usageDescriptionDescription": "Dataöverföring",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4355,
+    "fromMhz": 17100.0,
+    "toMhz": 17300.0,
+    "usageDescriptionId": 89,
+    "usageDescriptionDescription": "GBSAR",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4354,
+    "fromMhz": 17100.0,
+    "toMhz": 17300.0,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4357,
+    "fromMhz": 17300.0,
+    "toMhz": 18100.0,
+    "usageDescriptionId": 90,
+    "usageDescriptionDescription": "Matarlänkar (satellit)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS upplänk<br/>RR AP30A<br/>ECC/DEC/(13)01<br/>ECC/DEC/(05)08"
+  },
+  {
+    "id": 4360,
+    "fromMhz": 17700.0,
+    "toMhz": 19300.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS nedlänk<br/>ERC/DEC/(00)07<br/>ECC/DEC/(13)01<br/>"
+  },
+  {
+    "id": 4358,
+    "fromMhz": 17700.0,
+    "toMhz": 18100.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4359,
+    "fromMhz": 17700.0,
+    "toMhz": 18690.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "18710 - 19700",
+    "remark": "Kanalplan<br/>ERC/REC 12-03<br/>ERC/DEC/(00)07"
+  },
+  {
+    "id": 4361,
+    "fromMhz": 18100.0,
+    "toMhz": 18400.0,
+    "usageDescriptionId": 84,
+    "usageDescriptionDescription": "Jordstationer (fasta satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS<br/>ECC/DEC/(13)01"
+  },
+  {
+    "id": 4363,
+    "fromMhz": 18600.0,
+    "toMhz": 18800.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4362,
+    "fromMhz": 18600.0,
+    "toMhz": 19300.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4364,
+    "fromMhz": 18710.0,
+    "toMhz": 19700.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "17700 - 18690",
+    "remark": "Kanalplan<br/>ERC/REC 12-03<br/>ERC/DEC/(00)07"
+  },
+  {
+    "id": 4365,
+    "fromMhz": 19300.0,
+    "toMhz": 19700.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS<br/>ERC/DEC/(00)07<br/>ECC/DEC/(13)01"
+  },
+  {
+    "id": 4366,
+    "fromMhz": 19700.0,
+    "toMhz": 20100.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS nedlänk<br/>ECC/DEC/(05)08<br/>ECC/DEC/(06)03<br/>ECC/DEC/(13)01<br/>ECC/DEC/(15)04"
+  },
+  {
+    "id": 4367,
+    "fromMhz": 20100.0,
+    "toMhz": 21200.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS nedlänk<br/>ECC/DEC/(05)08<br/>ECC/DEC/(06)03<br/>ECC/DEC/(13)01<br/>ECC/DEC/(15)04<br/>MSS nedlänk"
+  },
+  {
+    "id": 4368,
+    "fromMhz": 21200.0,
+    "toMhz": 21400.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4369,
+    "fromMhz": 21400.0,
+    "toMhz": 22000.0,
+    "usageDescriptionId": 88,
+    "usageDescriptionDescription": "Rundradio via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "BSS nedlänk"
+  },
+  {
+    "id": 4370,
+    "fromMhz": 21650.0,
+    "toMhz": 24250.0,
+    "usageDescriptionId": 92,
+    "usageDescriptionDescription": "Fordonsradar (SRR)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Beslut 2005/50/EG, i lydelsen enligt beslut (EU) 2017/2077<br/>ECC/DEC/(04)10"
+  },
+  {
+    "id": 4371,
+    "fromMhz": 22000.0,
+    "toMhz": 22600.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "23000 - 23600",
+    "remark": "Kanalplan<br/>ERC/REC T/R 13-02, Annex 1"
+  },
+  {
+    "id": 4372,
+    "fromMhz": 22010.0,
+    "toMhz": 22500.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4373,
+    "fromMhz": 22210.0,
+    "toMhz": 23600.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4374,
+    "fromMhz": 22810.0,
+    "toMhz": 22860.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4375,
+    "fromMhz": 23000.0,
+    "toMhz": 23600.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "22000 - 22600",
+    "remark": "Kanalplan<br/>ERC/REC T/R 13-02, Annex 1"
+  },
+  {
+    "id": 4376,
+    "fromMhz": 23070.0,
+    "toMhz": 23120.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4377,
+    "fromMhz": 23600.0,
+    "toMhz": 24000.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4379,
+    "fromMhz": 23600.0,
+    "toMhz": 24000.0,
+    "usageDescriptionId": 85,
+    "usageDescriptionDescription": "Rymdforskning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4378,
+    "fromMhz": 23600.0,
+    "toMhz": 24000.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "EUMETSAT"
+  },
+  {
+    "id": 4382,
+    "fromMhz": 24000.0,
+    "toMhz": 24250.0,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4381,
+    "fromMhz": 24000.0,
+    "toMhz": 24250.0,
+    "usageDescriptionId": 25,
+    "usageDescriptionDescription": "Allmän kortdistansradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4380,
+    "fromMhz": 24000.0,
+    "toMhz": 24250.0,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4385,
+    "fromMhz": 24050.0,
+    "toMhz": 27000.0,
+    "usageDescriptionId": 78,
+    "usageDescriptionDescription": "Nivåmätare för kärl och behållare (TLPR)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4383,
+    "fromMhz": 24050.0,
+    "toMhz": 26500.0,
+    "usageDescriptionId": 101,
+    "usageDescriptionDescription": "Nivåmätare (LPR)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1<br/>ECC/DEC/(11)02"
+  },
+  {
+    "id": 4384,
+    "fromMhz": 24050.0,
+    "toMhz": 24250.0,
+    "usageDescriptionId": 102,
+    "usageDescriptionDescription": "Transport- och trafiktelematik (TTT)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4387,
+    "fromMhz": 24250.0,
+    "toMhz": 26650.0,
+    "usageDescriptionId": 92,
+    "usageDescriptionDescription": "Fordonsradar (SRR)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Beslut 2005/50/EG, i lydelsen enligt beslut (EU) 2017/2077<br/>ECC/DEC/(04)10"
+  },
+  {
+    "id": 4386,
+    "fromMhz": 24250.0,
+    "toMhz": 25100.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Blocktillstånd (lokala tillstånd)<br/>Beslut (EU) 2019/784, i lydelsen enligt beslut 2020/590 <br/>ECC/DEC/(18)06<br/>ECC/DEC/(22)01"
+  },
+  {
+    "id": 4388,
+    "fromMhz": 24549.0,
+    "toMhz": 25445.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "25557 - 26453",
+    "remark": "Kanalplan<br/>ERC/REC T/R 13-02, Annex 2"
+  },
+  {
+    "id": 4389,
+    "fromMhz": 25100.0,
+    "toMhz": 27500.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Beslut (EU) 2019/784, i lydelsen enligt beslut 2020/590 <br/>ECC/DEC/(18)06<br/>ECC/DEC/(22)01"
+  },
+  {
+    "id": 4390,
+    "fromMhz": 25500.0,
+    "toMhz": 27000.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Nedlänk<br/>EUMETSAT"
+  },
+  {
+    "id": 4391,
+    "fromMhz": 25557.0,
+    "toMhz": 26453.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "24549 - 25445",
+    "remark": "Kanalplan<br/>ERC/REC T/R 13-02, Annex 2"
+  },
+  {
+    "id": 4392,
+    "fromMhz": 27500.0,
+    "toMhz": 27940.5,
+    "usageDescriptionId": 84,
+    "usageDescriptionDescription": "Jordstationer (fasta satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS upplänk<br/>ECC/DEC/(05)01<br/>ECC/DEC/(13)01<br/>ECC/DEC/(15)04"
+  },
+  {
+    "id": 4393,
+    "fromMhz": 27940.5,
+    "toMhz": 28164.5,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "28948,5 - 29172,5",
+    "remark": "Blocktillstånd"
+  },
+  {
+    "id": 4394,
+    "fromMhz": 28164.5,
+    "toMhz": 28444.5,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "29172,5 - 29452,5",
+    "remark": "kanalplan ERC/REC T/R 13-02, Annex 3<br/>ECC/DEC/(05)01"
+  },
+  {
+    "id": 4395,
+    "fromMhz": 28444.5,
+    "toMhz": 28948.5,
+    "usageDescriptionId": 84,
+    "usageDescriptionDescription": "Jordstationer (fasta satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS upplänk<br/>ECC/DEC/(05)01<br/>ECC/DEC/(13)01<br/>ECC/DEC/(15)04"
+  },
+  {
+    "id": 4396,
+    "fromMhz": 28948.5,
+    "toMhz": 29172.5,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "27940,5 - 28164,5",
+    "remark": "Blocktillstånd"
+  },
+  {
+    "id": 4397,
+    "fromMhz": 29172.5,
+    "toMhz": 29452.5,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "28164,5 - 28444,5",
+    "remark": "kanalplan ERC/REC T/R 13-02, Annex 3<br/>ECC/DEC/(05)01"
+  },
+  {
+    "id": 4398,
+    "fromMhz": 29452.5,
+    "toMhz": 29500.0,
+    "usageDescriptionId": 84,
+    "usageDescriptionDescription": "Jordstationer (fasta satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS upplänk<br/>ECC/DEC/(05)01<br/>ECC/DEC/(13)01"
+  },
+  {
+    "id": 4399,
+    "fromMhz": 29500.0,
+    "toMhz": 30000.0,
+    "usageDescriptionId": 84,
+    "usageDescriptionDescription": "Jordstationer (fasta satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS upplänk<br/>Undantag från tillståndsplikt<br/>ECC/DEC/(05)08<br/>ECC/DEC/(06)03<br/>ECC/DEC/(13)01<br/>ECC/DEC/(15)04"
+  },
+  {
+    "id": 4400,
+    "fromMhz": 29500.0,
+    "toMhz": 30000.0,
+    "usageDescriptionId": 42,
+    "usageDescriptionDescription": "Jordstationer (mobila satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "MSS upplänk<br/>Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4401,
+    "fromMhz": 30000.0,
+    "toMhz": 31000.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4402,
+    "fromMhz": 31200.0,
+    "toMhz": 31800.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4403,
+    "fromMhz": 31300.0,
+    "toMhz": 31800.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(10)02"
+  },
+  {
+    "id": 4404,
+    "fromMhz": 31800.0,
+    "toMhz": 31815.0,
+    "usageDescriptionId": 1,
+    "usageDescriptionDescription": "Övrigt",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4405,
+    "fromMhz": 31815.0,
+    "toMhz": 32571.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "32627 - 33383",
+    "remark": "Kanalplan<br/>ERC/REC (01)02"
+  },
+  {
+    "id": 4406,
+    "fromMhz": 32571.0,
+    "toMhz": 32627.0,
+    "usageDescriptionId": 1,
+    "usageDescriptionDescription": "Övrigt",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4407,
+    "fromMhz": 32627.0,
+    "toMhz": 33383.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "31815 - 32571",
+    "remark": "Kanalplan<br/>ERC/REC (01)02"
+  },
+  {
+    "id": 4408,
+    "fromMhz": 33383.0,
+    "toMhz": 34000.0,
+    "usageDescriptionId": 1,
+    "usageDescriptionDescription": "Övrigt",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4409,
+    "fromMhz": 34000.0,
+    "toMhz": 35200.0,
+    "usageDescriptionId": 3,
+    "usageDescriptionDescription": "Militär användning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4410,
+    "fromMhz": 35200.0,
+    "toMhz": 36430.0,
+    "usageDescriptionId": 1,
+    "usageDescriptionDescription": "Övrigt",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4411,
+    "fromMhz": 36430.0,
+    "toMhz": 36500.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4412,
+    "fromMhz": 36500.0,
+    "toMhz": 37058.0,
+    "usageDescriptionId": 1,
+    "usageDescriptionDescription": "Övrigt",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4413,
+    "fromMhz": 37058.0,
+    "toMhz": 38178.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "38318 - 39438",
+    "remark": "Kanalplan<br/>ERC/REC T/R 12-01"
+  },
+  {
+    "id": 4414,
+    "fromMhz": 37500.0,
+    "toMhz": 40500.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Nedlänk<br/>ERC/DEC/(00)02"
+  },
+  {
+    "id": 4415,
+    "fromMhz": 38318.0,
+    "toMhz": 39438.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "37058 - 38178",
+    "remark": "Kanalplan<br/>ERC/REC T/R 12-01"
+  },
+  {
+    "id": 4417,
+    "fromMhz": 40500.0,
+    "toMhz": 42500.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Nedlänk<br/>ECC/DEC/(23)01"
+  },
+  {
+    "id": 4416,
+    "fromMhz": 40500.0,
+    "toMhz": 43500.0,
+    "usageDescriptionId": 60,
+    "usageDescriptionDescription": "MFCN",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Beslut (EU) 2024/1983<br/>ECC/DEC/(22)06"
+  },
+  {
+    "id": 4419,
+    "fromMhz": 42500.0,
+    "toMhz": 43500.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4418,
+    "fromMhz": 42500.0,
+    "toMhz": 43500.0,
+    "usageDescriptionId": 84,
+    "usageDescriptionDescription": "Jordstationer (fasta satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Upplänk<br/>ECC/DEC/(23)01"
+  },
+  {
+    "id": 4420,
+    "fromMhz": 43500.0,
+    "toMhz": 47000.0,
+    "usageDescriptionId": 1,
+    "usageDescriptionDescription": "Övrigt",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4421,
+    "fromMhz": 47000.0,
+    "toMhz": 47200.0,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4422,
+    "fromMhz": 47200.0,
+    "toMhz": 50200.0,
+    "usageDescriptionId": 41,
+    "usageDescriptionDescription": "Satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS<br/>ECC/DEC/(05)08<br/>ECC/DEC/(21)01"
+  },
+  {
+    "id": 4423,
+    "fromMhz": 48540.0,
+    "toMhz": 49440.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4424,
+    "fromMhz": 50200.0,
+    "toMhz": 50400.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4426,
+    "fromMhz": 50200.0,
+    "toMhz": 50400.0,
+    "usageDescriptionId": 85,
+    "usageDescriptionDescription": "Rymdforskning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4425,
+    "fromMhz": 50200.0,
+    "toMhz": 50400.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4427,
+    "fromMhz": 50400.0,
+    "toMhz": 52400.0,
+    "usageDescriptionId": 84,
+    "usageDescriptionDescription": "Jordstationer (fasta satellitsystem)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "FSS upplänk<br/>ECC/DEC/(21)01"
+  },
+  {
+    "id": 4428,
+    "fromMhz": 52400.0,
+    "toMhz": 52600.0,
+    "usageDescriptionId": 1,
+    "usageDescriptionDescription": "Övrigt",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4430,
+    "fromMhz": 52600.0,
+    "toMhz": 55780.0,
+    "usageDescriptionId": 85,
+    "usageDescriptionDescription": "Rymdforskning",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4429,
+    "fromMhz": 52600.0,
+    "toMhz": 57000.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4433,
+    "fromMhz": 57000.0,
+    "toMhz": 64000.0,
+    "usageDescriptionId": 78,
+    "usageDescriptionDescription": "Nivåmätare för kärl och behållare (TLPR)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4435,
+    "fromMhz": 57000.0,
+    "toMhz": 64000.0,
+    "usageDescriptionId": 101,
+    "usageDescriptionDescription": "Nivåmätare (LPR)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1<br/>ECC/DEC/(11)02"
+  },
+  {
+    "id": 4431,
+    "fromMhz": 57000.0,
+    "toMhz": 66000.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>ERC/REC 70-03 Annex 3 (tabell 3-c3)"
+  },
+  {
+    "id": 4432,
+    "fromMhz": 57000.0,
+    "toMhz": 64000.0,
+    "usageDescriptionId": 25,
+    "usageDescriptionDescription": "Allmän kortdistansradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4434,
+    "fromMhz": 57000.0,
+    "toMhz": 71000.0,
+    "usageDescriptionId": 62,
+    "usageDescriptionDescription": "Dataöverföring",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4436,
+    "fromMhz": 63720.0,
+    "toMhz": 65880.0,
+    "usageDescriptionId": 102,
+    "usageDescriptionDescription": "Transport- och trafiktelematik (TTT)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4437,
+    "fromMhz": 71000.0,
+    "toMhz": 76000.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "81000 - 86000",
+    "remark": "ECC/REC/(05)07"
+  },
+  {
+    "id": 4439,
+    "fromMhz": 75000.0,
+    "toMhz": 85000.0,
+    "usageDescriptionId": 101,
+    "usageDescriptionDescription": "Nivåmätare (LPR)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1<br/>ECC/DEC/(11)02"
+  },
+  {
+    "id": 4438,
+    "fromMhz": 75000.0,
+    "toMhz": 85000.0,
+    "usageDescriptionId": 78,
+    "usageDescriptionDescription": "Nivåmätare för kärl och behållare (TLPR)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4440,
+    "fromMhz": 75500.0,
+    "toMhz": 81000.0,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4441,
+    "fromMhz": 76000.0,
+    "toMhz": 116000.0,
+    "usageDescriptionId": 23,
+    "usageDescriptionDescription": "Radioastronomi",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Onsala rymdobservatorium"
+  },
+  {
+    "id": 4443,
+    "fromMhz": 76000.0,
+    "toMhz": 77000.0,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(21)02"
+  },
+  {
+    "id": 4442,
+    "fromMhz": 76000.0,
+    "toMhz": 77000.0,
+    "usageDescriptionId": 102,
+    "usageDescriptionDescription": "Transport- och trafiktelematik (TTT)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1<br/>ECC/DEC/(16)01"
+  },
+  {
+    "id": 4444,
+    "fromMhz": 77000.0,
+    "toMhz": 81000.0,
+    "usageDescriptionId": 92,
+    "usageDescriptionDescription": "Fordonsradar (SRR)",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>2004/545/EG"
+  },
+  {
+    "id": 4445,
+    "fromMhz": 77500.0,
+    "toMhz": 78000.0,
+    "usageDescriptionId": 20,
+    "usageDescriptionDescription": "Radiolokalisering",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4446,
+    "fromMhz": 81000.0,
+    "toMhz": 86000.0,
+    "usageDescriptionId": 7,
+    "usageDescriptionDescription": "Fast radio",
+    "reference": "",
+    "duplexband": "71000 - 76000",
+    "remark": "ECC/REC/(05)07"
+  },
+  {
+    "id": 4447,
+    "fromMhz": 86000.0,
+    "toMhz": 92000.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4448,
+    "fromMhz": 94000.0,
+    "toMhz": 94100.0,
+    "usageDescriptionId": 81,
+    "usageDescriptionDescription": "Meteorologisk radar",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Molnmätningar"
+  },
+  {
+    "id": 4449,
+    "fromMhz": 100000.0,
+    "toMhz": 116000.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4450,
+    "fromMhz": 116000.0,
+    "toMhz": 148500.0,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(22)03"
+  },
+  {
+    "id": 4451,
+    "fromMhz": 122000.0,
+    "toMhz": 123000.0,
+    "usageDescriptionId": 25,
+    "usageDescriptionDescription": "Allmän kortdistansradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4452,
+    "fromMhz": 122250.0,
+    "toMhz": 123000.0,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4453,
+    "fromMhz": 134000.0,
+    "toMhz": 141000.0,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4454,
+    "fromMhz": 148500.0,
+    "toMhz": 151500.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4455,
+    "fromMhz": 151500.0,
+    "toMhz": 164000.0,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(22)03"
+  },
+  {
+    "id": 4456,
+    "fromMhz": 155500.0,
+    "toMhz": 158500.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4457,
+    "fromMhz": 164000.0,
+    "toMhz": 167000.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4458,
+    "fromMhz": 167000.0,
+    "toMhz": 182000.0,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(22)03"
+  },
+  {
+    "id": 4459,
+    "fromMhz": 174800.0,
+    "toMhz": 191800.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4460,
+    "fromMhz": 185000.0,
+    "toMhz": 190000.0,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(22)03"
+  },
+  {
+    "id": 4461,
+    "fromMhz": 191800.0,
+    "toMhz": 200000.0,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(22)03"
+  },
+  {
+    "id": 4462,
+    "fromMhz": 200000.0,
+    "toMhz": 209000.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4463,
+    "fromMhz": 209000.0,
+    "toMhz": 226000.0,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(22)03"
+  },
+  {
+    "id": 4464,
+    "fromMhz": 226000.0,
+    "toMhz": 232000.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4465,
+    "fromMhz": 231500.0,
+    "toMhz": 250000.0,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(22)03"
+  },
+  {
+    "id": 4466,
+    "fromMhz": 235000.0,
+    "toMhz": 238000.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4467,
+    "fromMhz": 241000.0,
+    "toMhz": 250000.0,
+    "usageDescriptionId": 10,
+    "usageDescriptionDescription": "Amatörradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt"
+  },
+  {
+    "id": 4468,
+    "fromMhz": 244000.0,
+    "toMhz": 246000.0,
+    "usageDescriptionId": 25,
+    "usageDescriptionDescription": "Allmän kortdistansradio",
+    "reference": "",
+    "duplexband": "",
+    "remark": "Undantag från tillståndsplikt<br/>Not 1"
+  },
+  {
+    "id": 4469,
+    "fromMhz": 250000.0,
+    "toMhz": 252000.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4470,
+    "fromMhz": 252000.0,
+    "toMhz": 260000.0,
+    "usageDescriptionId": 72,
+    "usageDescriptionDescription": "Radiobestämning",
+    "reference": "",
+    "duplexband": "",
+    "remark": "ECC/DEC/(22)03"
+  },
+  {
+    "id": 4471,
+    "fromMhz": 260000.0,
+    "toMhz": 275000.0,
+    "usageDescriptionId": 1,
+    "usageDescriptionDescription": "Övrigt",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4472,
+    "fromMhz": 275000.0,
+    "toMhz": 277000.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4473,
+    "fromMhz": 277000.0,
+    "toMhz": 294000.0,
+    "usageDescriptionId": 1,
+    "usageDescriptionDescription": "Övrigt",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4474,
+    "fromMhz": 294000.0,
+    "toMhz": 306000.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4475,
+    "fromMhz": 306000.0,
+    "toMhz": 316000.0,
+    "usageDescriptionId": 1,
+    "usageDescriptionDescription": "Övrigt",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4476,
+    "fromMhz": 316000.0,
+    "toMhz": 334000.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4477,
+    "fromMhz": 334000.0,
+    "toMhz": 342000.0,
+    "usageDescriptionId": 1,
+    "usageDescriptionDescription": "Övrigt",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4478,
+    "fromMhz": 342000.0,
+    "toMhz": 349000.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4479,
+    "fromMhz": 349000.0,
+    "toMhz": 363000.0,
+    "usageDescriptionId": 1,
+    "usageDescriptionDescription": "Övrigt",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4480,
+    "fromMhz": 363000.0,
+    "toMhz": 365000.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4481,
+    "fromMhz": 365000.0,
+    "toMhz": 371000.0,
+    "usageDescriptionId": 1,
+    "usageDescriptionDescription": "Övrigt",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4482,
+    "fromMhz": 371000.0,
+    "toMhz": 389000.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4483,
+    "fromMhz": 389000.0,
+    "toMhz": 416000.0,
+    "usageDescriptionId": 1,
+    "usageDescriptionDescription": "Övrigt",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4484,
+    "fromMhz": 416000.0,
+    "toMhz": 434000.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4485,
+    "fromMhz": 434000.0,
+    "toMhz": 442000.0,
+    "usageDescriptionId": 1,
+    "usageDescriptionDescription": "Övrigt",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4486,
+    "fromMhz": 442000.0,
+    "toMhz": 444000.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4487,
+    "fromMhz": 444000.0,
+    "toMhz": 496000.0,
+    "usageDescriptionId": 1,
+    "usageDescriptionDescription": "Övrigt",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4488,
+    "fromMhz": 496000.0,
+    "toMhz": 506000.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4489,
+    "fromMhz": 506000.0,
+    "toMhz": 546000.0,
+    "usageDescriptionId": 1,
+    "usageDescriptionDescription": "Övrigt",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4490,
+    "fromMhz": 546000.0,
+    "toMhz": 568000.0,
+    "usageDescriptionId": 69,
+    "usageDescriptionDescription": "Jordutforskning via satellit",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  },
+  {
+    "id": 4491,
+    "fromMhz": 568000.0,
+    "toMhz": 3000000.0,
+    "usageDescriptionId": 1,
+    "usageDescriptionDescription": "Övrigt",
+    "reference": "",
+    "duplexband": "",
+    "remark": ""
+  }
+]
