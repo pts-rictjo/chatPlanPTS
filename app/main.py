@@ -1,85 +1,79 @@
-import streamlit as st
+from fastapi import FastAPI
+from fastapi.responses import StreamingResponse, HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
+import time
+import sys
+from pathlib import Path
 
-st.set_page_config(page_title="Chatta med Excel (lokal LLM)", layout="wide")
-st.title("Chatta med flera Excel-tabeller (Ollama)")
+# Lägg till så att vi kan importera helper
+sys.path.append(str(Path(__file__).parent.parent))
 
-import pandas as pd
-import chromadb
-import ollama
+from helper.build_chroma_class  import RAGSystem
+from .retriever                 import Retriever
+from .rag_service               import RAGService
+from .conversation_store        import ConversationStore
 
-# Initiera Chroma (lokal vector DB)
-chroma_client = chromadb.Client()
-collection = chroma_client.get_or_create_collection(name="excel_data")
+import os
 
-desc_= [ "$ pip install streamlit pandas chromadb ollama",
-"$ ollama pull llama3",
-"$ ollama pull mxbai-embed-large",
-"$ streamlit run query.py" ]
+bDebug      = os.getenv("UI_DEBUG_RAGSERVICE", "false").lower() == "true"
+llm_model   = os.getenv("UI_LLM_MODEL"       , "vanilj/llama-3.1-instruct-bellman-8b-swedish:q3_k_m" ) # "qwen3:8b" "qwen3:4b" "akx/viking-7b:latest"
 
-# --- Filuppladdning ---
-uploaded_files = st.file_uploader("Ladda upp en eller flera Excel-filer", type=["xlsx"], accept_multiple_files=True)
+# ---------- Initiera lager med RAGSystem ----------
+rag_system = RAGSystem(
+    data_root  = "./data",
+    chroma_dir = "./chroma_db",
+    llm_model  = llm_model,
+)
+# Se till att BM25 laddas (klass gör det i __init__ via load_bm25())
+# Om inte, anropa rag_system.load_bm25() explicit.
 
-if uploaded_files:
-    st.subheader("Inlästa filer")
-    for f in uploaded_files:
-        st.write(f"➡ {f.name}")
+retriever = Retriever(rag_system)
+rag_service = RAGService(rag_system, retriever)
+conversation_store = ConversationStore()
 
-    # --- Chunking-funktion ---
-    def chunk_table(df, filename, max_rows=30):
-        chunks = []
-        for start in range(0, len(df), max_rows):
-            chunk = df.iloc[start:start+max_rows]
-            text = chunk.to_csv(index=False)
-            chunks.append((filename, text))
-        return chunks
+# ---------- FastAPI ----------
+# Här exponerar vi olika publika källor
+app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/public", StaticFiles(directory="public"), name="public")
 
-    # --- Indexera alla filer i Chroma ---
-    for file in uploaded_files:
-        df = pd.read_excel(file)
-        chunks = chunk_table(df, file.name)
+class AskRequest(BaseModel):
+    query: str
+    conversation_id: str
 
-        for i, (fname, ch) in enumerate(chunks):
-            emb = ollama.embeddings(model="mxbai-embed-large", prompt=ch)["embedding"]
-            collection.add(
-                documents=[ch],
-                embeddings=[emb],
-                ids=[f"{fname}_chunk_{i}"],
-                metadatas=[{"filename": fname}]
-            )
+@app.get("/")
+async def root():
+    with open("static/index.html", "r", encoding="utf-8") as f:
+        return HTMLResponse(content=f.read())
 
-    # --- Frågefunktion ---
-    def ask_model(question):
-        q_emb = ollama.embeddings(model="mxbai-embed-large", prompt=question)["embedding"]
-        results = collection.query(query_embeddings=[q_emb], n_results=5)
+@app.post("/conversation/new")
+async def new_conversation():
+    cid = conversation_store.create()
+    return {"conversation_id": cid}
 
-        # Bygg kontext från flera filer
-        context_blocks = []
-        for doc, meta in zip(results["documents"][0], results["metadatas"][0]):
-            context_blocks.append(f"(Fil: {meta['filename']})\n{doc}")
+@app.post("/ask")
+async def ask(req: AskRequest):
+    history = conversation_store.get(req.conversation_id)
+    context, best = rag_service.get_context(req.query)
+    if bDebug:
+        print(f"CONTEXT: {context[:500]}...")
+    async def generate():
+        full_answer = ""
+        for token in rag_service.stream_answer(req.query, context, history):
+            full_answer += token
+            yield token
+        # Spara efter streaming
+        conversation_store.append(req.conversation_id, "user", req.query)
+        conversation_store.append(req.conversation_id, "assistant", full_answer)
 
-        context = "\n\n".join(context_blocks)
+    return StreamingResponse(generate(), media_type="text/plain")
 
-        prompt = f"""
-        Du är en assistent som svarar på frågor baserat på följande utdrag ur olika Excel-tabeller:
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
 
-        {context}
 
-        Fråga: {question}
-        Svar:
-        """
-
-        response = ollama.chat(
-            model="llama3",  # byt till önskad modell
-            messages=[{"role": "user", "content": prompt}]
-        )
-        return response["message"]["content"]
-
-    # --- Inputfält för frågor ---
-    st.subheader("Ställ en fråga över alla tabeller")
-    user_question = st.text_input("Din fråga:")
-
-    if user_question:
-        with st.spinner("Tänker..."):
-            answer = ask_model(user_question)
-        st.success("Svar från modellen:")
-        st.write(answer)
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=False )
