@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatplan
+  namespace: pts-2026-rictjo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chatplan
+  template:
+    metadata:
+      labels:
+        app: chatplan
+    spec:
+      containers:
+
+      # =========================
+      # FastAPI / RAG app
+      # =========================
+      - name: app
+        image: rictjo/chatplan:freq
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 8000
+        env:
+          - name: OLLAMA_HOST
+            value: http://127.0.0.1:11434
+        volumeMounts:
+          - name: storage
+            mountPath: /app/data
+          - name: storage
+            mountPath: /app/chroma_db
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+
+      # =========================
+      # Ollama sidecar (GPU)
+      # =========================
+      - name: ollama
+        image: ollama/ollama:latest
+        ports:
+          - containerPort: 11434
+        resources:
+          requests:
+            memory: "3Gi"
+            cpu: "4"
+            nvidia.com/gpu: 1
+          limits:
+            memory: "3Gi"
+            cpu: "4"
+            nvidia.com/gpu: 1
+
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: chatplan-storage
