@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: chatplan-chroma-build
+  namespace: pts-2026-rictjo
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: builder
+          image: rictjo/chatplan:freq
+          command: ["python", "helper/build_chroma_class.py"]
+          env:
+            - name: OLLAMA_HOST
+              value: http://127.0.0.1:11434
+          volumeMounts:
+            - name: storage
+              mountPath: /data
+            - name: storage
+              mountPath: /chroma_db
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: chatplan-storage
