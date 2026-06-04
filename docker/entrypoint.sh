@@ -3,7 +3,7 @@ set -e
 
 echo "=== Chatplan Entrypoint ==="
 
-# Vänta på Ollama om den körs lokalt (valfritt)
+# Vänta på Ollama
 if [ -n "$WAIT_FOR_OLLAMA" ]; then
     echo "Väntar på Ollama på $OLLAMA_HOST ..."
     until curl -s "$OLLAMA_HOST" > /dev/null; do
@@ -12,7 +12,8 @@ if [ -n "$WAIT_FOR_OLLAMA" ]; then
     echo "Ollama svarar!"
 fi
 
-# Lista med modeller som behövs (anpassa efter dina faktiska modeller)
+sleep 3
+
 REQUIRED_MODELS=(
     "mxbai-embed-large"
     "vanilj/llama-3.1-instruct-bellman-8b-swedish:q3_k_m"
@@ -28,8 +29,8 @@ for MODEL in "${REQUIRED_MODELS[@]}"; do
     fi
 done
 
-# Bygg ChromaDB om den inte redan finns
-if [ ! -f /app/chroma_db/bm25.pkl ]; then
+# Bygg ChromaDB endast om tom
+if [ ! -d /app/chroma_db ] || [ -z "$(ls -A /app/chroma_db)" ]; then
     echo "ChromaDB saknas – bygger från /app/data ..."
     python -c "
 from helper.build_chroma_class import RAGSystem
@@ -42,5 +43,4 @@ else
     echo "ChromaDB finns – hoppar över byggsteget."
 fi
 
-# Starta den tjänst som anges som CMD
 exec "$@"
