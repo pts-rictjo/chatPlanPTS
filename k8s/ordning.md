@@ -16,6 +16,7 @@ Kopiering av färdig data
 kubectl apply -f pvc-loader.yaml
 kubectl cp ./data/. pvc-loader:/data -n pts-2026-rictjo
 kubectl cp ./chroma_db/. pvc-loader:/chroma_db -n pts-2026-rictjo
+kubectl get pod pvc-loader -n pts-2026-rictjo
 kubectl delete pod pvc-loader -n pts-2026-rictjo
 ```
 # PVC lösningen
@@ -28,10 +29,6 @@ PVC (disk)
  └── mountas i app som:
        /app/data
        /app/chroma_db
-```
-kontroll av loader status
-```
-kubectl get pod pvc-loader -n pts-2026-rictjo
 ```
 # Deploy av lösningen
 kubectl apply -f k8s/deployment.yaml
