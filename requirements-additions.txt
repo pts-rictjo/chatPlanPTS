@@ -1,0 +1,3 @@
+# RAG v2.1 adds no external service dependencies.
+# FlashRank is already used by the existing application and should remain
+# in the project's existing requirements.txt / environment.
