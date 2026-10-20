@@ -26,6 +26,7 @@ except ImportError:
 bandToFreqMHz = lambda s : [ float(f[:-3].replace(',','.')) * (1e-3 if 'khz' in f.lower() else 1.0 if 'mhz' in f.lower() else 1e3 if 'ghz' in f.lower() else -1) for f in s.split('|')[0].replace(' ','').split('-')]
 
 class RAGSystem:
+    INDEX_VERSION = 2
     """En klass för att hantera RAG-flöden med Ollama och ChromaDB.
     I/O Vector databas hantering
     """
@@ -131,8 +132,9 @@ class RAGSystem:
 
         self.len_ref_               = 200
         self.len_condition_         = 800 # 1500
-        self.group_token_limit_     = 200 # 400
-        self.max_tokens_            = 400
+        self.group_token_limit_     = 200 # table/group chunks
+        self.max_tokens_            = 380
+        self.chunk_overlap_         = 60
         self.MIN_CHARS              = 5
         self.max_length_            = self.chunk_size_
         self.default_embedding_length_ = os.getenv("EMBEDDING_LENGTH" , 1024 ) # 768
@@ -190,26 +192,97 @@ class RAGSystem:
         return [b.strip() for b in blocks if len(b.strip()) > 50]
 
     def adaptive_chunk(self, texts: List[str], max_tokens=None) -> List[str]:
-        if max_tokens is None :
+        """Pack paragraph-like blocks into bounded chunks.
+
+        This is deliberately deterministic: no LLM is used during indexing.
+        The limit is a word-count proxy for tokens and is kept conservative.
+        """
+        if max_tokens is None:
             max_tokens = self.max_tokens_
         chunks = []
         current = []
         current_len = 0
 
         for t in texts:
-            l = len(t.split())
-            if current_len + l > max_tokens and current:
+            t = re.sub(r"\s+", " ", str(t)).strip()
+            if not t:
+                continue
+            words = t.split()
+            # Split a single oversized block before adding it.
+            while len(words) > max_tokens:
+                if current:
+                    chunks.append(" ".join(current))
+                    current, current_len = [], 0
+                chunks.append(" ".join(words[:max_tokens]))
+                words = words[max_tokens:]
+            if not words:
+                continue
+            l = len(words)
+            if current and current_len + l > max_tokens:
                 chunks.append(" ".join(current))
-                current = []
-                current_len = 0
-
-            current.append(t)
+                current, current_len = [], 0
+            current.append(" ".join(words))
             current_len += l
 
         if current:
             chunks.append(" ".join(current))
-
         return chunks
+
+    def _looks_like_heading(self, line: str) -> bool:
+        line = line.strip()
+        if not line or len(line) > 180:
+            return False
+        if re.match(r"^(kapitel|avsnitt|bilaga|appendix|del)\b", line, re.I):
+            return True
+        if re.match(r"^\d+(?:\.\d+)*[.)]?\s+\S+", line):
+            return True
+        if re.match(r"^(?:[0-9]+\s*)?§", line):
+            return True
+        letters = [c for c in line if c.isalpha()]
+        return bool(letters) and line == line.upper() and len(letters) >= 4
+
+    def chunk_document_text(self, text: str, max_tokens=None, overlap=None):
+        """Section-aware chunking for prose documents.
+
+        Returns tuples (chunk_text, heading). Chunks stay within a section where
+        possible and use a small word overlap to preserve cross-boundary context.
+        """
+        max_tokens = max_tokens or self.max_tokens_
+        overlap = self.chunk_overlap_ if overlap is None else overlap
+        lines = [re.sub(r"[ \t]+", " ", x).strip() for x in text.splitlines()]
+        lines = [x for x in lines if x]
+
+        sections = []
+        heading = ""
+        body = []
+        for line in lines:
+            if self._looks_like_heading(line) and body:
+                sections.append((heading, "\n".join(body)))
+                heading, body = line, []
+            elif self._looks_like_heading(line):
+                heading = line
+            else:
+                body.append(line)
+        if body:
+            sections.append((heading, "\n".join(body)))
+
+        if not sections and text.strip():
+            sections = [("", text)]
+
+        result = []
+        for heading, section_text in sections:
+            paragraphs = [p.strip() for p in re.split(r"\n\s*\n", section_text) if p.strip()]
+            if not paragraphs:
+                paragraphs = [section_text]
+            chunks = self.adaptive_chunk(paragraphs, max_tokens=max_tokens)
+            previous_tail = []
+            for chunk in chunks:
+                words = chunk.split()
+                if previous_tail:
+                    chunk = " ".join(previous_tail + words)
+                result.append((chunk, heading))
+                previous_tail = words[-overlap:] if overlap > 0 else []
+        return result
 
     def build_embedding_text_w_metadata(self, text: str, meta: dict) -> str:
         return f"""
@@ -571,11 +644,11 @@ class RAGSystem:
                         m = meta.copy()
                         m["chunk_index"] = i
                         all_metadatas.append(m)
-                        all_ids.append(str(uuid.uuid4()))
+                        all_ids.append(self._make_id(file_path, m, i))
                 else:
                     all_texts.append(text)
                     all_metadatas.append(meta)
-                    all_ids.append(str(uuid.uuid4()))
+                    all_ids.append(self._make_id(file_path, meta, len(all_texts)))
 
         # Lägg till alla dokument i ChromaDB (med batcher)
         if all_texts:
@@ -883,7 +956,7 @@ class RAGSystem:
 
     def _extract_pdf_tables_and_text(self, file_path):
         items = []
-        # 1) Försök extrahera tabeller med tabula-py (kräver Java)
+        # 1) Tabeller: behåll varje rad som ett eget sökbart objekt.
         try:
             import tabula
             tables = tabula.read_pdf(str(file_path), pages='all', multiple_tables=True)
@@ -898,21 +971,43 @@ class RAGSystem:
                             fields.append(f"{col}: {val}")
                     if fields:
                         text = " | ".join(fields)
-                        meta = {"type": "pdf_table_row", "source": str(file_path),
-                                "table": table_idx, "row": row_idx + 1}
+                        parent_id = f"{file_path}:table:{table_idx}"
+                        meta = {
+                            "type": "pdf_table_row", "source": str(file_path),
+                            "table": table_idx, "row": row_idx + 1,
+                            "parent_id": parent_id, "chunk_index": row_idx
+                        }
                         items.append((text, meta))
         except ImportError:
             print(f"   tabula-py ej installerad – hoppar över PDF-tabeller i {file_path.name}")
         except Exception as e:
-            # Fångar även Java-fel
-            print(f"   Kunde inte extrahera tabeller från PDF (Java saknas?): {e}")
-            print(f"   Fortsätter med vanlig text från PDF.")
+            print(f"   Kunde inte extrahera tabeller från PDF: {e}")
 
-        # 2) Extrahera vanlig text med pypdf (alltid)
-        text = self.read_pdf(file_path)
-        if text and len(text) > 100:
-            items.append((text, {"type": "pdf_text", "source": str(file_path)}))
-        print(f"  📊 Extraherade {len(items)} rader från {file_path.name}")
+        # 2) Läs sida för sida. Detta bevarar sidmetadata och gör det möjligt
+        # att söka i delar av PDF:en i stället för att skapa en embedding av hela filen.
+        try:
+            reader = PdfReader(str(file_path))
+            for page_no, page in enumerate(reader.pages, start=1):
+                page_text = page.extract_text() or ""
+                if len(page_text.strip()) < 50:
+                    continue
+                parent_id = f"{file_path}:page:{page_no}"
+                for chunk_no, (chunk, heading) in enumerate(
+                    self.chunk_document_text(page_text, max_tokens=self.max_tokens_)
+                ):
+                    meta = {
+                        "type": "pdf_text_chunk",
+                        "source": str(file_path),
+                        "page": page_no,
+                        "heading": heading,
+                        "parent_id": parent_id,
+                        "chunk_index": chunk_no
+                    }
+                    items.append((chunk, meta))
+        except Exception as e:
+            print(f"   Kunde inte extrahera PDF-sidor från {file_path.name}: {e}")
+
+        print(f"  📊 Extraherade {len(items)} sökbara objekt från {file_path.name}")
         return items
 
     def _extract_docx_tables_and_text(self, file_path):
@@ -1084,6 +1179,21 @@ class RAGSystem:
         unique = f"{file_path}_{meta.get('type')}_{meta.get('row', meta.get('chunk_index', idx))}"
         return hashlib.md5(unique.encode()).hexdigest()
 
+    def reset_index(self):
+        """Delete the current vector collection and BM25 index before a rebuild."""
+        if self.chroma_client is not None:
+            try:
+                self.chroma_client.delete_collection(self.collection_name)
+            except Exception:
+                pass
+            self.collection = self.chroma_client.create_collection(self.collection_name)
+        if os.path.exists(self.BM25_DIR):
+            os.remove(self.BM25_DIR)
+        self.bm25 = None
+        self.id_to_index = {}
+        self.index_to_id = {}
+        self.id_to_doc = {}
+
     def save_metadata(self):
         with open(f"{self.CHROMA_DIR}/chromadb_params.json", "w") as f:
             json.dump({
@@ -1096,7 +1206,10 @@ class RAGSystem:
                 "EMBED_MODEL"       : self.EMBED_MODEL,
                 "LLM_MODEL"         : self.LLM_MODEL,
                 "BATCH_SIZE"        : self.BATCH_SIZE,
-                "MAX_WORKERS"       : self.MAX_WORKERS
+                "MAX_WORKERS"       : self.MAX_WORKERS,
+                "INDEX_VERSION"     : self.INDEX_VERSION,
+                "CHUNK_MAX_WORDS"   : self.max_tokens_,
+                "CHUNK_OVERLAP_WORDS": self.chunk_overlap_
             }, f, indent=2)
 
         print(f"\n✅ KLART! {self.collection.count()} vektorer (en per dokument).")
