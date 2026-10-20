@@ -19,7 +19,7 @@ fi
 sleep 3
 
 # ------------------------------------------------------------
-# Kontrollera att nödvändiga modeller finns
+# Kontrollera nödvändiga modeller
 # ------------------------------------------------------------
 REQUIRED_MODELS=(
     "mxbai-embed-large"
@@ -52,27 +52,35 @@ INDEX_VERSION_REQUIRED=3
 INDEX_PARAMS="/app/chroma_db/chromadb_params.json"
 
 REBUILD_INDEX=false
+INDEX_VERSION=0
 
 if [ ! -d "/app/chroma_db" ]; then
+
     echo "ChromaDB-katalog saknas."
     REBUILD_INDEX=true
 
 elif [ -z "$(ls -A /app/chroma_db 2>/dev/null)" ]; then
+
     echo "ChromaDB-katalogen är tom."
     REBUILD_INDEX=true
 
 elif [ ! -f "$INDEX_PARAMS" ]; then
+
     echo "Ingen chromadb_params.json hittades."
     echo "Indexet betraktas som gammalt."
     REBUILD_INDEX=true
 
 else
+
     INDEX_VERSION=$(python -c "
 import json
+
 try:
     with open('$INDEX_PARAMS', 'r', encoding='utf-8') as f:
         data = json.load(f)
+
     print(data.get('INDEX_VERSION', 0))
+
 except Exception:
     print(0)
 ")
@@ -84,6 +92,7 @@ except Exception:
         echo "Indexet är äldre än aktuell version."
         REBUILD_INDEX=true
     fi
+
 fi
 
 # ------------------------------------------------------------
