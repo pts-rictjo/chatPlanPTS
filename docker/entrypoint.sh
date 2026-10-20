@@ -1,9 +1,8 @@
 #!/bin/bash
 set -e
 
-echo "=== Chatplan Entrypoint ==="
+echo "=== Chatplan Entrypoint / RAG index v2.1 ==="
 
-# Vänta på Ollama
 if [ -n "$WAIT_FOR_OLLAMA" ]; then
     echo "Väntar på Ollama på $OLLAMA_HOST ..."
     until curl -s "$OLLAMA_HOST" > /dev/null; do
@@ -29,18 +28,30 @@ for MODEL in "${REQUIRED_MODELS[@]}"; do
     fi
 done
 
-# Bygg ChromaDB endast om tom
-if [ ! -d /app/chroma_db ] || [ -z "$(ls -A /app/chroma_db)" ]; then
-    echo "ChromaDB saknas – bygger från /app/data ..."
-    python -c "
+INDEX_VERSION="$(python - <<'PY'
+import json, os
+p='/app/chroma_db/chromadb_params.json'
+try:
+    with open(p, encoding='utf-8') as f:
+        print(json.load(f).get('INDEX_VERSION', 0))
+except Exception:
+    print(0)
+PY
+)"
+
+if [ "$INDEX_VERSION" != "2" ]; then
+    echo "Indexversion $INDEX_VERSION hittades – bygger om till RAG index v2."
+    rm -rf /app/chroma_db
+    mkdir -p /app/chroma_db
+    python - <<'PY'
 from helper.build_chroma_class import RAGSystem
 rag = RAGSystem(data_root='/app/data', chroma_dir='/app/chroma_db')
 rag.create_chromadb_from_data(table_as_document=True, group_tables=False)
 rag.save_metadata()
-"
-    echo "ChromaDB skapad."
+PY
+    echo "RAG index v2 skapad."
 else
-    echo "ChromaDB finns – hoppar över byggsteget."
+    echo "RAG index v2 finns – hoppar över omindexering."
 fi
 
 exec "$@"
