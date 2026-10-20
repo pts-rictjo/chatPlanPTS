@@ -1,70 +1,77 @@
 from typing import List, Dict
-import uuid
 import time
-import os
 
-bDebug          = os.getenv("UI_DEBUG_RAGSERVICE", "false").lower() == "true"
 
 class Retriever:
-    def __init__(self, rag_system):
-        self.rag = rag_system
+    """Hybrid lexical + dense retriever using Reciprocal Rank Fusion (RRF)."""
 
-    def dense_retrieve(self, query: str, k: int = 30) -> List[Dict]:
-        """Dense retrieval via ChromaDB med query-embedding."""
+    def __init__(self, rag_system, dense_k: int = 30, bm25_k: int = 30, rrf_k: int = 30):
+        self.rag = rag_system
+        self.dense_k = dense_k
+        self.bm25_k = bm25_k
+        self.rrf_k = rrf_k
+
+    def dense_retrieve(self, query: str, k: int | None = None) -> List[Dict]:
+        k = k or self.dense_k
         q_emb = self.rag.generate_embedding(query)
         results = self.rag.collection.query(
             query_embeddings=[q_emb],
             n_results=k,
-            include=["documents","metadatas","distances"] #
+            include=["documents", "metadatas", "distances"],
         )
-        docs  = results['documents'][0]
-        metas = results['metadatas'][0]
+        docs = results.get("documents", [[]])[0]
+        metas = results.get("metadatas", [[]])[0]
+        distances = results.get("distances", [[]])[0]
         return [
             {
-                "id": m["doc_id"],
+                "id": m.get("doc_id", doc_id),
                 "text": d,
-                "meta": m,
-                "score": 0.0,
-                "source": "dense"
+                "meta": m or {},
+                "distance": distance,
+                "source": "dense",
             }
-            for d, m in zip(docs, metas)
+            for doc_id, d, m, distance in zip(
+                results.get("ids", [[]])[0], docs, metas, distances
+            )
         ]
 
-    def bm25_retrieve(self, query: str, k: int = 30) -> List[Dict]:
-        """BM25 retrieval om index finns."""
-        if not hasattr(self.rag, 'bm25') or self.rag.bm25 is None:
+    def bm25_retrieve(self, query: str, k: int | None = None) -> List[Dict]:
+        if not getattr(self.rag, "bm25", None):
             return []
-        return self.rag.bm25_query(query, k=k)
+        return self.rag.bm25_query(query, k=k or self.bm25_k)
 
-    def hybrid_retrieve(self, query: str, k_dense: int = 30, k_bm25: int = 30, top_k: int = 30) -> List[Dict]:
-        """
-        Kombinera dense och BM25 med reciprocal rank fusion (RRF).
-        """
-        if bDebug :
-            print(f"[DEBUG] Hybrid retrieve for query: {query[:50]}...")
-            t0 = time.time()
-        dense_results = self.dense_retrieve(query, k=k_dense)
-        if bDebug :
-            print(f"[DEBUG] Dense got {len(dense_results)} docs in {time.time()-t0:.2f}s")
-            t1 = time.time()
-        bm25_results = self.bm25_retrieve(query, k=k_bm25)
-        if bDebug :
-            print(f"[DEBUG] BM25 got {len(bm25_results)} docs in {time.time()-t1:.2f}s")
+    def hybrid_retrieve(self, query: str) -> List[Dict]:
+        t0 = time.perf_counter()
+        dense = self.dense_retrieve(query, self.dense_k)
+        t_dense = time.perf_counter()
+        bm25 = self.bm25_retrieve(query, self.bm25_k)
+        t_bm25 = time.perf_counter()
 
-        # RRF-skoring
-        scores = {}
-        for rank, doc in enumerate(dense_results, start=1):
+        # RRF is rank-based, so vector distances and BM25 raw scores do not need
+        # to be normalized against each other.
+        rrf_scores: Dict[str, float] = {}
+        docs: Dict[str, Dict] = {}
+
+        for rank, doc in enumerate(dense, start=1):
             doc_id = doc["id"]
-            scores[doc_id] = scores.get(doc_id, 0) + 1 / (60 + rank)
-            doc["rrf_score"] = scores[doc_id]
+            rrf_scores[doc_id] = rrf_scores.get(doc_id, 0.0) + 1.0 / (60 + rank)
+            docs.setdefault(doc_id, doc)
 
-        for rank, doc in enumerate(bm25_results, start=1):
+        for rank, doc in enumerate(bm25, start=1):
             doc_id = doc["id"]
-            scores[doc_id] = scores.get(doc_id, 0) + 1 / (60 + rank)
-            doc["rrf_score"] = scores[doc_id]
+            rrf_scores[doc_id] = rrf_scores.get(doc_id, 0.0) + 1.0 / (60 + rank)
+            docs.setdefault(doc_id, doc)
 
-        # Sammanfoga alla unika dokument
-        all_docs = {doc["id"]: doc for doc in dense_results + bm25_results}
-        merged = list(all_docs.values())
-        merged.sort(key=lambda x: x.get("rrf_score", 0), reverse=True)
-        return merged[:top_k]
+        merged = list(docs.values())
+        for doc in merged:
+            doc["rrf_score"] = rrf_scores.get(doc["id"], 0.0)
+        merged.sort(key=lambda x: x["rrf_score"], reverse=True)
+
+        result = merged[: self.rrf_k]
+        if getattr(self.rag, "debug", False):
+            print(
+                f"[retrieval] dense={len(dense)} in {(t_dense-t0)*1000:.0f} ms, "
+                f"bm25={len(bm25)} in {(t_bm25-t_dense)*1000:.0f} ms, "
+                f"rrf={len(result)} in {(time.perf_counter()-t_bm25)*1000:.0f} ms"
+            )
+        return result
