@@ -26,7 +26,7 @@ except ImportError:
 bandToFreqMHz = lambda s : [ float(f[:-3].replace(',','.')) * (1e-3 if 'khz' in f.lower() else 1.0 if 'mhz' in f.lower() else 1e3 if 'ghz' in f.lower() else -1) for f in s.split('|')[0].replace(' ','').split('-')]
 
 class RAGSystem:
-    INDEX_VERSION = 2
+    INDEX_VERSION = 3
     """En klass för att hantera RAG-flöden med Ollama och ChromaDB.
     I/O Vector databas hantering
     """
@@ -137,7 +137,7 @@ class RAGSystem:
         self.chunk_overlap_         = 60
         self.MIN_CHARS              = 5
         self.max_length_            = self.chunk_size_
-        self.default_embedding_length_ = os.getenv("EMBEDDING_LENGTH" , 1024 ) # 768
+        self.default_embedding_length_ = int(os.getenv("EMBEDDING_LENGTH", "1024")) # 768
         self.bEmbedMetaData         = bEmbedMetaData
 
         self.ids        = None
@@ -242,13 +242,15 @@ class RAGSystem:
         return bool(letters) and line == line.upper() and len(letters) >= 4
 
     def chunk_document_text(self, text: str, max_tokens=None, overlap=None):
-        """Section-aware chunking for prose documents.
+        """Section-aware deterministic chunking for prose documents.
 
-        Returns tuples (chunk_text, heading). Chunks stay within a section where
-        possible and use a small word overlap to preserve cross-boundary context.
+        Returns tuples ``(chunk_text, heading)``. Chunks are bounded by a
+        conservative word-count proxy for tokens and retain a small overlap
+        between consecutive chunks within the same section.
         """
         max_tokens = max_tokens or self.max_tokens_
-        overlap = self.chunk_overlap_ if overlap is None else overlap
+        overlap = self.chunk_overlap_ if overlap is None else max(0, overlap)
+
         lines = [re.sub(r"[ \t]+", " ", x).strip() for x in text.splitlines()]
         lines = [x for x in lines if x]
 
@@ -256,10 +258,10 @@ class RAGSystem:
         heading = ""
         body = []
         for line in lines:
-            if self._looks_like_heading(line) and body:
-                sections.append((heading, "\n".join(body)))
-                heading, body = line, []
-            elif self._looks_like_heading(line):
+            if self._looks_like_heading(line):
+                if body:
+                    sections.append((heading, "\n".join(body)))
+                    body = []
                 heading = line
             else:
                 body.append(line)
@@ -274,14 +276,21 @@ class RAGSystem:
             paragraphs = [p.strip() for p in re.split(r"\n\s*\n", section_text) if p.strip()]
             if not paragraphs:
                 paragraphs = [section_text]
+
             chunks = self.adaptive_chunk(paragraphs, max_tokens=max_tokens)
-            previous_tail = []
+            previous_words = []
             for chunk in chunks:
                 words = chunk.split()
-                if previous_tail:
-                    chunk = " ".join(previous_tail + words)
+                if previous_words:
+                    prefix_len = min(overlap, max(0, max_tokens - len(words)))
+                    if prefix_len:
+                        chunk_words = previous_words[-prefix_len:] + words
+                    else:
+                        chunk_words = words
+                    chunk = " ".join(chunk_words)
                 result.append((chunk, heading))
-                previous_tail = words[-overlap:] if overlap > 0 else []
+                previous_words = words
+
         return result
 
     def build_embedding_text_w_metadata(self, text: str, meta: dict) -> str:
@@ -302,14 +311,19 @@ class RAGSystem:
         return text
 
     def deduplicate(self, texts, metas, ids):
+        """Deduplicate by stable document ID, not by text content.
+
+        Identical text can legitimately occur in different source documents,
+        pages or table rows, so hashing the text would silently discard useful
+        retrieval candidates.
+        """
         seen = set()
         new_t, new_m, new_i = [], [], []
 
         for t, m, i in zip(texts, metas, ids):
-            h = hash(t)
-            if h in seen:
+            if i in seen:
                 continue
-            seen.add(h)
+            seen.add(i)
             new_t.append(t)
             new_m.append(m)
             new_i.append(i)
@@ -468,44 +482,63 @@ class RAGSystem:
 
     # ------------------------ CHROMADB-INDEXERING ------------------------
     def add_documents(self, texts, metadatas=None, ids=None):
+        """Add documents to Chroma and return the canonical indexed records.
 
+        The returned lists are the exact records that passed deduplication and
+        validation and therefore should also be used to build BM25.
+        """
         if not self.collection:
             raise RuntimeError("ChromaDB ej initierad")
 
-        # Deduplicera
+        metadatas = metadatas or [{} for _ in texts]
+        ids = ids or [str(uuid.uuid4()) for _ in texts]
+
         texts, metadatas, ids = self.deduplicate(texts, metadatas, ids)
-
-        # Filtrera
-        filtered = [(t, m, i) for t, m, i in zip(texts, metadatas, ids) if self.is_good_text(t)]
+        filtered = [
+            (t, m, i)
+            for t, m, i in zip(texts, metadatas, ids)
+            if self.is_good_text(t)
+        ]
         if not filtered:
-            return
+            return [], [], []
 
-        texts, metadatas, ids = zip(*filtered)
-        texts = list(texts)
-        metadatas = list(metadatas)
-        ids = list(ids)
+        texts, metadatas, ids = map(list, zip(*filtered))
+
+        # A rebuild may be run against an existing collection. Chroma's add()
+        # rejects duplicate IDs, so skip IDs already present.
+        existing_ids = set()
+        try:
+            existing = self.collection.get(ids=ids, include=[])
+            existing_ids = set(existing.get("ids", []))
+        except Exception:
+            pass
+
+        if existing_ids:
+            keep = [i for i, doc_id in enumerate(ids) if doc_id not in existing_ids]
+            texts = [texts[i] for i in keep]
+            metadatas = [metadatas[i] for i in keep]
+            ids = [ids[i] for i in keep]
+
+        if not texts:
+            return [], [], []
 
         batch_size = 100
+        for start_idx in range(0, len(texts), batch_size):
+            batch_texts = texts[start_idx:start_idx + batch_size]
+            batch_meta = metadatas[start_idx:start_idx + batch_size]
+            batch_ids = ids[start_idx:start_idx + batch_size]
 
-        for i in range(0, len(texts), batch_size):
-            batch_texts = texts[i:i+batch_size]
-            batch_meta  = metadatas[i:i+batch_size]
-            batch_ids   = ids[i:i+batch_size]
-
-            # Bygg embedding-text PER BATCH
             texts_structured = [
-                    self.build_embedding_text_w_metadata(t, m) if self.bEmbedMetaData else self.build_embedding_text(t, m)
+                self.build_embedding_text_w_metadata(t, m)
+                if self.bEmbedMetaData else self.build_embedding_text(t, m)
                 for t, m in zip(batch_texts, batch_meta)
             ]
-
-            # Generera embeddings PER BATCH
             embeddings = self.generate_embeddings_batch(texts_structured)
 
-            # KRITISK CHECK
             if len(embeddings) != len(batch_texts):
-                print("❌ Embedding mismatch!")
-                print(f"texts: {len(batch_texts)} embeddings: {len(embeddings)}")
-                continue
+                raise RuntimeError(
+                    f"Embedding mismatch: texts={len(batch_texts)} embeddings={len(embeddings)}"
+                )
 
             for meta, doc_id in zip(batch_meta, batch_ids):
                 meta["doc_id"] = doc_id
@@ -514,9 +547,42 @@ class RAGSystem:
                 documents=batch_texts,
                 embeddings=embeddings,
                 metadatas=batch_meta,
-                ids=batch_ids
+                ids=batch_ids,
             )
 
+        return texts, metadatas, ids
+
+
+    def chunk_text(self, text: str) -> List[str]:
+        """Legacy-compatible wrapper returning chunk text only."""
+        return [chunk for chunk, _heading in self.chunk_document_text(text)]
+
+    def read_any_file(self, filepath) -> str:
+        """Legacy-compatible plain-text reader used by add_files()."""
+        path = Path(filepath)
+        ext = path.suffix.lower()
+        try:
+            if ext == ".pdf":
+                return self.read_pdf(path)
+            if ext == ".docx":
+                doc = Document(path)
+                return "\n".join(
+                    paragraph.text
+                    for paragraph in doc.paragraphs
+                    if paragraph.text.strip()
+                )
+            if ext in {".csv", ".json"}:
+                return path.read_text(encoding="utf-8")
+            if ext == ".xlsx":
+                sheets = pd.read_excel(path, sheet_name=None, dtype=str)
+                return "\n".join(
+                    df.fillna("").to_csv(index=False)
+                    for df in sheets.values()
+                )
+            return path.read_text(encoding="utf-8")
+        except Exception as exc:
+            print(f"Fel vid läsning av {path}: {exc}")
+            return ""
 
     def add_files(self, directory, extensions = ['.pdf', '.xlsx', '.docx', '.csv', '.json']):
         """
@@ -555,8 +621,9 @@ class RAGSystem:
             print("Inga dokument hittades.")
 
     def create_chromadb_from_data(self, table_as_document: bool = True,
-                                  chunk_tables: bool = False , group_tables: bool = True,
-                                  group_token_limit: int = None ):
+                                  chunk_tables: bool = False , group_tables: bool = False,
+                                  group_token_limit: int = None,
+                                  reset: bool = True ):
         """
         Skapar ChromaDB‑databasen genom att läsa alla filer i DATA_ROOT.
         Tabellinformation (rader) sparas som separata dokument för att inte gå förlorad.
@@ -566,6 +633,8 @@ class RAGSystem:
                             Annars stoppas hela tabellens text in i ett vanligt chunk.
             chunk_tables:   Om True delas även tabellrader i mindre bitar (rekommenderas False).
         """
+        if reset:
+            self.reset_index()
         if group_token_limit is None :
             group_token_limit = self.group_token_limit_
         if not self.collection:
@@ -652,9 +721,15 @@ class RAGSystem:
 
         # Lägg till alla dokument i ChromaDB (med batcher)
         if all_texts:
-            self.add_documents(all_texts, all_metadatas, all_ids)
-            self.build_and_save_bm25(all_texts, all_metadatas, all_ids)
-            print(f"\n✅ Indexerat {len(all_texts)} dokument (rader + textstycken) i '{self.collection_name}'")
+            indexed_texts, indexed_metas, indexed_ids = self.add_documents(
+                all_texts, all_metadatas, all_ids
+            )
+            if indexed_texts:
+                self.build_and_save_bm25(indexed_texts, indexed_metas, indexed_ids)
+            print(
+                f"\n✅ Indexerat {len(indexed_texts)} chunks/rader "
+                f"(av {len(all_texts)} kandidater) i '{self.collection_name}'"
+            )
         else:
             print("❌ Inga dokument hittades att indexera.")
 
@@ -955,59 +1030,86 @@ class RAGSystem:
         return items
 
     def _extract_pdf_tables_and_text(self, file_path):
+        """Extract PDF tables as rows and prose as section-aware chunks.
+
+        Text chunks use one document-level parent_id and a global chunk_index,
+        allowing retrieval to expand context across page boundaries without
+        making the whole PDF a single embedding. Page and heading metadata are
+        retained for source attribution.
+        """
         items = []
-        # 1) Tabeller: behåll varje rad som ett eget sökbart objekt.
+
+        # 1) Tables: keep each row as a separate searchable object.
         try:
             import tabula
-            tables = tabula.read_pdf(str(file_path), pages='all', multiple_tables=True)
+            tables = tabula.read_pdf(
+                str(file_path), pages="all", multiple_tables=True
+            )
             for table_idx, table in enumerate(tables):
                 if table is None or table.empty:
                     continue
+                parent_id = f"{file_path}:table:{table_idx}"
                 for row_idx, row in table.iterrows():
                     fields = []
                     for col in table.columns:
                         val = str(row[col]).strip()
-                        if val and val.lower() not in ['nan', 'none', '']:
+                        if val and val.lower() not in ["nan", "none", ""]:
                             fields.append(f"{col}: {val}")
                     if fields:
                         text = " | ".join(fields)
-                        parent_id = f"{file_path}:table:{table_idx}"
                         meta = {
-                            "type": "pdf_table_row", "source": str(file_path),
-                            "table": table_idx, "row": row_idx + 1,
-                            "parent_id": parent_id, "chunk_index": row_idx
+                            "type": "pdf_table_row",
+                            "source": str(file_path),
+                            "table": table_idx,
+                            "row": row_idx + 1,
+                            "parent_id": parent_id,
+                            "chunk_index": row_idx,
                         }
                         items.append((text, meta))
         except ImportError:
-            print(f"   tabula-py ej installerad – hoppar över PDF-tabeller i {file_path.name}")
+            print(
+                f"   tabula-py ej installerad – hoppar över PDF-tabeller i {file_path.name}"
+            )
         except Exception as e:
             print(f"   Kunde inte extrahera tabeller från PDF: {e}")
 
-        # 2) Läs sida för sida. Detta bevarar sidmetadata och gör det möjligt
-        # att söka i delar av PDF:en i stället för att skapa en embedding av hela filen.
+        # 2) Prose: page by page, but with one parent across the document.
+        # This gives us page metadata without preventing neighbour expansion
+        # between the final chunk on one page and the first chunk on the next.
         try:
             reader = PdfReader(str(file_path))
+            parent_id = f"{file_path}:pdf_text"
+            global_chunk_index = 0
+
             for page_no, page in enumerate(reader.pages, start=1):
                 page_text = page.extract_text() or ""
                 if len(page_text.strip()) < 50:
                     continue
-                parent_id = f"{file_path}:page:{page_no}"
-                for chunk_no, (chunk, heading) in enumerate(
-                    self.chunk_document_text(page_text, max_tokens=self.max_tokens_)
-                ):
+
+                chunks = self.chunk_document_text(
+                    page_text, max_tokens=self.max_tokens_
+                )
+                for chunk, heading in chunks:
+                    if not self.is_good_text(chunk):
+                        continue
                     meta = {
                         "type": "pdf_text_chunk",
                         "source": str(file_path),
                         "page": page_no,
                         "heading": heading,
                         "parent_id": parent_id,
-                        "chunk_index": chunk_no
+                        "chunk_index": global_chunk_index,
                     }
                     items.append((chunk, meta))
+                    global_chunk_index += 1
         except Exception as e:
-            print(f"   Kunde inte extrahera PDF-sidor från {file_path.name}: {e}")
+            print(
+                f"   Kunde inte extrahera PDF-sidor från {file_path.name}: {e}"
+            )
 
-        print(f"  📊 Extraherade {len(items)} sökbara objekt från {file_path.name}")
+        print(
+            f"  📊 Extraherade {len(items)} sökbara objekt från {file_path.name}"
+        )
         return items
 
     def _extract_docx_tables_and_text(self, file_path):
@@ -1212,7 +1314,7 @@ class RAGSystem:
                 "CHUNK_OVERLAP_WORDS": self.chunk_overlap_
             }, f, indent=2)
 
-        print(f"\n✅ KLART! {self.collection.count()} vektorer (en per dokument).")
+        print(f"\n✅ KLART! {self.collection.count()} vektorer/chunks.")
 
 
 if __name__=='__main__':
