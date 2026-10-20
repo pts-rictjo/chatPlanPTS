@@ -13,6 +13,7 @@ from .retriever import Retriever
 from .rag_service import RAGService
 from .conversation_store import ConversationStore
 
+
 llm_model = os.getenv(
     "UI_LLM_MODEL",
     "vanilj/llama-3.1-instruct-bellman-8b-swedish:q3_k_m",
@@ -53,7 +54,7 @@ async def new_conversation():
 @app.post("/ask")
 async def ask(req: AskRequest):
     history = conversation_store.get(req.conversation_id)
-    context, best = rag_service.get_context(req.query, history)
+    context, _best = rag_service.get_context(req.query, history)
 
     async def generate():
         full_answer = ""
